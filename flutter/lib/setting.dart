@@ -4,6 +4,10 @@ import 'package:geolocator/geolocator.dart';
 
 class Settings {
 
+  static String urlServer() {
+    return 'http://localhost:8080';
+  }
+
   static Settings _self = Settings();
 
   static void clear() {
@@ -28,11 +32,19 @@ class Settings {
             _profile.hasGeoValidation = true;
           }
       }
+    } else {
+      _profile.hasGeoValidation = true;
     }
     return _profile;
   }
 
-  Profile _profile = new Profile();
+  Profile _profile = Profile();
+
+  static Profile profile() {
+    return _self._profile;
+  }
+
+
 
 }
 

@@ -1,24 +1,26 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:plop/profile.dart';
 
-class HomePage extends StatefulWidget {
+import 'HomeViewModel.dart';
 
-  const HomePage({super.key});
+class HomeView extends StatefulWidget {
+
+  const HomeView({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeView> createState() => _HomeViewState();
 
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeViewState extends State<HomeView> {
+
+  final HomePageViewModel _viewModel = HomePageViewModel();
 
   @override
   void initState() {
     super.initState();
-    Settings.load().then((_) {
+    _viewModel.init().then((_) {
       setState(() {
 
       });
@@ -26,12 +28,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _viewModel.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: Text('Flutter Demo Home Page')
+            backgroundColor: colorScheme.inversePrimary,
+            title: const Text('Flutter Demo Home Page')
         ),
         body: Center(
           child: Column(
@@ -41,11 +49,11 @@ class _HomePageState extends State<HomePage> {
               Text('Bonjour', style: Theme.of(context).textTheme.headlineMedium),
               Row(
                 children: [
-                  FloatingActionButton.large(
-                    backgroundColor: colorScheme.primary,
+                  FloatingActionButton(
+                    backgroundColor: colorScheme.inversePrimary,
                     tooltip: "Ajout d'un point",
                     onPressed: () {
-
+                      _viewModel.addPoint();
                     },
                     child: const Icon(Icons.add),
                   ),
@@ -63,11 +71,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       floatingActionButton: FloatingActionButton.large(
-        backgroundColor: colorScheme.tertiary,
+        backgroundColor: _viewModel.hasGeoValidation
+            ? colorScheme.inversePrimary
+            : colorScheme.secondary,
         onPressed: () {
 
         },
-        child: const Icon(Icons.person_off),
+        child: _viewModel.hasGeoValidation
+            ? const Icon(Icons.person)
+            : const Icon(Icons.person_off),
       ),
     );
   }

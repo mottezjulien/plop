@@ -1,7 +1,7 @@
-package com.julien.plop.space;
+package com.julien.plop.space.persistence;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,10 +11,8 @@ import java.util.Set;
 public class SpaceEntity {
 
     @Id
-    @Column(insertable = false, updatable = false)
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    @UuidGenerator
+    protected String id;
 
     private String label;
 

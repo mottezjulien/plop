@@ -1,4 +1,4 @@
-package com.julien.plop.space;
+package com.julien.plop.space.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

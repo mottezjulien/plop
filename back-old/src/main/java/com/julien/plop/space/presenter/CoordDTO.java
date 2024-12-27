@@ -1,4 +1,4 @@
-package com.julien.plop.space.presenter;
+package com.julien.plop.board.presenter;
 
 public record CoordDTO(double lat, double lng) {
 }

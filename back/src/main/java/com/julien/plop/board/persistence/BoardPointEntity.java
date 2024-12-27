@@ -1,12 +1,13 @@
-package com.julien.plop.space.persistence;
+package com.julien.plop.board.persistence;
 
 
+import com.julien.plop.board.domain.BoardPoint;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 @Entity
-@Table(name = "TEST1_SPACE_POINT")
-public class SpacePointEntity {
+@Table(name = "TEST1_BOARD_POINT")
+public class BoardPointEntity {
 
     @Id
     @UuidGenerator
@@ -38,5 +39,9 @@ public class SpacePointEntity {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public BoardPoint toModel() {
+        return new BoardPoint(lat, lng);
     }
 }

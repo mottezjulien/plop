@@ -1,9 +1,8 @@
-package com.julien.plop.space.presenter;
+package com.julien.plop.board.presenter;
 
-import com.julien.plop.space.persistence.SpaceEntity;
-import com.julien.plop.space.persistence.SpacePointEntity;
-import com.julien.plop.space.persistence.SpacePointRepository;
-import com.julien.plop.space.persistence.SpaceRepository;
+import com.julien.plop.board.persistence.SpacePointEntity;
+import com.julien.plop.board.persistence.SpacePointRepository;
+import com.julien.plop.board.persistence.SpaceRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -15,7 +15,7 @@ class HomePageViewModel {
 
 
   Future<void> init() async {
-    await Settings.load(); //TODO Move to initView
+    await Settings.load(); //TODO Move to a View for Init
     if(Settings.profile().hasGeoValidation) {
       hasGeoValidation = true;
       startGeolocation();

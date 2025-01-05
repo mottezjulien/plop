@@ -21,19 +21,14 @@ class Settings {
 
   static Future<Profile> _loadProfile() async {
     Profile _profile =  new Profile();
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      LocationPermission permission = await Geolocator.checkPermission();
-      if(permission.isValid()) {
-        _profile.hasGeoValidation = true;
-      } else if (permission == LocationPermission.denied) {
-          permission = await Geolocator.requestPermission();
-          if (permission.isValid()) {
-            _profile.hasGeoValidation = true;
-          }
-      }
-    } else {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if(permission.isValid()) {
       _profile.hasGeoValidation = true;
+    } else if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission.isValid()) {
+        _profile.hasGeoValidation = true;
+      }
     }
     return _profile;
   }

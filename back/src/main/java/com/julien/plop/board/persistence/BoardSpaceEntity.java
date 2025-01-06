@@ -1,7 +1,5 @@
 package com.julien.plop.board.persistence;
 
-import com.julien.plop.board.domain.BoardSpace;
-import com.julien.plop.board.domain.BoardSpaceId;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -67,13 +65,4 @@ public class BoardSpaceEntity {
         this.rects = rects;
     }
 
-    public BoardSpace toModel() {
-        return new BoardSpace(
-                new BoardSpaceId(id),
-                label,
-                priority,
-                rects.stream()
-                        .map(BoardRectEntity::toModel)
-                        .toList());
-    }
 }

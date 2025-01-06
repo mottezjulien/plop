@@ -49,17 +49,15 @@ class HomePageViewModel {
 
   Future<void> addPoint() async {
     if(lastPosition != null) {
-
-
       final response = await http.post(
-        Uri.parse(Settings.urlServer() + '/spaces/'),
+        Uri.parse(Settings.urlServer() + '/boards/'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
         body: jsonEncode({
           'label': 'test',
-          'location': {
+          'point': {
             'lat': lastPosition!.latitude,
             'lng': lastPosition!.longitude
           }

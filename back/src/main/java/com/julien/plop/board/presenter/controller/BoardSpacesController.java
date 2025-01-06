@@ -1,24 +1,52 @@
 package com.julien.plop.board.presenter.controller;
 
-import com.julien.plop.board.domain.Board;
-import com.julien.plop.board.domain.BoardId;
-import com.julien.plop.board.presenter.BoardHandler;
-import com.julien.plop.board.presenter.dto.BoardPointDTO;
+import com.julien.plop.board.persistence.BoardEntity;
+import com.julien.plop.board.persistence.BoardRepository;
+import com.julien.plop.board.persistence.BoardSpaceEntity;
+import com.julien.plop.board.persistence.BoardSpaceRepository;
+import com.julien.plop.board.presenter.dto.BoardSpaceRequestDTO;
+import com.julien.plop.board.presenter.dto.BoardResponseDTO;
 import com.julien.plop.board.presenter.dto.BoardSpaceResponseDTO;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import com.julien.plop.generic.presenter.exception.HttpException;
+import com.julien.plop.generic.presenter.exception.NotFoundHttpException;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/boards/{boardId}/spaces")
 public class BoardSpacesController {
 
+    private BoardRepository boardRepository;
+    private BoardSpaceRepository spaceRepository;
+
+    @GetMapping({"/", "",})
+    public BoardSpaceResponseDTO create(
+            @PathVariable("boardId") String boardId,
+            @RequestBody BoardSpaceRequestDTO request) throws HttpException {
+        BoardEntity boardEntity = boardRepository.findById(boardId)
+                .orElseThrow(NotFoundHttpException::new);
+        BoardSpaceEntity entity = new BoardSpaceEntity();
+        entity.setBoard(boardEntity);
+        entity.setLabel(request.label());
+        return BoardSpaceResponseDTO.fromEntity(spaceRepository.save(entity));
+    }
+
+
+
+    @PostMapping({"/{spaceId}", "/{spaceId}/"})
+    public BoardSpaceResponseDTO addRect(
+            @PathVariable("boardId") String boardId,
+            @PathVariable("spaceId") String spaceId,
+            @RequestBody BoardRectRequestDTO request) throws HttpException {
+        BoardEntity boardEntity = boardRepository.findById(boardId)
+                .orElseThrow(NotFoundHttpException::new);
+        BoardSpaceEntity entity = new BoardSpaceEntity();
+        entity.setBoard(boardEntity);
+        entity.setLabel(request.label());
+        entity.setPriority(0);
+        return BoardSpaceResponseDTO.fromEntity(spaceRepository.save(entity));
+    }
+
+    /*
     private final BoardHandler boardHandler;
 
     public BoardSpacesController(BoardHandler boardHandler) {
@@ -77,6 +105,6 @@ public class BoardSpacesController {
         public void setName(String name) {
             this.name = name;
         }
-    }
+    }*/
 
 }

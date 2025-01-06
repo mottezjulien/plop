@@ -1,7 +1,5 @@
 package com.julien.plop.board.persistence;
 
-import com.julien.plop.board.domain.Board;
-import com.julien.plop.board.domain.BoardId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -50,11 +48,4 @@ public class BoardEntity {
         this.spaces = spaces;
     }
 
-    public Board toModel() {
-        return new Board(
-                new BoardId(id),
-                spaces.stream()
-                .map(BoardSpaceEntity::toModel)
-                .toList());
-    }
 }

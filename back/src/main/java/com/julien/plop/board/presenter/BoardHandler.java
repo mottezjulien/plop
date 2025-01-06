@@ -1,18 +1,10 @@
 package com.julien.plop.board.presenter;
 
-
-import com.julien.plop.Cache;
-import com.julien.plop.board.domain.Board;
-import com.julien.plop.board.domain.BoardId;
-import com.julien.plop.board.persistence.BoardEntity;
-import com.julien.plop.board.persistence.BoardRepository;
 import org.springframework.stereotype.Component;
-
-import java.time.Duration;
-import java.util.Optional;
-
+/*
 @Component
 public class BoardHandler {
+
 
     private final BoardRepository repository;
 
@@ -33,4 +25,4 @@ public class BoardHandler {
         return optBoard.orElse(null);
     }
 
-}
+}*/

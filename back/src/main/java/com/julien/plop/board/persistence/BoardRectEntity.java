@@ -1,6 +1,5 @@
 package com.julien.plop.board.persistence;
 
-import com.julien.plop.board.domain.BoardRect;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -61,7 +60,4 @@ public class BoardRectEntity {
         this.topRight = topRight;
     }
 
-    public BoardRect toModel() {
-        return new BoardRect(bottomLeft.toModel(), topRight.toModel());
-    }
 }

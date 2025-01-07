@@ -1,20 +1,13 @@
 package com.julien.plop.game.presenter;
 
 
-import com.julien.plop.board.persistence.BoardEntity;
-import com.julien.plop.board.presenter.dto.BoardRequestDTO;
-import com.julien.plop.board.presenter.dto.BoardResponseDTO;
 import com.julien.plop.game.GameState;
 import com.julien.plop.game.persistence.GameEntity;
 import com.julien.plop.game.persistence.GameRepository;
 import com.julien.plop.generic.presenter.exception.BadRequestHttpException;
 import com.julien.plop.generic.presenter.exception.HttpException;
 import com.julien.plop.generic.presenter.exception.NotFoundHttpException;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/games")

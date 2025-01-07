@@ -1,6 +1,6 @@
 package com.julien.plop.board.presenter.dto;
 
-import com.julien.plop.board.persistence.BoardEntity;
+import com.julien.plop.board.persistence.entity.BoardEntity;
 
 public record BoardResponseDTO(String id) {
 

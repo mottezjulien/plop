@@ -1,6 +1,6 @@
 package com.julien.plop.board.presenter.dto;
 
-public record BoardRectRequestDTO(bottomLeft, topRight) {
+public record BoardRectRequestDTO(BoardPointDTO bottomLeft,BoardPointDTO topRight) {
 
 
 }

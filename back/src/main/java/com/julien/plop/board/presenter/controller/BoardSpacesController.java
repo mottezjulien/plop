@@ -1,11 +1,15 @@
 package com.julien.plop.board.presenter.controller;
 
-import com.julien.plop.board.persistence.BoardEntity;
-import com.julien.plop.board.persistence.BoardRepository;
-import com.julien.plop.board.persistence.BoardSpaceEntity;
-import com.julien.plop.board.persistence.BoardSpaceRepository;
+import com.julien.plop.board.persistence.entity.BoardEntity;
+import com.julien.plop.board.persistence.entity.BoardPointEntity;
+import com.julien.plop.board.persistence.entity.BoardRectEntity;
+import com.julien.plop.board.persistence.repository.BoardPointRepository;
+import com.julien.plop.board.persistence.repository.BoardRectRepository;
+import com.julien.plop.board.persistence.repository.BoardRepository;
+import com.julien.plop.board.persistence.entity.BoardSpaceEntity;
+import com.julien.plop.board.persistence.repository.BoardSpaceRepository;
+import com.julien.plop.board.presenter.dto.BoardRectRequestDTO;
 import com.julien.plop.board.presenter.dto.BoardSpaceRequestDTO;
-import com.julien.plop.board.presenter.dto.BoardResponseDTO;
 import com.julien.plop.board.presenter.dto.BoardSpaceResponseDTO;
 import com.julien.plop.generic.presenter.exception.HttpException;
 import com.julien.plop.generic.presenter.exception.NotFoundHttpException;
@@ -15,8 +19,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/boards/{boardId}/spaces")
 public class BoardSpacesController {
 
-    private BoardRepository boardRepository;
-    private BoardSpaceRepository spaceRepository;
+    private final BoardRepository boardRepository;
+    private final BoardSpaceRepository spaceRepository;
+    private final BoardRectRepository rectRepository;
+    private final BoardPointRepository pointRepository;
+
+    public BoardSpacesController(BoardRepository boardRepository, BoardSpaceRepository spaceRepository, BoardRectRepository rectRepository, BoardPointRepository pointRepository) {
+        this.boardRepository = boardRepository;
+        this.spaceRepository = spaceRepository;
+        this.rectRepository = rectRepository;
+        this.pointRepository = pointRepository;
+    }
 
     @GetMapping({"/", "",})
     public BoardSpaceResponseDTO create(
@@ -37,74 +50,33 @@ public class BoardSpacesController {
             @PathVariable("boardId") String boardId,
             @PathVariable("spaceId") String spaceId,
             @RequestBody BoardRectRequestDTO request) throws HttpException {
-        BoardEntity boardEntity = boardRepository.findById(boardId)
+
+        BoardEntity boardEntity = boardRepository.findByIdFetchSpaces(boardId)
                 .orElseThrow(NotFoundHttpException::new);
-        BoardSpaceEntity entity = new BoardSpaceEntity();
-        entity.setBoard(boardEntity);
-        entity.setLabel(request.label());
-        entity.setPriority(0);
-        return BoardSpaceResponseDTO.fromEntity(spaceRepository.save(entity));
+
+        BoardSpaceEntity spaceEntity = boardEntity.getSpaces().stream()
+                .filter(space -> space.getId().equals(spaceId))
+                .findFirst()
+                .orElseThrow(NotFoundHttpException::new);
+
+        BoardPointEntity bottomLeftEntity = new BoardPointEntity();
+        bottomLeftEntity.setLat(request.bottomLeft().lat());
+        bottomLeftEntity.setLng(request.bottomLeft().lng());
+        pointRepository.save(bottomLeftEntity);
+
+        BoardPointEntity topRightEntity = new BoardPointEntity();
+        topRightEntity.setLat(request.topRight().lat());
+        topRightEntity.setLng(request.topRight().lng());
+        pointRepository.save(topRightEntity);
+
+        BoardRectEntity rectEntity = new BoardRectEntity();
+        rectEntity.setSpace(spaceEntity);
+        rectEntity.setBottomLeft(bottomLeftEntity);
+        rectEntity.setTopRight(topRightEntity);
+        spaceEntity.getRects().add(rectRepository.save(rectEntity));
+
+        return BoardSpaceResponseDTO.fromEntity(spaceEntity);
     }
 
-    /*
-    private final BoardHandler boardHandler;
-
-    public BoardSpacesController(BoardHandler boardHandler) {
-        this.boardHandler = boardHandler;
-    }
-
-
-    @GetMapping("/")
-    public List<BoardSpaceResponseDTO> findByPoint(@PathVariable("boardId") String boardId,
-                                                   @RequestBody BoardPointDTO point) {
-        Board board = boardHandler.findById(new BoardId(boardId)).orElseThrow();
-        return board.findSpaces(point.toModel()).map(BoardSpaceResponseDTO::fromModel).toList();
-    }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-        Thread.sleep(1000); // simulated delay
-        return new Greeting("Hello, " + message.getName() + "!");
-    }
-
-
-    public class Greeting {
-
-        private String content;
-
-        public Greeting() {
-        }
-
-        public Greeting(String content) {
-            this.content = content;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-    }
-
-
-    public class HelloMessage {
-
-        private String name;
-
-        public HelloMessage() {
-        }
-
-        public HelloMessage(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }*/
 
 }

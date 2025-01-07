@@ -1,6 +1,5 @@
-package com.julien.plop.board.persistence;
+package com.julien.plop.board.persistence.entity;
 
-import com.julien.plop.game.GameEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -8,10 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "TEST1_SPACE")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="type")
-public abstract class AbstractSpaceEntity {
+@Table(name = "TEST1_BOARD_SPACE")
+public class BoardSpaceEntity {
 
     @Id
     @UuidGenerator
@@ -22,8 +19,11 @@ public abstract class AbstractSpaceEntity {
     private int priority;
 
     @ManyToOne
-    @JoinColumn(name = "game_id")
-    private GameEntity game;
+    @JoinColumn(name = "board_id")
+    private BoardEntity board;
+
+    @OneToMany(mappedBy = "space")
+    private Set<BoardRectEntity> rects = new HashSet<>();
 
     public String getId() {
         return id;
@@ -49,11 +49,20 @@ public abstract class AbstractSpaceEntity {
         this.priority = priority;
     }
 
-    public GameEntity getGame() {
-        return game;
+    public BoardEntity getBoard() {
+        return board;
     }
 
-    public void setGame(GameEntity game) {
-        this.game = game;
+    public void setBoard(BoardEntity board) {
+        this.board = board;
     }
+
+    public Set<BoardRectEntity> getRects() {
+        return rects;
+    }
+
+    public void setRects(Set<BoardRectEntity> rects) {
+        this.rects = rects;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.julien.plop.board.persistence;
+package com.julien.plop.board.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

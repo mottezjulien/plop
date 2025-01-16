@@ -1,8 +1,7 @@
 
-
 import 'package:flutter/material.dart';
 
-import 'HomeViewModel.dart';
+import './homeViewModel.dart';
 
 class HomeView extends StatefulWidget {
 

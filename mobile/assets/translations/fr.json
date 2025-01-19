@@ -1,6 +1,12 @@
 {
-  "plop": "Plop fr",
+
   "first": {
-    "select_language": "Choisissez votre langue"
+    "title": "Préparation",
+    "select_language": "Choisissez votre langue",
+    "welcome_popup" : {
+      "title": "Bienvenue",
+      "content": "Bienvenue sur mon appplication. Celle-ci est en cours de construction"
+    },
+    "tap_game": "Saisissez une partie"
   }
 }

@@ -1,6 +1,11 @@
 {
-  "plop": "Plop en",
   "first": {
-    "select_language": "Select your language"
+    "title": "Setup",
+    "select_language": "Select your language",
+    "welcome_popup" : {
+      "title": "Welcome",
+      "content": "Welcome plop"
+    },
+    "tap_game": "Saisissez une partie plop"
   }
 }

@@ -2,7 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'first/homeView.dart';
+import 'first/first-view.dart';
+import 'old/homeView.dart';
 
 void main() async {
 
@@ -10,12 +11,13 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   runApp(
-    EasyLocalization(
-        supportedLocales: const [Locale('fr'), Locale('en')],
+      EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('fr')],
         path: 'assets/translations',
         fallbackLocale: const Locale('fr'),
-        child: const MyApp()
-    ),
+        startLocale: const Locale('fr'),
+        child: MyApp(),
+      )
   );
 
 }
@@ -29,7 +31,6 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       title: 'The Plop App',
-
       themeMode: ThemeMode.dark,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange, brightness: Brightness.light),
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => const HomeView(),
+            builder: (context, state) => FirstView(),
           ),
         ],
       ),

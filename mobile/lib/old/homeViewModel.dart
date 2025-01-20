@@ -12,8 +12,8 @@ class HomePageViewModel {
   Position? lastPosition;
 
   Future<void> init() async {
-    await Settings.load(); //TODO Move to a View for Init
-    if (Settings.profile().hasGeoValidation) {
+    await OldSettings.load(); //TODO Move to a View for Init
+    if (OldSettings.profile().hasGeoValidation) {
       hasGeoValidation = true;
       startGeolocation();
     }
@@ -69,7 +69,7 @@ class HomePageViewModel {
     }*/
 
     final response =
-        await http.post(Uri.parse(Settings.urlServer() + '/boards/'),
+        await http.post(Uri.parse(OldSettings.urlServer() + '/boards/'),
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',

@@ -1,16 +1,16 @@
 
 import 'package:geolocator/geolocator.dart';
 
-class Settings {
+class OldSettings {
 
   static String urlServer() {
     return 'https://8036-2a01-e0a-db5-bd20-b99b-7f65-81a0-f029.ngrok-free.app';
   }
 
-  static Settings _self = Settings();
+  static OldSettings _self = OldSettings();
 
   static void clear() {
-    _self = Settings();
+    _self = OldSettings();
   }
 
   static Future<void> load() async {

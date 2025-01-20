@@ -2,6 +2,10 @@ class Settings {
 
   static final String welcomePopup = 'welcomePopup';
 
+  static String urlServer() {
+    return 'http://localhost:8080';
+  }
+
   static void set(String key, bool value) {
     _self.config[key] = value;
   }
@@ -13,6 +17,8 @@ class Settings {
   static Settings _self = Settings();
 
   Map<String, bool> config = {};
+
+
 
 
 

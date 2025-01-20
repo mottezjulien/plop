@@ -1,29 +1,29 @@
-package com.julien.plop.game.presenter;
+package com.julien.plop.first.game.presenter;
 
 
-import com.julien.plop.game.GameState;
-import com.julien.plop.game.persistence.GameEntity;
-import com.julien.plop.game.persistence.GameRepository;
+import com.julien.plop.first.game.FirstGameState;
+import com.julien.plop.first.game.persistence.FirstGameEntity;
+import com.julien.plop.first.game.persistence.FirstGameRepository;
 import com.julien.plop.generic.presenter.exception.BadRequestHttpException;
 import com.julien.plop.generic.presenter.exception.HttpException;
 import com.julien.plop.generic.presenter.exception.NotFoundHttpException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/games")
-public class GameController {
+@RequestMapping("/first/games")
+public class FirstGameController {
 
-    private final GameRepository repository;
+    private final FirstGameRepository repository;
 
-    public GameController(GameRepository repository) {
+    public FirstGameController(FirstGameRepository repository) {
         this.repository = repository;
     }
 
     @PostMapping({"/", ""})
     public GameResponseDTO create(@RequestBody GameRequestDTO request) {
-        GameEntity entity = new GameEntity();
+        FirstGameEntity entity = new FirstGameEntity();
         entity.setLabel(request.label());
-        entity.setState(GameState.INIT);
+        entity.setState(FirstGameState.INIT);
         return GameResponseDTO.fromEntity(repository.save(entity));
     }
 
@@ -35,16 +35,16 @@ public class GameController {
 
     @DeleteMapping({"/{gameId}/", "/{gameId}/"})
     public void delete(@PathVariable("gameId") String gameId) throws NotFoundHttpException {
-        GameEntity entity = repository.findById(gameId).orElseThrow(NotFoundHttpException::new);
+        FirstGameEntity entity = repository.findById(gameId).orElseThrow(NotFoundHttpException::new);
         repository.delete(entity);
     }
 
     @GetMapping({"/{gameId}/start", "/{gameId}/start/"})
     public GameResponseDTO start(@PathVariable("gameId") String gameId) throws HttpException {
-        GameEntity entity = repository.findById(gameId)
+        FirstGameEntity entity = repository.findById(gameId)
                 .orElseThrow(NotFoundHttpException::new);
-        if(entity.getState() == GameState.INIT) {
-            entity.setState(GameState.PLAYING);
+        if(entity.getState() == FirstGameState.INIT) {
+            entity.setState(FirstGameState.PLAYING);
             repository.save(entity);
             return GameResponseDTO.fromEntity(entity);
         }
@@ -53,10 +53,10 @@ public class GameController {
 
     @GetMapping({"/{gameId}/stop", "/{gameId}/stop/"})
     public GameResponseDTO stop(@PathVariable("gameId") String gameId) throws HttpException {
-        GameEntity entity = repository.findById(gameId)
+        FirstGameEntity entity = repository.findById(gameId)
                 .orElseThrow(NotFoundHttpException::new);
-        if(entity.getState() == GameState.PLAYING) {
-            entity.setState(GameState.ENDED);
+        if(entity.getState() == FirstGameState.PLAYING) {
+            entity.setState(FirstGameState.ENDED);
             repository.save(entity);
             return GameResponseDTO.fromEntity(entity);
         }

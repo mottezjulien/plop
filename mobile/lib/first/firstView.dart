@@ -18,9 +18,7 @@ class _FirstViewState extends State<FirstView> {
   Widget build(BuildContext context) {
     _showDialogs(context: context);
 
-    final ColorScheme colorScheme = Theme
-        .of(context)
-        .colorScheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: colorScheme.inversePrimary,

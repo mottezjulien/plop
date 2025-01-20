@@ -1,13 +1,13 @@
-package com.julien.plop.game.persistence;
+package com.julien.plop.first.game.persistence;
 
 
-import com.julien.plop.game.GameState;
+import com.julien.plop.first.game.FirstGameState;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Table(name = "TEST1_GAME")
-public class GameEntity {
+public class FirstGameEntity {
 
     @Id
     @UuidGenerator
@@ -16,7 +16,7 @@ public class GameEntity {
     private String label;
 
     @Enumerated(EnumType.STRING)
-    private GameState state;
+    private FirstGameState state;
 
     public String getId() {
         return id;
@@ -34,11 +34,11 @@ public class GameEntity {
         this.label = label;
     }
 
-    public GameState getState() {
+    public FirstGameState getState() {
         return state;
     }
 
-    public void setState(GameState state) {
+    public void setState(FirstGameState state) {
         this.state = state;
     }
 

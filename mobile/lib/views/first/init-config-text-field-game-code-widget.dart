@@ -3,11 +3,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 
-class FirstViewGameCodeTextFieldWidget extends StatelessWidget {
+class InitConfigTextFieldGameCodeWidget extends StatelessWidget {
 
   final Function(String) onChanged;
 
-  FirstViewGameCodeTextFieldWidget({required this.onChanged});
+  const InitConfigTextFieldGameCodeWidget({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {

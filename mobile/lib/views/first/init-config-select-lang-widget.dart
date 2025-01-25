@@ -1,9 +1,11 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:plop/utils/LocaleExtention.dart';
+import 'package:plop/utils/locale-extension.dart';
 
-class FirstViewSelectLanguageWidget extends StatelessWidget {
+class InitConfigSelectLanguageWidget extends StatelessWidget {
+
+  const InitConfigSelectLanguageWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

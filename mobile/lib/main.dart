@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plop/views/first/firstView.dart';
+import 'package:plop/views/first/init-config-view.dart';
 
 void main() async {
 
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => FirstView(),
+            builder: (context, state) => InitConfigView(),
           ),
         ],
       ),

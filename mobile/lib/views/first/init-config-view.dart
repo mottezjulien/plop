@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 
 import '../../config/settings.dart';
 import '../../contexts/game/game-repository.dart';
-import 'firstViewGameCodeTextFieldWidget.dart';
-import 'firstViewSelectLanguageWidget.dart';
+import 'init-config-select-lang-widget.dart';
+import 'init-config-text-field-game-code-widget.dart';
 
-class FirstView extends StatefulWidget {
+class InitConfigView extends StatefulWidget {
   @override
-  State<FirstView> createState() => _FirstViewState();
+  State<InitConfigView> createState() => _InitConfigViewState();
 }
 
-class _FirstViewState extends State<FirstView> {
+class _InitConfigViewState extends State<InitConfigView> {
 
-  final FirstViewModel _viewModel = new FirstViewModel();
+  final InitConfigViewModel _viewModel = new InitConfigViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,9 @@ class _FirstViewState extends State<FirstView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 if(_viewModel.isFirstStep())
-                  FirstViewSelectLanguageWidget(),
+                  const InitConfigSelectLanguageWidget(),
                 if(_viewModel.isSecondStep())
-                  FirstViewGameCodeTextFieldWidget(onChanged: (value) {
+                  InitConfigTextFieldGameCodeWidget(onChanged: (value) {
                     _viewModel.setGame(value);
                   }),
               ]
@@ -57,7 +57,7 @@ enum FirstViewStep {
   FIRST_LANGUAGE, SECOND_GAME
 }
 
-class FirstViewModel {
+class InitConfigViewModel {
 
   final GameRepository repository = GameRepository();
 

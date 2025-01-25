@@ -11,7 +11,7 @@ class InitConfigSelectLanguageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: <Widget>[
-            Text('first.select_language'.tr(),
+            Text('init.select_language'.tr(),
                 style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 16),
             _SelectLanguageDropdownMenu(init: context.locale),

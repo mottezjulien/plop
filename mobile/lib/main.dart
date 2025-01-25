@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plop/views/first/init-config-view.dart';
+import 'package:plop/views/init/init-config-view.dart';
 
 void main() async {
 

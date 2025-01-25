@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../config/settings.dart';
+import '../../config/settings.dart';
+import '../../contexts/game/game-repository.dart';
 import 'firstViewGameCodeTextFieldWidget.dart';
 import 'firstViewSelectLanguageWidget.dart';
 
@@ -16,8 +17,6 @@ class _FirstViewState extends State<FirstView> {
 
   @override
   Widget build(BuildContext context) {
-    _showDialogs(context: context);
-
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
         appBar: AppBar(
@@ -29,11 +28,7 @@ class _FirstViewState extends State<FirstView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 if(_viewModel.isFirstStep())
-                  FirstViewSelectLanguageWidget(
-                    onUpdate: () {
-                      setState(() {});
-                    },
-                  ),
+                  FirstViewSelectLanguageWidget(),
                 if(_viewModel.isSecondStep())
                   FirstViewGameCodeTextFieldWidget(onChanged: (value) {
                     _viewModel.setGame(value);
@@ -44,8 +39,8 @@ class _FirstViewState extends State<FirstView> {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: colorScheme.inversePrimary,
-          onPressed: () {
-            _viewModel.next();
+          onPressed: () async {
+            await _viewModel.next(context);
             setState(() {});
           },
           child: const Icon(Icons.done),
@@ -54,22 +49,51 @@ class _FirstViewState extends State<FirstView> {
     );
   }
 
-  void _showDialogs({required BuildContext context}) {
-    if (_viewModel.needsWelcomePopup()) {
-      showDialogOnlyDone(
+
+}
+
+
+enum FirstViewStep {
+  FIRST_LANGUAGE, SECOND_GAME
+}
+
+class FirstViewModel {
+
+  final GameRepository repository = GameRepository();
+
+  FirstViewStep _step = FirstViewStep.FIRST_LANGUAGE;
+
+  String _game = "";
+
+  Future<void> next(BuildContext context) async {
+
+    /*
+    en 1 rajouter l'étape de récupération du nom
+    en 2 créer un player (appel en back)
+    en 3 stocker localement les données (locale, nom, player id) et réutiliser au démarrage de l'application'
+
+     */
+
+    if(isFirstStep()) {
+      await showDialogOnlyDone(
         context: context,
         title: 'first.welcome_popup.title'.tr(),
         content: 'first.welcome_popup.content'.tr(),
       );
-      _viewModel.displayedWelcomePopup();
+      _step = FirstViewStep.SECOND_GAME;
+    } else  {
+      GameResponse game = await repository.generate(getGame());
+      print(game.label);
     }
   }
 
-  void showDialogOnlyDone({
+
+  Future<String?> showDialogOnlyDone({
     required BuildContext context,
     required String title,
     required String content}) {
-    showDialog<String>(
+    print("showDialogOnlyDone");
+    return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Text(title),
@@ -82,28 +106,6 @@ class _FirstViewState extends State<FirstView> {
         ],
       ),
     );
-  }
-
-}
-
-
-enum FirstViewStep {
-  FIRST_LANGUAGE, SECOND_GAME
-}
-
-class FirstViewModel {
-
-  FirstViewStep _step = FirstViewStep.FIRST_LANGUAGE;
-
-  String _game = "";
-
-  void next() {
-    if(isFirstStep()) {
-      _step = FirstViewStep.SECOND_GAME;
-    } else  {
-      print(getGame());
-    }
-
   }
 
   bool isFirstStep() {

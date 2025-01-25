@@ -15,6 +15,7 @@ class FirstViewGameCodeTextFieldWidget extends StatelessWidget {
         children: <Widget>[
           Text('first.tap_game'.tr(),
               style: Theme.of(context).textTheme.headlineMedium),
+          const SizedBox(height: 16),
           TextField(
               decoration: const InputDecoration(
                 hintText: 'Enter a search term',

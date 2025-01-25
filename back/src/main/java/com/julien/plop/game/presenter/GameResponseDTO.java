@@ -1,4 +1,4 @@
-package com.julien.plop.presenter;
+package com.julien.plop.game.presenter;
 
 import com.julien.plop.game.Game;
 

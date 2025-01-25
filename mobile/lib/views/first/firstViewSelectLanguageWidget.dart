@@ -5,19 +5,14 @@ import 'package:plop/utils/LocaleExtention.dart';
 
 class FirstViewSelectLanguageWidget extends StatelessWidget {
 
-  final Function onUpdate;
-
-  const FirstViewSelectLanguageWidget({super.key, required this.onUpdate});
-
   @override
   Widget build(BuildContext context) {
     return Column(
         children: <Widget>[
             Text('first.select_language'.tr(),
                 style: Theme.of(context).textTheme.headlineMedium),
-            _SelectLanguageDropdownMenu(
-              onUpdate: onUpdate,
-            ),
+            const SizedBox(height: 16),
+            _SelectLanguageDropdownMenu(init: context.locale),
         ]
     );
   }
@@ -26,20 +21,27 @@ class FirstViewSelectLanguageWidget extends StatelessWidget {
 
 class _SelectLanguageDropdownMenu extends StatelessWidget {
 
-  final Function onUpdate;
+  late final ValueNotifier<Locale> valueNotifier;
 
-  const _SelectLanguageDropdownMenu({required this.onUpdate});
+  _SelectLanguageDropdownMenu({required Locale init}){
+    valueNotifier = ValueNotifier(init);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<Locale>(
-        initialSelection: context.locale,
-        onSelected: (Locale? value) {
-          if (value == null) return;
-          context.setLocale(value);
-          onUpdate();
-        },
-        dropdownMenuEntries: _menuEntries(context.supportedLocales));
+    return ValueListenableBuilder<Locale>(
+      valueListenable: valueNotifier,
+      builder: (BuildContext context, Locale? value, Widget? child) {
+        return DropdownMenu<Locale>(
+            initialSelection: value,
+            onSelected: (Locale? value) {
+              if (value == null) return;
+              context.setLocale(value);
+              valueNotifier.value = value;
+            },
+            dropdownMenuEntries: _menuEntries(context.supportedLocales));
+      },
+    );
   }
 
   List<DropdownMenuEntry<Locale>> _menuEntries(List<Locale> locales) {

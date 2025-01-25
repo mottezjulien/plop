@@ -1,4 +1,4 @@
-package com.julien.plop.presenter;
+package com.julien.plop.game.presenter;
 
 import com.julien.plop.auth.Auth;
 import com.julien.plop.game.Game;
@@ -26,7 +26,7 @@ public class GameController {
         this.gameGeneratorUseCase = gameGeneratorUseCase;
     }
 
-    @PostMapping("/generate")
+    @PostMapping({"/generate", "/generate/"})
     public GameResponseDTO generate(
             @RequestHeader("Authorization") String rawToken,
             @RequestBody GameRequestDTO request
@@ -40,11 +40,12 @@ public class GameController {
         //7) Ajout Player (SAVE RELATION ?)
 
         try {
-            Player player = auth.find(rawToken);
+            //Player player = auth.find(rawToken);
+            Player player = new Player(new Player.Id("any"), "Julien");
             Game game = gameGeneratorUseCase.apply(player, request.code());
             return GameResponseDTO.fromModel(game);
-        } catch (Auth.Except e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", e);
+        //} catch (Auth.Except e) {
+        //    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", e);
         } catch (GameException e) {
             switch (e.type()) {
                 case NOT_FOUND -> throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);

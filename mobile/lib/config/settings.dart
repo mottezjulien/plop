@@ -3,7 +3,7 @@ class Settings {
   static final String welcomePopup = 'welcomePopup';
 
   static String urlServer() {
-    return 'http://localhost:8080';
+    return 'https://81ad-2a01-e0a-db5-bd20-41b-a00d-698b-572.ngrok-free.app';
   }
 
   static void set(String key, bool value) {

@@ -4,9 +4,9 @@ package com.julien.plop.game;
 //TODO "Game", GameScenario, GameBoard, GamePlaying
 
 
+import com.julien.plop.board.model.Board;
 import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.scenario.Scenario;
-import com.julien.plop.space.domain.model.Board;
 import com.julien.plop.template.Template;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class Game {
         }
     }
 
-    public record Atom(Id id, Template.Id templateId, String code, String label) {
+    public record Atom(Id id, Template.Id templateId, String label) {
 
         @Override
         public boolean equals(Object o) {
@@ -38,12 +38,14 @@ public class Game {
     }
 
     private final Atom atom;
+    private final String templateVersion;
     private final Scenario scenario;
     private final Board board;
     private final List<Player> players = new ArrayList<>();
 
-    public Game(Id id, Template.Id templateId, String code, String label, Scenario scenario, Board board) {
-        this.atom = new Atom(id, templateId, code, label);
+    public Game(Id id, Template.Id templateId, String label, String templateVersion, Scenario scenario, Board board) {
+        this.atom = new Atom(id, templateId, label);
+        this.templateVersion = templateVersion;
         this.scenario = scenario;
         this.board = board;
     }
@@ -52,14 +54,24 @@ public class Game {
         return atom.id();
     }
 
-    public String code() {
-        return atom.code();
-    }
-
-
-    //MANGE INTERNATIONALE
     public String label() {
         return atom.label();
+    }
+
+    public Template.Id templateId() {
+        return atom.templateId();
+    }
+
+    public String templateVersion() {
+        return templateVersion;
+    }
+
+    public Scenario scenario() {
+        return scenario;
+    }
+
+    public Board board() {
+        return board;
     }
 
     public void addPlayer(Player player) {

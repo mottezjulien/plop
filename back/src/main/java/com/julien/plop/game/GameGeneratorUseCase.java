@@ -1,7 +1,7 @@
 package com.julien.plop.game;
 
-import com.julien.plop.template.Template;
 import com.julien.plop.player.domain.model.Player;
+import com.julien.plop.template.Template;
 
 import java.util.Optional;
 
@@ -11,8 +11,9 @@ public class GameGeneratorUseCase {
 
         Optional<Template> findByCode(String code);
 
-        void save(Game game);
+        Game createFromTemplate(Template template);
 
+        void insert(Game game, Player player) throws GameException;
     }
 
     private final DataOutput dataOutput;
@@ -24,9 +25,9 @@ public class GameGeneratorUseCase {
     public Game apply(Player player, String code) throws GameException {
         Template template = dataOutput.findByCode(code)
                 .orElseThrow(() -> new GameException(GameException.Type.NOT_FOUND));
-        Game game = template.generate();
+        Game game = dataOutput.createFromTemplate(template);
+        dataOutput.insert(game, player);
         game.addPlayer(player);
-        dataOutput.save(game);
         return game;
     }
 

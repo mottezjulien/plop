@@ -1,0 +1,60 @@
+package com.julien.plop.player.persistence;
+
+import com.julien.plop.Language;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.UuidGenerator;
+
+import static jakarta.persistence.EnumType.STRING;
+
+@Entity
+@Table(name = "TEST1_PLAYER")
+public class PlayerEntity {
+
+    @Id
+    @UuidGenerator
+    private String id;
+
+    private String name;
+
+    @Column(name = "device_id")
+    private String deviceId;
+
+    @Enumerated(STRING)
+    private Language language;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+}

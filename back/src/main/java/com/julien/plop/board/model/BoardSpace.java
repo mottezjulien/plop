@@ -1,4 +1,4 @@
-package com.julien.plop.space.domain.model;
+package com.julien.plop.board.model;
 
 public class BoardSpace {
 

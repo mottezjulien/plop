@@ -14,7 +14,7 @@ class InitConfigTextFieldGameCodeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldGenericWidget(
-        label: 'init.tap_game'.tr(),
+        label: 'init.enter_game_code'.tr(),
         onChanged: onChanged
     );
   }

@@ -6,6 +6,7 @@
       "title": "Welcome",
       "content": "Welcome plop"
     },
-    "tap_game": "Saisissez une partie plop"
+    "enter_game_code": "Enter a game code",
+    "enter_player_name": "Enter your player's name"
   }
 }

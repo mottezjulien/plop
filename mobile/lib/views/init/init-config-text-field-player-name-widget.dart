@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../generic/form/text-field-with-label.dart';
@@ -13,7 +14,7 @@ class InitConfigTextFieldPlayerNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldGenericWidget(
-        label: 'plop player name',
+        label: 'init.enter_player_name'.tr(),
         onChanged: onChanged
     );
   }

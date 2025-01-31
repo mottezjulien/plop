@@ -1,9 +1,9 @@
 package com.julien.plop.game.presenter;
 
 import com.julien.plop.auth.Auth;
-import com.julien.plop.game.Game;
-import com.julien.plop.game.GameException;
-import com.julien.plop.game.GameGeneratorUseCase;
+import com.julien.plop.game.domain.Game;
+import com.julien.plop.game.domain.GameException;
+import com.julien.plop.game.domain.GameGeneratorUseCase;
 import com.julien.plop.player.domain.model.Player;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,21 +31,12 @@ public class GameController {
             @RequestHeader("Authorization") String rawToken,
             @RequestBody GameRequestDTO request
     ) {
-        //1) Identify Player -> DONE
-        //2) Récupèrer Template -> OK (Board, Scenario, Players ?)
-        //3) Créer Game
-        //4) Créer Board
-        //5) Créer Scenario
-        //6) Save Game - InMemory
-        //7) Ajout Player (SAVE RELATION ?)
-
         try {
-            //Player player = auth.find(rawToken);
-            Player player = new Player(new Player.Id("any"), "Julien");
+            Player player = auth.find(rawToken);
             Game game = gameGeneratorUseCase.apply(player, request.code());
             return GameResponseDTO.fromModel(game);
-        //} catch (Auth.Except e) {
-        //    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", e);
+        } catch (Auth.Except e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", e);
         } catch (GameException e) {
             switch (e.type()) {
                 case NOT_FOUND -> throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);

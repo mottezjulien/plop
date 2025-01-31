@@ -1,6 +1,6 @@
 package com.julien.plop.game.persistence;
 
-import com.julien.plop.board.persistence.BoardEntity;
+import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
 import jakarta.persistence.Column;

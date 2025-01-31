@@ -1,6 +1,9 @@
 package com.julien.plop.scenario;
 
+import com.julien.plop.I18n;
+
 import java.util.List;
+import java.util.Optional;
 
 public record Scenario(Id id, List<Step> steps) {
 
@@ -16,7 +19,7 @@ public record Scenario(Id id, List<Step> steps) {
 
     }
 
-    public record Target(String label, String desc, boolean optional) {
+    public record Target(I18n label, Optional<I18n> desc, boolean optional) {
 
     }
 

@@ -1,5 +1,6 @@
 package com.julien.plop.scenario.persistence;
 
+import com.julien.plop.scenario.Scenario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -44,5 +45,9 @@ public class ScenarioEntity {
 
     public void setSteps(Set<ScenarioStepEntity> steps) {
         this.steps = steps;
+    }
+
+    public Scenario toModel() {
+        return new Scenario(new Scenario.Id(id), steps.stream().map(ScenarioStepEntity::toModel).toList());
     }
 }

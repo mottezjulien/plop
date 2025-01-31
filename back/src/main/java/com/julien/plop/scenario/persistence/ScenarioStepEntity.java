@@ -1,6 +1,7 @@
 package com.julien.plop.scenario.persistence;
 
 
+import com.julien.plop.scenario.Scenario;
 import com.julien.plop.scenario.persistence.possibility.ScenarioPossibilityEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -72,6 +73,13 @@ public class ScenarioStepEntity {
 
     public void setPossibilities(Set<ScenarioPossibilityEntity> possibilities) {
         this.possibilities = possibilities;
+    }
+
+    public Scenario.Step toModel() {
+        return new Scenario.Step(new Scenario.Step.Id(id), label,
+                targets.stream().map(ScenarioTargetEntity::toModel).toList(),
+                possibilities.stream().map(entity -> entity.toModel()).toList());
+
     }
 
 }

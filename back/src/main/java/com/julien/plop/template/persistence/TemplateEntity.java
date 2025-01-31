@@ -1,7 +1,8 @@
 package com.julien.plop.template.persistence;
 
-import com.julien.plop.board.persistence.BoardEntity;
+import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
+import com.julien.plop.template.Template;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -20,6 +21,8 @@ public class TemplateEntity {
     private String code;
 
     private String label;
+
+    private String version;
 
     @ManyToOne
     @JoinColumn(name = "scenario_id")
@@ -53,6 +56,14 @@ public class TemplateEntity {
         this.label = label;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     public ScenarioEntity getScenario() {
         return scenario;
     }
@@ -67,5 +78,10 @@ public class TemplateEntity {
 
     public void setBoard(BoardEntity board) {
         this.board = board;
+    }
+
+    public Template toModel() {
+        return new Template(new Template.Id(id), code, label, version,
+                scenario.toModel(), board.toModel());
     }
 }

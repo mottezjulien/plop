@@ -6,8 +6,10 @@ import com.julien.plop.generic.BeforeOrAfter;
 import java.time.Duration;
 
 public sealed interface PossibilityCondition permits
-        PossibilityCondition.InSpace, PossibilityCondition.OutSpace,
+        PossibilityCondition.InsideSpace,
+        PossibilityCondition.OutsideSpace,
         PossibilityCondition.AbsoluteTime,
+        PossibilityCondition.RelativeTimeAfterOtherTrigger,
         PossibilityCondition.InStep,
         PossibilityCondition.OtherCondition
 {
@@ -16,11 +18,15 @@ public sealed interface PossibilityCondition permits
 
     }
 
-    record InSpace(Id id, BoardSpace.Id spaceId) implements PossibilityCondition {
+    record InsideSpace(Id id, BoardSpace.Id spaceId) implements PossibilityCondition {
 
     }
 
-    record OutSpace(Id id, BoardSpace.Id spaceId) implements PossibilityCondition {
+    record OutsideSpace(Id id, BoardSpace.Id spaceId) implements PossibilityCondition {
+
+    }
+
+    record RelativeTimeAfterOtherTrigger(Id id, Id otherTriggerId, Duration duration) implements PossibilityCondition {
 
     }
 

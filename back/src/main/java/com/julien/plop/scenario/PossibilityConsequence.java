@@ -2,34 +2,43 @@ package com.julien.plop.scenario;
 
 
 public sealed interface PossibilityConsequence permits
-        PossibilityConsequence.StepDone,
+        PossibilityConsequence.StartedStep,
+        PossibilityConsequence.EndedStep,
         PossibilityConsequence.GameOver,
         PossibilityConsequence.FireEvent, // TODO ???
-        PossibilityConsequence.MetadataUpdate,
+        PossibilityConsequence.UpdatedMetadata,
         PossibilityConsequence.AddObjet,
         PossibilityConsequence.RemoveObjet {
 
-        record StepDone(Scenario.Step.Id stepId) implements PossibilityConsequence {
+        record Id(String value) {
 
         }
 
-        record GameOver() implements PossibilityConsequence {
+        record StartedStep(Id id, Scenario.Step.Id stepId) implements PossibilityConsequence {
 
         }
 
-        record FireEvent() implements PossibilityConsequence {
+        record EndedStep(Id id, Scenario.Step.Id stepId) implements PossibilityConsequence {
 
         }
 
-        record MetadataUpdate(String metadataId, float value) implements PossibilityConsequence {
+        record GameOver(Id id) implements PossibilityConsequence {
 
         }
 
-        record AddObjet(String objetId) implements PossibilityConsequence {
+        record FireEvent(Id id) implements PossibilityConsequence {
 
         }
 
-        record RemoveObjet(String objetId) implements PossibilityConsequence {
+        record UpdatedMetadata(Id id, String metadataId, float value) implements PossibilityConsequence {
+
+        }
+
+        record AddObjet(Id id, String objetId) implements PossibilityConsequence {
+
+        }
+
+        record RemoveObjet(Id id, String objetId) implements PossibilityConsequence {
 
         }
 

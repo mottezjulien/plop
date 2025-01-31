@@ -1,7 +1,7 @@
 package com.julien.plop;
 
 import com.julien.plop.auth.Auth;
-import com.julien.plop.game.GameGeneratorUseCase;
+import com.julien.plop.game.domain.GameGeneratorUseCase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

@@ -1,10 +1,11 @@
 package com.julien.plop.scenario.persistence.possibility;
 
 import com.julien.plop.generic.AndOrOr;
+import com.julien.plop.scenario.Possibility;
 import com.julien.plop.scenario.persistence.ScenarioStepEntity;
-import com.julien.plop.scenario.persistence.possibility.condition.ScenarioPossibilityConditionAbstractEntity;
-import com.julien.plop.scenario.persistence.possibility.consequence.ScenarioPossibilityConsequenceAbstractEntity;
-import com.julien.plop.scenario.persistence.possibility.trigger.ScenarioPossibilityTriggerAbstractEntity;
+import com.julien.plop.scenario.persistence.possibility.condition.entity.ScenarioPossibilityConditionAbstractEntity;
+import com.julien.plop.scenario.persistence.possibility.consequence.entity.ScenarioPossibilityConsequenceAbstractEntity;
+import com.julien.plop.scenario.persistence.possibility.trigger.entity.ScenarioPossibilityTriggerAbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,9 +38,9 @@ public class ScenarioPossibilityEntity {
     private ScenarioPossibilityTriggerAbstractEntity trigger;
 
     @ManyToMany
-    @JoinTable(name = "TEST1_SCENARIO_POSSIBILITY_CONSEQUENCE",
+    @JoinTable(name = "TEST1_RELATION_SCENARIO_POSSIBILITY_CONDITION",
             joinColumns = @JoinColumn(name = "possibility_id"),
-            inverseJoinColumns = @JoinColumn(name = "consequence_id"))
+            inverseJoinColumns = @JoinColumn(name = "condition_id"))
     private Set<ScenarioPossibilityConditionAbstractEntity> conditions = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
@@ -47,7 +48,7 @@ public class ScenarioPossibilityEntity {
     private AndOrOr conditionType;
 
     @ManyToMany
-    @JoinTable(name = "TEST1_SCENARIO_POSSIBILITY_CONSEQUENCE",
+    @JoinTable(name = "TEST1_RELATION_SCENARIO_POSSIBILITY_CONSEQUENCE",
             joinColumns = @JoinColumn(name = "possibility_id"),
             inverseJoinColumns = @JoinColumn(name = "consequence_id"))
     private Set<ScenarioPossibilityConsequenceAbstractEntity> consequences = new HashSet<>();
@@ -101,4 +102,10 @@ public class ScenarioPossibilityEntity {
         this.consequences = consequences;
     }
 
+    public Possibility toModel() {
+        return new Possibility(new Possibility.Id(id), trigger.abstractToModel(),
+                conditions.stream().map(ScenarioPossibilityConditionAbstractEntity::abstractToModel).toList(),
+                conditionType,
+                consequences.stream().map(ScenarioPossibilityConsequenceAbstractEntity::abstractToModel).toList());
+    }
 }

@@ -15,19 +15,20 @@ public class Auth {
 
     }
 
-    private final static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    //private final static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private final static DateTimeFormatter fmt = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
     public Player find(String rawToken) throws Except {
-        String[] split = rawToken.split("\\.");
+        String[] split = rawToken.split("___");
         OffsetDateTime dateTime = OffsetDateTime.parse(split[2], fmt);
-        if(dateTime.isBefore(OffsetDateTime.now().plusHours(5))) {
+        if(dateTime.isAfter(OffsetDateTime.now().plusHours(5))) {
             throw new Except("Token expired");
         }
         return new Player(new Player.Id(split[0]), split[1]);
     }
 
     public String generate(Player player) { //TODO Player name sans point
-        return player.id().value() + "." + player.name() + "." + fmt.format(OffsetDateTime.now());
+        return player.id().value() + "___" + player.name() + "___" + fmt.format(OffsetDateTime.now());
     }
 
 }

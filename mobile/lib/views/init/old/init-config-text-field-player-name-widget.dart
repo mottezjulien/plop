@@ -2,7 +2,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../generic/form/text-field-with-label.dart';
+import '../../generic/form/text-field-with-label.dart';
 
 
 class InitConfigTextFieldPlayerNameWidget extends StatelessWidget {

@@ -4,48 +4,47 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../config/settings.dart';
+import '../../http/headers.dart';
 import '../repository-exception.dart';
+import 'game.dart';
 
 class GameRepository {
 
-  static final String path = '/games';
+  static const String path = '/games';
 
-  Future<GameResponse> generate(String gameCode) async {
+  Future<Game?> findById(String gameId) async {
+    String url = "${Settings.urlServer()}$path/$gameId";
+    Uri uri = Uri.parse(url);
+    final http.Response response = await http.get(uri, headers: Headers.byDefault());
+    if(response.statusCode >= 404) {
+      return null;
+    }
+    if(response.statusCode >= 400) {
+      throw RepositoryException(response.statusCode, response.body);
+    }
+    return toModel(jsonDecode(response.body));
+  }
 
-    String url = Settings.urlServer() + path + "/generate";
+  Future<Game> generate(String gameCode) async {
+    String url = "${Settings.urlServer()}$path/generate";
     Uri uri = Uri.parse(url);
 
     final http.Response response = await http.post(uri,
-      headers: <String, String> {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer abcToken',
-      },
-      body: jsonEncode(<String, String>{
-        'code': gameCode,
-      }),
+      headers: Headers.byDefault(),
+      body: jsonEncode({'code': gameCode})
     );
     if(response.statusCode >= 400) {
       throw RepositoryException(response.statusCode, response.body);
     }
-    return GameResponse.fromJsonMap(jsonDecode(response.body));
+    return toModel(jsonDecode(response.body));
   }
 
 
-}
-
-class GameResponse {
-
-  static GameResponse fromJsonMap(jsonDecode) {
-    return GameResponse(
-      id: jsonDecode['id'],
-      code: jsonDecode['code'],
-      label: jsonDecode['label'],
+  Game toModel(Map<String, dynamic> json) {
+    return Game(
+      id: json['id'],
+      label: json['label'],
     );
   }
-
-  String? id, code, label;
-
-  GameResponse({required this.id, required this.code, required this.label});
 
 }

@@ -10,15 +10,19 @@ dependencies:
   flutter:
     sdk: flutter
 
-  easy_localization: ^3.0.7
-
+  #Default - HTTP client
+  http: ^1.2.2
+  #Default - Router
   go_router: ^14.0.0
-
+  #Default - I18n
+  easy_localization: ^3.0.7
+  #Maps
   geolocator: ^13.0.2
 
-  http: ^1.2.2
-
+  #Default - Locale store
   shared_preferences: ^2.4.0
+  #Default - Get Device Id
+  device_info_plus: ^11.2.2
 
 dev_dependencies:
   flutter_test:

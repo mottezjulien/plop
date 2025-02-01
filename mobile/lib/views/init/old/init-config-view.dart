@@ -1,20 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../contexts/game/game-repository.dart';
-import '../../utils/dialog.dart';
-import 'init-config-select-lang-widget.dart';
+import '../../../contexts/game/game-repository.dart';
+import '../../../utils/dialog.dart';
+import '../player/init-player-select-lang-widget.dart';
 import 'init-config-text-field-game-code-widget.dart';
 import 'init-config-text-field-player-name-widget.dart';
 
-class InitConfigView extends StatefulWidget {
+class OldInitConfigView extends StatefulWidget {
   @override
-  State<InitConfigView> createState() => _InitConfigViewState();
+  State<OldInitConfigView> createState() => _InitConfigViewState();
 }
 
-class _InitConfigViewState extends State<InitConfigView> {
+class _InitConfigViewState extends State<OldInitConfigView> {
 
-  final InitConfigViewModel _viewModel = new InitConfigViewModel();
+  final OldInitConfigViewModel _viewModel = OldInitConfigViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _InitConfigViewState extends State<InitConfigView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if(_viewModel.isSelectLanguageStep())
-                  const InitConfigSelectLanguageWidget(),
+                  const InitPlayerSelectLanguageWidget(),
                 if(_viewModel.isPlayerNameStep())
                   InitConfigTextFieldPlayerNameWidget(onChanged: (String name) {
                     _viewModel.setPlayerName(name);
@@ -59,7 +59,7 @@ enum FirstViewStep {
   LANGUAGE, NAME, GAME_CODE
 }
 
-class InitConfigViewModel {
+class OldInitConfigViewModel {
 
   final GameRepository repository = GameRepository();
 
@@ -100,8 +100,8 @@ class InitConfigViewModel {
         _step = FirstViewStep.GAME_CODE;
         break;
       case FirstViewStep.GAME_CODE:
-        GameResponse game = await repository.generate(_gameCode);
-        print(game.label);
+        /*GameResponse game = await repository.generate(_gameCode);
+        print(game.label);*/
         //TODO Go Next View ...
         break;
     }

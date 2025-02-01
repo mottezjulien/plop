@@ -51,13 +51,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GameGeneratorIntegrationTest {
 
-    refacto test
-
     @Value(value = "${local.server.port}")
     private int port;
 
     @Autowired
     private Auth auth;
+
     @Autowired
     private I18nRepository i18nRepository;
 
@@ -106,24 +105,58 @@ public class GameGeneratorIntegrationTest {
     }
 
     @Test
-    public void plop() {
+    public void generateGameWithFirstScenario() {
 
-        BoardEntity boardEntity = new BoardEntity();
-        boardRepository.save(boardEntity);
+        BoardEntity boardEntity = firstBoard();
 
-        BoardSpaceEntity spaceEntity = new BoardSpaceEntity();
-        spaceEntity.setBoard(boardEntity);
-        spaceEntity.setLabel("La gare");
-        boardSpaceRepository.save(spaceEntity);
+        ScenarioEntity scenarioEntity = firstScenario(boardEntity.getSpaces().stream().findAny().orElseThrow());
 
-        BoardRectEntity rectEntity = new BoardRectEntity();
-        rectEntity.setSpace(spaceEntity);
-        rectEntity.setTopRightLatitude(1.0f);
-        rectEntity.setTopRightLongitude(6.098760f);
-        rectEntity.setBottomLeftLatitude(5.098765f);
-        rectEntity.setBottomLeftLongitude(60.980f);
-        boardRectRepository.save(rectEntity);
+        templateRepository.save(firstTemplate(scenarioEntity, boardEntity));
 
+        PlayerEntity playerEntity = new PlayerEntity();
+        playerEntity.setName("Julien");
+        playerRepository.save(playerEntity);
+
+        Player player = new Player(new Player.Id(playerEntity.getId()), playerEntity.getName());
+        String token = auth.generate(player);
+
+
+        String bobyRequest = """
+                {
+                    "code": "my-code"
+                }
+                """;
+
+        String gameId;
+
+        try (var client = HttpClient.newBuilder().build()) {
+            var request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/games/generate"))
+                    .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", token)
+                    .method("POST", HttpRequest.BodyPublishers.ofString(bobyRequest))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertThat(response.statusCode()).isEqualTo(200);
+
+            GameResponseDTO responseDTO = new ObjectMapper().readValue(response.body(), GameResponseDTO.class);
+            assertThat(responseDTO.id()).isNotNull();
+            gameId = responseDTO.id();
+            assertThat(responseDTO.label()).isEqualTo("Mon nouveau jeu");
+
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        GameEntity found = gameRepository.findByIdFetchAll(gameId).orElseThrow();
+        assertThat(found.getLabel()).isEqualTo("Mon nouveau jeu");
+        assertThat(found.getScenario().getId()).isEqualTo(scenarioEntity.getId());
+        assertThat(found.getBoard().getId()).isEqualTo(boardEntity.getId());
+
+    }
+
+    private ScenarioEntity firstScenario(BoardSpaceEntity spaceEntity) {
         ScenarioEntity scenarioEntity = new ScenarioEntity();
         scenarioEntity.setLabel("Mon nouveau scénario");
         scenarioRepository.save(scenarioEntity);
@@ -172,57 +205,37 @@ public class GameGeneratorIntegrationTest {
         possibilityEntity.getConditions().add(conditionEntity);
         possibilityEntity.getConsequences().add(consequenceEntity);
         possibilityRepository.save(possibilityEntity);
+        return scenarioEntity;
+    }
 
+    private static TemplateEntity firstTemplate(ScenarioEntity scenarioEntity, BoardEntity boardEntity) {
         TemplateEntity templateEntity = new TemplateEntity();
         templateEntity.setCode("my-code");
         templateEntity.setLabel("Mon nouveau jeu");
         templateEntity.setVersion("1.0.1");
         templateEntity.setScenario(scenarioEntity);
         templateEntity.setBoard(boardEntity);
+        return templateEntity;
+    }
 
-        templateRepository.save(templateEntity);
+    private BoardEntity firstBoard() {
+        BoardEntity boardEntity = new BoardEntity();
+        boardRepository.save(boardEntity);
 
-        PlayerEntity playerEntity = new PlayerEntity();
-        playerEntity.setName("Julien");
-        playerRepository.save(playerEntity);
+        BoardSpaceEntity spaceEntity = new BoardSpaceEntity();
+        spaceEntity.setBoard(boardEntity);
+        spaceEntity.setLabel("La gare");
+        boardSpaceRepository.save(spaceEntity);
 
-        Player player = new Player(new Player.Id(playerEntity.getId()), playerEntity.getName());
-        String token = auth.generate(player);
+        BoardRectEntity rectEntity = new BoardRectEntity();
+        rectEntity.setSpace(spaceEntity);
+        rectEntity.setTopRightLatitude(1.0f);
+        rectEntity.setTopRightLongitude(6.098760f);
+        rectEntity.setBottomLeftLatitude(5.098765f);
+        rectEntity.setBottomLeftLongitude(60.980f);
+        boardRectRepository.save(rectEntity);
 
-
-        String bobyRequest = """
-                {
-                    "code": "my-code"
-                }
-                """;
-
-        String gameId;
-
-        try (var client = HttpClient.newBuilder().build()) {
-            var request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/games/generate"))
-                    .header("accept", "application/json")
-                    .header("Content-Type", "application/json")
-                    .header("Authorization", token)
-                    .method("POST", HttpRequest.BodyPublishers.ofString(bobyRequest))
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertThat(response.statusCode()).isEqualTo(200);
-
-            GameResponseDTO responseDTO = new ObjectMapper().readValue(response.body(), GameResponseDTO.class);
-            assertThat(responseDTO.id()).isNotNull();
-            gameId = responseDTO.id();
-            assertThat(responseDTO.label()).isEqualTo("Mon nouveau jeu");
-
-
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        GameEntity found = gameRepository.findByIdFetchAll(gameId).orElseThrow();
-        assertThat(found.getLabel()).isEqualTo("Mon nouveau jeu");
-        assertThat(found.getScenario().getId()).isEqualTo(scenarioEntity.getId());
-        assertThat(found.getBoard().getId()).isEqualTo(boardEntity.getId());
-
+        return boardEntity;
     }
 
 }

@@ -2,13 +2,7 @@ package com.julien.plop.scenario.persistence.possibility.trigger.entity;
 
 
 import com.julien.plop.scenario.PossibilityTrigger;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TEST1_SCENARIO_POSSIBILITY_ACTION")
@@ -17,7 +11,7 @@ import org.hibernate.annotations.UuidGenerator;
 public abstract class ScenarioPossibilityTriggerAbstractEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     protected String id;
 
     public String getId() {
@@ -37,4 +31,31 @@ public abstract class ScenarioPossibilityTriggerAbstractEntity {
             default -> throw new IllegalStateException("Unknown type");
         };
     }
+
+    public static ScenarioPossibilityTriggerAbstractEntity fromModel_emptyId(PossibilityTrigger model) {
+        return switch (model) {
+            case PossibilityTrigger.AbsoluteTime absoluteTime -> {
+                ScenarioPossibilityTriggerAbsoluteTimeEntity entity = new ScenarioPossibilityTriggerAbsoluteTimeEntity();
+                entity.setMinutes((int) absoluteTime.duration().toMinutes());
+                yield entity;
+            }
+            case PossibilityTrigger.RelativeTimeAfterOtherTrigger relativeTimeAfterOtherTrigger -> {
+                ScenarioPossibilityTriggerRelativeTimeAfterOtherTriggerEntity entity = new ScenarioPossibilityTriggerRelativeTimeAfterOtherTriggerEntity();
+                entity.setMinutes((int) relativeTimeAfterOtherTrigger.duration().toMinutes());
+                entity.setOtherTriggerId(relativeTimeAfterOtherTrigger.otherTriggerId().value());
+                yield entity;
+            }
+            case PossibilityTrigger.GoInSpace goInSpace -> {
+                ScenarioPossibilityTriggerGoInSpaceEntity entity = new ScenarioPossibilityTriggerGoInSpaceEntity();
+                entity.setSpaceId(goInSpace.spaceId().value());
+                yield entity;
+            }
+            case PossibilityTrigger.GoOutSpace goOutSpace -> {
+                ScenarioPossibilityTriggerGoInSpaceEntity entity = new ScenarioPossibilityTriggerGoInSpaceEntity();
+                entity.setSpaceId(goOutSpace.spaceId().value());
+                yield entity;
+            }
+        };
+    }
+
 }

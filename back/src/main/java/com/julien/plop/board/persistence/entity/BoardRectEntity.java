@@ -1,20 +1,14 @@
 package com.julien.plop.board.persistence.entity;
 
 import com.julien.plop.board.model.BoardSpace;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TEST1_BOARD_RECT")
 public class BoardRectEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     @ManyToOne

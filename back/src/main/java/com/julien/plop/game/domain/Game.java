@@ -7,7 +7,7 @@ package com.julien.plop.game.domain;
 import com.julien.plop.board.model.Board;
 import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.scenario.Scenario;
-import com.julien.plop.template.Template;
+import com.julien.plop.template.domain.Template;
 
 import java.util.ArrayList;
 import java.util.List;

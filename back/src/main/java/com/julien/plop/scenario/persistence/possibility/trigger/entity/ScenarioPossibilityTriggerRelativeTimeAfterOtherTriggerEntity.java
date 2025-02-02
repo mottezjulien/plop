@@ -25,6 +25,14 @@ public final class ScenarioPossibilityTriggerRelativeTimeAfterOtherTriggerEntity
         this.minutes = absoluteTimeInMinute;
     }
 
+    public String getOtherTriggerId() {
+        return otherTriggerId;
+    }
+
+    public void setOtherTriggerId(String otherTriggerId) {
+        this.otherTriggerId = otherTriggerId;
+    }
+
     public PossibilityTrigger toModel() {
         return new PossibilityTrigger.RelativeTimeAfterOtherTrigger(new PossibilityTrigger.Id(id),
                 new PossibilityTrigger.Id(otherTriggerId),

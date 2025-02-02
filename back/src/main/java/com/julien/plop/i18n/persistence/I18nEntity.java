@@ -4,12 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julien.plop.I18n;
 import com.julien.plop.Language;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -21,7 +16,7 @@ import java.util.stream.Collectors;
 public class I18nEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     private String description;

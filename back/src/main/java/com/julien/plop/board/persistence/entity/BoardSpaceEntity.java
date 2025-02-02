@@ -1,13 +1,7 @@
 package com.julien.plop.board.persistence.entity;
 
 import com.julien.plop.board.model.BoardSpace;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +11,7 @@ import java.util.Set;
 public class BoardSpaceEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     private String label;

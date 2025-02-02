@@ -10,7 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 public class FirstGameEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     private String label;

@@ -1,7 +1,7 @@
 package com.julien.plop.game.domain;
 
 import com.julien.plop.player.domain.model.Player;
-import com.julien.plop.template.Template;
+import com.julien.plop.template.domain.Template;
 
 import java.util.Optional;
 

@@ -1,17 +1,13 @@
 package com.julien.plop.scenario.persistence;
 
 
+import com.julien.plop.i18n.persistence.I18nEntity;
 import com.julien.plop.scenario.Scenario;
 import com.julien.plop.scenario.persistence.possibility.ScenarioPossibilityEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -19,10 +15,12 @@ import java.util.Set;
 public class ScenarioStepEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
-    private String label;
+    @ManyToOne
+    @JoinColumn(name = "label_i18n_id")
+    private I18nEntity label;
 
     @ManyToOne
     @JoinColumn(name = "scenario_id")
@@ -43,11 +41,11 @@ public class ScenarioStepEntity {
         this.id = id;
     }
 
-    public String getLabel() {
+    public I18nEntity getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public void setLabel(I18nEntity label) {
         this.label = label;
     }
 
@@ -76,9 +74,12 @@ public class ScenarioStepEntity {
     }
 
     public Scenario.Step toModel() {
-        return new Scenario.Step(new Scenario.Step.Id(id), label,
+        return new Scenario.Step(
+                new Scenario.Step.Id(id),
+                Optional.ofNullable(label).map(I18nEntity::toModel),
                 targets.stream().map(ScenarioTargetEntity::toModel).toList(),
-                possibilities.stream().map(entity -> entity.toModel()).toList());
+                possibilities.stream().map(ScenarioPossibilityEntity::toModel).toList()
+        );
 
     }
 

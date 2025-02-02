@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,11 +14,12 @@ import java.util.Set;
 public class BoardEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     @OneToMany(mappedBy = "board")
     private Set<BoardSpaceEntity> spaces = new HashSet<>();
+
 
     public String getId() {
         return id;
@@ -40,4 +40,6 @@ public class BoardEntity {
     public Board toModel() {
         return new Board(new Board.Id(id), spaces.stream().map(BoardSpaceEntity::toModel).toList());
     }
+
+
 }

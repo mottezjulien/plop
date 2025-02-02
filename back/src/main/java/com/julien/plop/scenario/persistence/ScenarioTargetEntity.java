@@ -2,12 +2,7 @@ package com.julien.plop.scenario.persistence;
 
 import com.julien.plop.i18n.persistence.I18nEntity;
 import com.julien.plop.scenario.Scenario;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 import java.util.Optional;
 
@@ -16,7 +11,7 @@ import java.util.Optional;
 public class ScenarioTargetEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     @ManyToOne
@@ -75,7 +70,7 @@ public class ScenarioTargetEntity {
 
     public Scenario.Target toModel() {
         return new Scenario.Target(
-                label.toModel(),
+                Optional.ofNullable(label).map(l -> label.toModel()),
                 Optional.ofNullable(description).map(I18nEntity::toModel),
                 optional
         );

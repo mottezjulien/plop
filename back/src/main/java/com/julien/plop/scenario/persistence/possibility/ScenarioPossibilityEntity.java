@@ -6,17 +6,7 @@ import com.julien.plop.scenario.persistence.ScenarioStepEntity;
 import com.julien.plop.scenario.persistence.possibility.condition.entity.ScenarioPossibilityConditionAbstractEntity;
 import com.julien.plop.scenario.persistence.possibility.consequence.entity.ScenarioPossibilityConsequenceAbstractEntity;
 import com.julien.plop.scenario.persistence.possibility.trigger.entity.ScenarioPossibilityTriggerAbstractEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +16,7 @@ import java.util.Set;
 public class ScenarioPossibilityEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     @ManyToOne

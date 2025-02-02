@@ -12,7 +12,7 @@ import org.hibernate.annotations.UuidGenerator;
 public class ScenarioEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     @Column(name = "game_id")

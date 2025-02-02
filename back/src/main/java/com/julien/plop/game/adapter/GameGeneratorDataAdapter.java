@@ -9,7 +9,7 @@ import com.julien.plop.game.persistence.GameRepository;
 import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
-import com.julien.plop.template.Template;
+import com.julien.plop.template.domain.Template;
 import com.julien.plop.template.persistence.TemplateEntity;
 import com.julien.plop.template.persistence.TemplateRepository;
 import org.springframework.stereotype.Component;

@@ -1,5 +1,6 @@
 package com.julien.plop.scenario;
 
+import com.julien.plop.StringTools;
 import com.julien.plop.board.model.BoardSpace;
 
 import java.time.Duration;
@@ -11,6 +12,10 @@ public sealed interface PossibilityTrigger permits
         PossibilityTrigger.RelativeTimeAfterOtherTrigger {
 
     record Id(String value) {
+
+        public Id() {
+            this(StringTools.generate());
+        }
 
     }
 

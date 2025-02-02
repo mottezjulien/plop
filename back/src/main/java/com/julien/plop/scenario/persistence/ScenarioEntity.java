@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +14,7 @@ import java.util.Set;
 public class ScenarioEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     private String label;
@@ -48,6 +47,7 @@ public class ScenarioEntity {
     }
 
     public Scenario toModel() {
-        return new Scenario(new Scenario.Id(id), steps.stream().map(ScenarioStepEntity::toModel).toList());
+        return new Scenario(new Scenario.Id(id), label,
+                steps.stream().map(ScenarioStepEntity::toModel).toList());
     }
 }

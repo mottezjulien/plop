@@ -8,7 +8,8 @@ class Headers {
     return {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
+      //'Authorization': 'Bearer $token'
+      'Authorization': token
     };
   }
 

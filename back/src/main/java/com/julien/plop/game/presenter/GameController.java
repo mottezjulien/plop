@@ -1,27 +1,26 @@
 package com.julien.plop.game.presenter;
 
-import com.julien.plop.auth.Auth;
+import com.julien.plop.auth.AuthException;
+import com.julien.plop.auth.AuthUseCase;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GameException;
 import com.julien.plop.game.domain.GameGeneratorUseCase;
 import com.julien.plop.player.domain.model.Player;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/games")
 public class GameController {
 
-    private final Auth auth;
+    private final AuthUseCase auth;
 
     private final GameGeneratorUseCase gameGeneratorUseCase;
 
-    public GameController(Auth auth, GameGeneratorUseCase gameGeneratorUseCase) {
+    public GameController(AuthUseCase auth, GameGeneratorUseCase gameGeneratorUseCase) {
         this.auth = auth;
         this.gameGeneratorUseCase = gameGeneratorUseCase;
     }
@@ -35,16 +34,15 @@ public class GameController {
             Player player = auth.find(rawToken);
             Game game = gameGeneratorUseCase.apply(player, request.code());
             return GameResponseDTO.fromModel(game);
-        } catch (Auth.Except e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", e);
+        } catch (AuthException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getType().name(), e);
         } catch (GameException e) {
-            switch (e.type()) {
-                case NOT_FOUND -> throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-                default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            if (Objects.requireNonNull(e.type()) == GameException.Type.NOT_FOUND) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
             }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
-
 
 
 }

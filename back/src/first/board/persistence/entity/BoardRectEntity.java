@@ -12,7 +12,7 @@ import org.hibernate.annotations.UuidGenerator;
 public class BoardRectEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     @ManyToOne

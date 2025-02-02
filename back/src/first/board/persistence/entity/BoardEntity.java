@@ -15,7 +15,7 @@ import java.util.Set;
 public class BoardEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     @Column(name = "game_id")

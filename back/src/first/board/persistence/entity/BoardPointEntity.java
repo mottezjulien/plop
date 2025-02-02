@@ -8,7 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 public class BoardPointEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     protected String id;
 
     private double lat;

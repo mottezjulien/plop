@@ -3,32 +3,45 @@ package com.julien.plop.auth;
 import com.julien.plop.player.domain.model.Player;
 
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class Auth {
 
-    public static class Except extends Exception {
+    private final OffsetDateTime dateTime;
 
-        public Except(String message) {
-            super(message);
-        }
+    private final Optional<Player> optPlayer;
 
+    public Auth(OffsetDateTime dateTime, Player player) {
+        this.dateTime = dateTime;
+        this.optPlayer = Optional.of(player);
     }
 
-    //private final static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    public boolean isExpiry() {
+        return dateTime.isBefore(OffsetDateTime.now().plusHours(1));
+    }
+
+    public Player player() throws AuthException {
+        return optPlayer.orElseThrow(() -> new AuthException(AuthException.Type.ANONYMOUS));
+    }
+
+}
+
+/*
+public class Auth123 {
+
     private final static DateTimeFormatter fmt = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
-    public Player find(String rawToken) throws Except {
+    public Player find(String rawToken) throws AuthException {
         String[] split = rawToken.split("___");
         OffsetDateTime dateTime = OffsetDateTime.parse(split[2], fmt);
         if(dateTime.isAfter(OffsetDateTime.now().plusHours(5))) {
-            throw new Except("Token expired");
+            throw new AuthException(AuthException.Type.EXPIRED_TOKEN);
         }
         return new Player(new Player.Id(split[0]), split[1]);
     }
 
-    public String generate(Player player) { //TODO Player name sans point
+    public String generate(Player player) { //TODO Player name sans _ ?? sans . ??
         return player.id().value() + "___" + player.name() + "___" + fmt.format(OffsetDateTime.now());
     }
 
-}
+}*/

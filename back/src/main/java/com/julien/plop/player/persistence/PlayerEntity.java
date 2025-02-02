@@ -1,12 +1,7 @@
 package com.julien.plop.player.persistence;
 
 import com.julien.plop.Language;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 import static jakarta.persistence.EnumType.STRING;
 
@@ -15,7 +10,7 @@ import static jakarta.persistence.EnumType.STRING;
 public class PlayerEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     private String name;

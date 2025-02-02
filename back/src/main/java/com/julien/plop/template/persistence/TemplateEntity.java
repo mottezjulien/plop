@@ -2,20 +2,15 @@ package com.julien.plop.template.persistence;
 
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
-import com.julien.plop.template.Template;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import com.julien.plop.template.domain.Template;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TEST1_TEMPLATE")
 public class TemplateEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     private String code;

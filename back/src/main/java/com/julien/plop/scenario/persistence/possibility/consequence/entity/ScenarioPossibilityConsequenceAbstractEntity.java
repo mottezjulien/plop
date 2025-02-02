@@ -1,13 +1,7 @@
 package com.julien.plop.scenario.persistence.possibility.consequence.entity;
 
 import com.julien.plop.scenario.PossibilityConsequence;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TEST1_SCENARIO_POSSIBILITY_CONSEQUENCE")
@@ -16,13 +10,13 @@ import org.hibernate.annotations.UuidGenerator;
 public abstract class ScenarioPossibilityConsequenceAbstractEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     protected String id;
 
     public String getId() {
         return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
@@ -39,8 +33,37 @@ public abstract class ScenarioPossibilityConsequenceAbstractEntity {
         };
     }
 
-    /*
-        PossibilityConsequence.FireEvent, // TODO ???
-     */
+
+    public static ScenarioPossibilityConsequenceAbstractEntity fromModel_emptyId(PossibilityConsequence consequence) {
+        return switch (consequence) {
+            case PossibilityConsequence.AddObjet addObjet -> {
+                ScenarioPossibilityConsequenceAddObjectEntity entity = new ScenarioPossibilityConsequenceAddObjectEntity();
+                entity.setObjetId(addObjet.objetId());
+                yield entity;
+            }
+            case PossibilityConsequence.RemoveObjet removeObjet -> {
+                ScenarioPossibilityConsequenceRemoveObjectEntity entity = new ScenarioPossibilityConsequenceRemoveObjectEntity();
+                entity.setObjetId(removeObjet.objetId());
+                yield entity;
+            }
+            case PossibilityConsequence.StartedStep startedStep -> {
+                ScenarioPossibilityConsequenceStartedStepEntity entity = new ScenarioPossibilityConsequenceStartedStepEntity();
+                entity.setStepId(startedStep.stepId().value());
+                yield entity;
+            }
+            case PossibilityConsequence.EndedStep endedStep -> {
+                ScenarioPossibilityConsequenceEndedStepEntity entity = new ScenarioPossibilityConsequenceEndedStepEntity();
+                entity.setStepId(endedStep.stepId().value());
+                yield entity;
+            }
+            case PossibilityConsequence.GameOver ignored -> new ScenarioPossibilityConsequenceGameOverEntity();
+            case PossibilityConsequence.UpdatedMetadata updatedMetadata -> {
+                ScenarioPossibilityConsequenceUpdatedMetadataEntity entity = new ScenarioPossibilityConsequenceUpdatedMetadataEntity();
+                entity.setMetadataId(updatedMetadata.metadataId());
+                entity.setValue(updatedMetadata.value());
+                yield entity;
+            }
+        };
+    }
 
 }

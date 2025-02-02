@@ -12,13 +12,13 @@ import java.time.Duration;
 public final class ScenarioPossibilityTriggerAbsoluteTimeEntity extends ScenarioPossibilityTriggerAbstractEntity {
 
     @Column(name = "absolute_time_in_minutes")
-    private long minutes;
+    private int minutes;
 
-    public long getMinutes() {
+    public int getMinutes() {
         return minutes;
     }
 
-    public void setMinutes(long absoluteTimeInMinute) {
+    public void setMinutes(int absoluteTimeInMinute) {
         this.minutes = absoluteTimeInMinute;
     }
 

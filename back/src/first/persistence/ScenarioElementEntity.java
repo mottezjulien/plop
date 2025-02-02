@@ -13,7 +13,7 @@ import org.hibernate.annotations.UuidGenerator;
 public class ScenarioElementEntity {
 
     @Id
-    @UuidGenerator
+    //@UuidGenerator
     private String id;
 
     private String label;

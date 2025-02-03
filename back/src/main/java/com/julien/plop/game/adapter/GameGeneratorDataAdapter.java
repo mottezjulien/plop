@@ -1,5 +1,6 @@
 package com.julien.plop.game.adapter;
 
+import com.julien.plop.StringTools;
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GameException;
@@ -36,6 +37,7 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
     public Game createFromTemplate(Template template) {
 
         GameEntity entity = new GameEntity();
+        entity.setId(StringTools.generate());
         entity.setTemplateId(template.id().value());
         entity.setTemplateVersion(template.version());
         entity.setLabel(template.label());

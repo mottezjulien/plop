@@ -34,31 +34,36 @@ public abstract class ScenarioPossibilityConsequenceAbstractEntity {
     }
 
 
-    public static ScenarioPossibilityConsequenceAbstractEntity fromModel_emptyId(PossibilityConsequence consequence) {
+    public static ScenarioPossibilityConsequenceAbstractEntity fromModel(PossibilityConsequence consequence) {
         return switch (consequence) {
             case PossibilityConsequence.AddObjet addObjet -> {
                 ScenarioPossibilityConsequenceAddObjectEntity entity = new ScenarioPossibilityConsequenceAddObjectEntity();
+                entity.setId(addObjet.id().value());
                 entity.setObjetId(addObjet.objetId());
                 yield entity;
             }
             case PossibilityConsequence.RemoveObjet removeObjet -> {
                 ScenarioPossibilityConsequenceRemoveObjectEntity entity = new ScenarioPossibilityConsequenceRemoveObjectEntity();
+                entity.setId(removeObjet.id().value());
                 entity.setObjetId(removeObjet.objetId());
                 yield entity;
             }
             case PossibilityConsequence.StartedStep startedStep -> {
                 ScenarioPossibilityConsequenceStartedStepEntity entity = new ScenarioPossibilityConsequenceStartedStepEntity();
+                entity.setId(startedStep.id().value());
                 entity.setStepId(startedStep.stepId().value());
                 yield entity;
             }
             case PossibilityConsequence.EndedStep endedStep -> {
                 ScenarioPossibilityConsequenceEndedStepEntity entity = new ScenarioPossibilityConsequenceEndedStepEntity();
+                entity.setId(endedStep.id().value());
                 entity.setStepId(endedStep.stepId().value());
                 yield entity;
             }
             case PossibilityConsequence.GameOver ignored -> new ScenarioPossibilityConsequenceGameOverEntity();
             case PossibilityConsequence.UpdatedMetadata updatedMetadata -> {
                 ScenarioPossibilityConsequenceUpdatedMetadataEntity entity = new ScenarioPossibilityConsequenceUpdatedMetadataEntity();
+                entity.setId(updatedMetadata.id().value());
                 entity.setMetadataId(updatedMetadata.metadataId());
                 entity.setValue(updatedMetadata.value());
                 yield entity;

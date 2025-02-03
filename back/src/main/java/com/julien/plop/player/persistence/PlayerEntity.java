@@ -1,6 +1,7 @@
 package com.julien.plop.player.persistence;
 
 import com.julien.plop.Language;
+import com.julien.plop.player.domain.model.Player;
 import jakarta.persistence.*;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -51,5 +52,9 @@ public class PlayerEntity {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public Player toModel() {
+        return new Player(new Player.Id(id), name);
     }
 }

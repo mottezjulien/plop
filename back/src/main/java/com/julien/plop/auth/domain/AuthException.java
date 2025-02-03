@@ -1,4 +1,4 @@
-package com.julien.plop.auth;
+package com.julien.plop.auth.domain;
 
 public class AuthException extends Exception {
 

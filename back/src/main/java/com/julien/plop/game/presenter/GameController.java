@@ -1,7 +1,7 @@
 package com.julien.plop.game.presenter;
 
-import com.julien.plop.auth.AuthException;
-import com.julien.plop.auth.AuthUseCase;
+import com.julien.plop.auth.domain.AuthException;
+import com.julien.plop.auth.domain.AuthUseCase;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GameException;
 import com.julien.plop.game.domain.GameGeneratorUseCase;

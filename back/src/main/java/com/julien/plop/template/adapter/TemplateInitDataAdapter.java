@@ -1,6 +1,7 @@
 package com.julien.plop.template.adapter;
 
 import com.julien.plop.I18n;
+import com.julien.plop.StringTools;
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.board.persistence.entity.BoardRectEntity;
@@ -82,15 +83,18 @@ public class TemplateInitDataAdapter implements TemplateInitUseCase.OutPort {
 
     private BoardEntity createBoard(Board board) {
         BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setId(board.id().value());
         boardRepository.save(boardEntity);
         board.spaces().forEach(space -> {
             BoardSpaceEntity spaceEntity = new BoardSpaceEntity();
+            spaceEntity.setId(space.id().value());
             spaceEntity.setBoard(boardEntity);
             spaceEntity.setLabel(space.label());
             spaceEntity.setPriority(space.priority());
             boardSpaceRepository.save(spaceEntity);
             space.rects().forEach(rect -> {
                 BoardRectEntity rectEntity = new BoardRectEntity();
+                rectEntity.setId(StringTools.generate());
                 rectEntity.setSpace(spaceEntity);
                 rectEntity.setTopRightLatitude(rect.topRight().lat());
                 rectEntity.setTopRightLongitude(rect.topRight().lng());
@@ -105,24 +109,25 @@ public class TemplateInitDataAdapter implements TemplateInitUseCase.OutPort {
 
     private ScenarioEntity createScenario(Scenario scenario) {
         ScenarioEntity scenarioEntity = new ScenarioEntity();
+        scenarioEntity.setId(scenario.id().value());
         scenarioEntity.setLabel(scenario.label());
         scenarioRepository.save(scenarioEntity);
 
         scenario.steps().forEach(step -> {
             ScenarioStepEntity stepEntity = new ScenarioStepEntity();
+            stepEntity.setId(step.id().value());
             step.label().ifPresent(label -> stepEntity.setLabel(createI18n(label)));
             stepEntity.setScenario(scenarioEntity);
             scenarioStepRepository.save(stepEntity);
             step.targets().forEach(target -> createTarget(target, stepEntity));
             step.possibilities().forEach(possibility -> createPossibility(possibility, stepEntity));
         });
-
         return scenarioEntity;
     }
 
-
     private void createTarget(Scenario.Target target, ScenarioStepEntity stepEntity) {
         ScenarioTargetEntity targetEntity = new ScenarioTargetEntity();
+        targetEntity.setId(StringTools.generate());
         target.label().ifPresent(label ->
                 targetEntity.setLabel(createI18n(label)));
         target.desc().ifPresent(desc ->
@@ -135,21 +140,22 @@ public class TemplateInitDataAdapter implements TemplateInitUseCase.OutPort {
     private void createPossibility(Possibility possibility, ScenarioStepEntity stepEntity) {
 
         ScenarioPossibilityEntity possibilityEntity = new ScenarioPossibilityEntity();
+        possibilityEntity.setId(possibility.id().value());
         possibilityEntity.setConditionType(possibility.conditionType());
         possibilityEntity.setStep(stepEntity);
 
-        ScenarioPossibilityTriggerAbstractEntity triggerEntity = ScenarioPossibilityTriggerAbstractEntity.fromModel_emptyId(possibility.trigger());
+        ScenarioPossibilityTriggerAbstractEntity triggerEntity = ScenarioPossibilityTriggerAbstractEntity.fromModel(possibility.trigger());
         possibilityEntity.setTrigger(triggerRepository.save(triggerEntity));
 
         possibility.conditions().forEach(condition -> {
             ScenarioPossibilityConditionAbstractEntity conditionEntity = ScenarioPossibilityConditionAbstractEntity
-                    .fromModel_emptyId(condition);
+                    .fromModel(condition);
             possibilityEntity.getConditions().add(conditionRepository.save(conditionEntity));
         });
 
         possibility.consequences().forEach(consequence -> {
             ScenarioPossibilityConsequenceAbstractEntity consequenceEntity = ScenarioPossibilityConsequenceAbstractEntity
-                    .fromModel_emptyId(consequence);
+                    .fromModel(consequence);
             possibilityEntity.getConsequences().add(consequenceRepository.save(consequenceEntity));
         });
 
@@ -158,6 +164,7 @@ public class TemplateInitDataAdapter implements TemplateInitUseCase.OutPort {
 
     private I18nEntity createI18n(I18n i18n) {
         I18nEntity entity = new I18nEntity();
+        entity.setId(StringTools.generate());
         entity.setDescription(i18n.description());
         entity.setJsonValues(i18n.json());
         return i18nRepository.save(entity);

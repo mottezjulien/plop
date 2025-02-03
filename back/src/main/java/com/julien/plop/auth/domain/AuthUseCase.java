@@ -1,11 +1,10 @@
-package com.julien.plop.auth;
+package com.julien.plop.auth.domain;
 
 import com.julien.plop.player.domain.model.Player;
 
 import java.util.Optional;
 
 public class AuthUseCase {
-
 
     public interface OutPort {
 

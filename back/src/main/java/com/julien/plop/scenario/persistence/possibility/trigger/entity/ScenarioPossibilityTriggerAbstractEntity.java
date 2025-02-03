@@ -32,26 +32,30 @@ public abstract class ScenarioPossibilityTriggerAbstractEntity {
         };
     }
 
-    public static ScenarioPossibilityTriggerAbstractEntity fromModel_emptyId(PossibilityTrigger model) {
+    public static ScenarioPossibilityTriggerAbstractEntity fromModel(PossibilityTrigger model) {
         return switch (model) {
             case PossibilityTrigger.AbsoluteTime absoluteTime -> {
                 ScenarioPossibilityTriggerAbsoluteTimeEntity entity = new ScenarioPossibilityTriggerAbsoluteTimeEntity();
+                entity.setId(absoluteTime.id().value());
                 entity.setMinutes((int) absoluteTime.duration().toMinutes());
                 yield entity;
             }
             case PossibilityTrigger.RelativeTimeAfterOtherTrigger relativeTimeAfterOtherTrigger -> {
                 ScenarioPossibilityTriggerRelativeTimeAfterOtherTriggerEntity entity = new ScenarioPossibilityTriggerRelativeTimeAfterOtherTriggerEntity();
+                entity.setId(relativeTimeAfterOtherTrigger.id().value());
                 entity.setMinutes((int) relativeTimeAfterOtherTrigger.duration().toMinutes());
                 entity.setOtherTriggerId(relativeTimeAfterOtherTrigger.otherTriggerId().value());
                 yield entity;
             }
             case PossibilityTrigger.GoInSpace goInSpace -> {
                 ScenarioPossibilityTriggerGoInSpaceEntity entity = new ScenarioPossibilityTriggerGoInSpaceEntity();
+                entity.setId(goInSpace.id().value());
                 entity.setSpaceId(goInSpace.spaceId().value());
                 yield entity;
             }
             case PossibilityTrigger.GoOutSpace goOutSpace -> {
                 ScenarioPossibilityTriggerGoInSpaceEntity entity = new ScenarioPossibilityTriggerGoInSpaceEntity();
+                entity.setId(goOutSpace.id().value());
                 entity.setSpaceId(goOutSpace.spaceId().value());
                 yield entity;
             }

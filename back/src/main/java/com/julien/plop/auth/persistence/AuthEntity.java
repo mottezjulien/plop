@@ -1,10 +1,12 @@
 package com.julien.plop.auth.persistence;
 
 
+import com.julien.plop.auth.domain.Auth;
 import com.julien.plop.player.persistence.PlayerEntity;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "TEST1_AUTH")
@@ -25,6 +27,14 @@ public class AuthEntity {
     @ManyToOne
     @JoinColumn(name = "player_id")
     private PlayerEntity player;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
@@ -56,5 +66,10 @@ public class AuthEntity {
 
     public PlayerEntity getPlayer() {
         return player;
+    }
+
+    public Auth toModel() {
+        return new Auth(dateTime,
+                Optional.ofNullable(player).map(PlayerEntity::toModel));
     }
 }

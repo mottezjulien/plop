@@ -1,4 +1,4 @@
-package com.julien.plop.auth;
+package com.julien.plop.auth.domain;
 
 import com.julien.plop.player.domain.model.Player;
 
@@ -11,13 +11,13 @@ public class Auth {
 
     private final Optional<Player> optPlayer;
 
-    public Auth(OffsetDateTime dateTime, Player player) {
+    public Auth(OffsetDateTime dateTime, Optional<Player> optPlayer) {
         this.dateTime = dateTime;
-        this.optPlayer = Optional.of(player);
+        this.optPlayer = optPlayer;
     }
 
     public boolean isExpiry() {
-        return dateTime.isBefore(OffsetDateTime.now().plusHours(1));
+        return dateTime.isAfter(OffsetDateTime.now().plusHours(1));
     }
 
     public Player player() throws AuthException {

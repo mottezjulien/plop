@@ -1,8 +1,9 @@
 package com.julien.plop;
 
-import com.julien.plop.auth.AuthUseCase;
+import com.julien.plop.auth.domain.AuthUseCase;
 import com.julien.plop.game.domain.GameGeneratorUseCase;
 import com.julien.plop.template.domain.TemplateInitUseCase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -16,10 +17,13 @@ public class Runner {
         SpringApplication.run(Runner.class, args);
     }
 
+    @Autowired
+    private TemplateInitUseCase.OutPort outPort;
+
     @EventListener(ApplicationReadyEvent.class)
-    public void afterStartup(TemplateInitUseCase.OutPort outPort) {
+    public void afterStartup() {
         TemplateInitUseCase templateInitUseCase = new TemplateInitUseCase(outPort);
-        System.out.println("hello world, I have just started up");
+        templateInitUseCase.apply();
     }
 
     @Bean

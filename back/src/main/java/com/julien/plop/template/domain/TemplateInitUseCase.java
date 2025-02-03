@@ -36,7 +36,7 @@ public class TemplateInitUseCase {
     private Template firstTemplate() {
         Board board = firstBoard();
         Scenario scenario = firstScenario(board);
-        return new Template(Template.generateId(), "my-code", "Mon premier jeu", "0.0.1",
+        return new Template(Template.generateId(), "test-template", "Mon premier jeu", "0.0.1",
                 scenario, board);
     }
 

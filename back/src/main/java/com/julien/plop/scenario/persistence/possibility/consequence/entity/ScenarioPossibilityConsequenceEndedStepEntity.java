@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 @Entity
 @DiscriminatorValue("ENDED_STEP")
 public final class ScenarioPossibilityConsequenceEndedStepEntity extends
-    ScenarioPossibilityConsequenceAbstractEntity {
+        ScenarioPossibilityConsequenceAbstractEntity {
 
     @Column(name = "ended_step_id")
     private String stepId;

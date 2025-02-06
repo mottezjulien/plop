@@ -4,7 +4,12 @@ package com.julien.plop.scenario.persistence;
 import com.julien.plop.i18n.persistence.I18nEntity;
 import com.julien.plop.scenario.Scenario;
 import com.julien.plop.scenario.persistence.possibility.ScenarioPossibilityEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.HashSet;
 import java.util.Optional;

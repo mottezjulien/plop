@@ -6,6 +6,6 @@ import jakarta.persistence.Entity;
 @Entity
 @DiscriminatorValue("FIRE_EVENT")
 public final class ScenarioPossibilityConsequenceFireEventEntity
-    extends ScenarioPossibilityConsequenceAbstractEntity {
+        extends ScenarioPossibilityConsequenceAbstractEntity {
 
 }

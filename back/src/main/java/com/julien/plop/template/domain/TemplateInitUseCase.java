@@ -5,7 +5,11 @@ import com.julien.plop.Language;
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.model.BoardSpace;
 import com.julien.plop.generic.AndOrOr;
-import com.julien.plop.scenario.*;
+import com.julien.plop.scenario.Possibility;
+import com.julien.plop.scenario.PossibilityCondition;
+import com.julien.plop.scenario.PossibilityConsequence;
+import com.julien.plop.scenario.PossibilityTrigger;
+import com.julien.plop.scenario.Scenario;
 
 import java.util.List;
 import java.util.Map;

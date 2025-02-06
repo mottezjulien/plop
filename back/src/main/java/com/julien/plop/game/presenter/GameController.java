@@ -7,7 +7,11 @@ import com.julien.plop.game.domain.GameException;
 import com.julien.plop.game.domain.GameGeneratorUseCase;
 import com.julien.plop.player.domain.model.Player;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;

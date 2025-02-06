@@ -1,7 +1,12 @@
 package com.julien.plop.scenario.persistence.possibility.consequence.entity;
 
 import com.julien.plop.scenario.PossibilityConsequence;
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TEST1_SCENARIO_POSSIBILITY_CONSEQUENCE")

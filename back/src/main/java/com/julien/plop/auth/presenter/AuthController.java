@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @RestController
@@ -32,7 +32,7 @@ public class AuthController {
             playerEntity.setId(request.playerId());
             entity.setPlayer(playerEntity);
         }
-        entity.setDateTime(OffsetDateTime.now());
+        entity.setDateTime(Instant.now());
         repository.save(entity);
         return new AuthResponseDTO(entity.getToken());
     }

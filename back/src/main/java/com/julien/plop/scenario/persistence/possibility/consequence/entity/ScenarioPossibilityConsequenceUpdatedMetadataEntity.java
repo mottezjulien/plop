@@ -4,7 +4,7 @@ import com.julien.plop.scenario.PossibilityConsequence;
 import jakarta.persistence.Column;
 
 public final class ScenarioPossibilityConsequenceUpdatedMetadataEntity
-    extends ScenarioPossibilityConsequenceAbstractEntity {
+        extends ScenarioPossibilityConsequenceAbstractEntity {
 
     @Column(name = "updated_metadata_id")
     private String metadataId;

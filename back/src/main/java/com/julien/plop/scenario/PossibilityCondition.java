@@ -11,8 +11,7 @@ public sealed interface PossibilityCondition permits
         PossibilityCondition.AbsoluteTime,
         PossibilityCondition.RelativeTimeAfterOtherTrigger,
         PossibilityCondition.InStep,
-        PossibilityCondition.OtherCondition
-{
+        PossibilityCondition.OtherCondition {
 
     record Id(String value) {
 

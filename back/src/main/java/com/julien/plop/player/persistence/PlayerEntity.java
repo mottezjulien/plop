@@ -2,7 +2,11 @@ package com.julien.plop.player.persistence;
 
 import com.julien.plop.Language;
 import com.julien.plop.player.domain.model.Player;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import static jakarta.persistence.EnumType.STRING;
 

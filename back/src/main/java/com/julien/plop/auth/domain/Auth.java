@@ -2,22 +2,23 @@ package com.julien.plop.auth.domain;
 
 import com.julien.plop.player.domain.model.Player;
 
-import java.time.OffsetDateTime;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Optional;
 
 public class Auth {
 
-    private final OffsetDateTime dateTime;
+    private final Instant dateTime;
 
     private final Optional<Player> optPlayer;
 
-    public Auth(OffsetDateTime dateTime, Optional<Player> optPlayer) {
+    public Auth(Instant dateTime, Optional<Player> optPlayer) {
         this.dateTime = dateTime;
         this.optPlayer = optPlayer;
     }
 
     public boolean isExpiry() {
-        return dateTime.isAfter(OffsetDateTime.now().plusHours(1));
+        return dateTime.isAfter(Instant.now().plus(Duration.ofHours(1)));
     }
 
     public Player player() throws AuthException {

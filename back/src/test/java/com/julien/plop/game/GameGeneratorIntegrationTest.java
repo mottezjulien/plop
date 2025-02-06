@@ -23,7 +23,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +33,6 @@ public class GameGeneratorIntegrationTest {
     public static final String TEMPLATE_CODE = "test-template";
     @Value(value = "${local.server.port}")
     private int port;
-
 
 
     @Autowired
@@ -65,7 +64,7 @@ public class GameGeneratorIntegrationTest {
         authEntity.setToken("testToken");
         authEntity.setDeviceId("anyDevice");
         authEntity.setPlayer(playerEntity);
-        authEntity.setDateTime(OffsetDateTime.now());
+        authEntity.setDateTime(Instant.now());
         authRepository.save(authEntity);
 
         String jsonRequest = "{\"code\": \"" + TEMPLATE_CODE + "\"}";

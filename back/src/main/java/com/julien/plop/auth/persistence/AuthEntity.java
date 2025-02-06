@@ -3,9 +3,14 @@ package com.julien.plop.auth.persistence;
 
 import com.julien.plop.auth.domain.Auth;
 import com.julien.plop.player.persistence.PlayerEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.Optional;
 
 @Entity
@@ -20,7 +25,7 @@ public class AuthEntity {
     private String deviceId;
 
     @Column(name = "date_time")
-    private OffsetDateTime dateTime;
+    private Instant dateTime;
 
     private String token;
 
@@ -44,11 +49,11 @@ public class AuthEntity {
         return deviceId;
     }
 
-    public void setDateTime(OffsetDateTime dateTime) {
+    public void setDateTime(Instant dateTime) {
         this.dateTime = dateTime;
     }
 
-    public OffsetDateTime getDateTime() {
+    public Instant getDateTime() {
         return dateTime;
     }
 

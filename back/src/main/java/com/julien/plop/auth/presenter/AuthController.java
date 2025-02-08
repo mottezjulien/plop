@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/auths")
 public class AuthController {
 
     private final AuthRepository repository;

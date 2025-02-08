@@ -17,7 +17,7 @@ class PlayerRepository {
   Future<Player?> findById(String playerId) async {
     String url = "${Settings.urlServer()}$path/$playerId";
     Uri uri = Uri.parse(url);
-    final http.Response response = await http.get(uri, headers: Headers.byDefault());
+    final http.Response response = await http.get(uri, headers: Headers.withAuth());
     if(response.statusCode >= 404) {
       return null;
     }
@@ -36,7 +36,7 @@ class PlayerRepository {
     Uri uri = Uri.parse(url);
     final http.Response response = await http.post(
         uri,
-        headers: Headers.byDefault(),
+        headers: Headers.withAuth(),
         body: jsonEncode({
               'name': name,
               'deviceId': deviceId,

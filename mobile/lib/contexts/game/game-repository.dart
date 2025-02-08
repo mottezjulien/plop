@@ -15,7 +15,7 @@ class GameRepository {
   Future<Game?> findById(String gameId) async {
     String url = "${Settings.urlServer()}$path/$gameId";
     Uri uri = Uri.parse(url);
-    final http.Response response = await http.get(uri, headers: Headers.byDefault());
+    final http.Response response = await http.get(uri, headers: Headers.withAuth());
     if(response.statusCode >= 404) {
       return null;
     }
@@ -30,7 +30,7 @@ class GameRepository {
     Uri uri = Uri.parse(url);
 
     final http.Response response = await http.post(uri,
-      headers: Headers.byDefault(),
+      headers: Headers.withAuth(),
       body: jsonEncode({'code': gameCode})
     );
     if(response.statusCode >= 400) {

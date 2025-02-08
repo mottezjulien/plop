@@ -6,7 +6,6 @@ import '../contexts/auth/auth.dart';
 import '../contexts/game/game.dart';
 import '../contexts/player/player-repository.dart';
 import '../contexts/player/player.dart';
-import 'device.dart';
 
 
 class Settings {
@@ -26,14 +25,21 @@ class Settings {
     final GameRepository gameRepository = GameRepository();
 
 
-    print("need to create token everty time ?? When reload app ??"); //TODO
-    Auth auth = await authRepository.create(await Device.id());
-    _self._auth = auth;
 
     String? currentPlayerId = prefs.getString(keyLocalStorePlayerId);
     if(currentPlayerId != null) {
       _self._player = await playerRepository.findById(currentPlayerId);
+      Auth auth = await authRepository.create();
+      _self._auth = auth;
     }
+
+    print("need to create token everty time ?? When reload app ??"); //TODO
+    Auth auth = await authRepository.create();
+    _self._auth = auth;
+
+
+
+
 
     String? currentGameId = prefs.getString(keyLocalStoreGameId);
     if(currentGameId != null) {

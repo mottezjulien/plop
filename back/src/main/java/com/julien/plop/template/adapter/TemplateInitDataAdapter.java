@@ -148,6 +148,7 @@ public class TemplateInitDataAdapter implements TemplateInitUseCase.OutPort {
         possibilityEntity.setId(possibility.id().value());
         possibilityEntity.setConditionType(possibility.conditionType());
         possibilityEntity.setStep(stepEntity);
+        possibilityRepository.save(possibilityEntity);
 
         ScenarioPossibilityTriggerAbstractEntity triggerEntity = ScenarioPossibilityTriggerAbstractEntity.fromModel(possibility.trigger());
         possibilityEntity.setTrigger(triggerRepository.save(triggerEntity));

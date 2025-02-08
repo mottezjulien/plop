@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import '../../../app.dart';
 import '../../../config/device.dart';
 import '../../../config/settings.dart';
-import '../../../contexts/auth/auth-repository.dart';
 import '../../../contexts/player/player-repository.dart';
 import '../../../contexts/player/player.dart';
 import '../../../utils/dialog.dart';
@@ -19,8 +18,6 @@ enum InitPlayerStep {
 class InitPlayerViewModel {
 
   final PlayerRepository playerRepository = PlayerRepository();
-
-  final AuthRepository authRepository = AuthRepository();
 
   InitPlayerStep _step = InitPlayerStep.language;
 

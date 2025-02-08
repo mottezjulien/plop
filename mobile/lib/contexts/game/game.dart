@@ -8,4 +8,6 @@ class Game {
 
   String get id => _id;
 
+  String get label => _label;
+
 }

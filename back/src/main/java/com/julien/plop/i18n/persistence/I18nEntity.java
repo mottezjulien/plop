@@ -7,7 +7,6 @@ import com.julien.plop.Language;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 import java.util.AbstractMap;
@@ -25,8 +24,7 @@ public class I18nEntity {
 
     private String description;
 
-    @Lob
-    @Column(name = "json_values")
+    @Column(name = "json_values", columnDefinition = "TEXT")
     private String jsonValues;
 
     public String getId() {

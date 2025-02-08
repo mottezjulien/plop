@@ -17,7 +17,7 @@ void main() async {
         path: 'assets/translations',
         fallbackLocale: const Locale('en'),
         startLocale: Settings.hasPlayer()
-            ? Settings.player.locale
+            ? Locale(Settings.player.language.toLowerCase())
             : const Locale('fr'),
         child: const App(),
       )

@@ -13,19 +13,19 @@ class AuthRepository {
 
   static const String path = '/auths';
 
-  Future<Auth> create() async {
+  Future<Auth> create({String? playerId}) async {
     String url = "${Settings.urlServer()}$path";
     Uri uri = Uri.parse(url);
     Map<String, String> body = {
       'deviceId': await Device.id()
     };
-    if(Settings.hasPlayer()) {
-      body['playerId'] = Settings.player.id;
+    if(playerId != null) {
+      body['playerId'] = playerId;
     }
 
     final http.Response response = await http.post(uri,
         headers: Headers.noAuth(),
-        body: body
+        body: jsonEncode(body)
     );
     if(response.statusCode >= 400) {
       throw RepositoryException(response.statusCode, response.body);

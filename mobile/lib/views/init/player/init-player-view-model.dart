@@ -3,9 +3,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../app.dart';
 import '../../../config/device.dart';
+import '../../../config/router.dart';
 import '../../../config/settings.dart';
 import '../../../contexts/player/player-repository.dart';
 import '../../../contexts/player/player.dart';
@@ -40,7 +39,7 @@ class InitPlayerViewModel {
             deviceId: await Device.id());
         Settings.setPlayer(player);
 
-        context.pushNamed(App.initGameViewName);
+        context.pushNamed(MyRouter.initGameViewName);
         break;
     }
   }

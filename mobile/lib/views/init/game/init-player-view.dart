@@ -5,6 +5,8 @@ import '../../../config/settings.dart';
 import '../../../contexts/game/game-repository.dart';
 import '../../../contexts/game/game.dart';
 import '../../generic/form/text-field-with-label.dart';
+import '../init-appbar-widget.dart';
+import '../init-floating-action-button.dart';
 
 class InitGameView extends StatefulWidget {
 
@@ -20,11 +22,8 @@ class _InitGameViewState extends State<InitGameView> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: colorScheme.inversePrimary,
-            title: Text('init.title'.tr())),
+        appBar: InitAppBar(context),
         body: Center(
           child:
           Column(
@@ -38,13 +37,8 @@ class _InitGameViewState extends State<InitGameView> {
           ),
           //
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: colorScheme.inversePrimary,
-          onPressed: () async {
-            await _viewModel.next(context);
-            setState(() {});
-          },
-          child: const Icon(Icons.done),
+        floatingActionButton: InitFloatingActionButton(
+          onPressed: () => _viewModel.next(context),
         )
     );
   }

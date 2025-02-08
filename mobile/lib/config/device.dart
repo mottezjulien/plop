@@ -16,11 +16,9 @@ enum DevicePlatform {
     }
     throw Exception();
   }
-
 }
 
 class Device {
-
   static Future<String> id() async {
     var deviceInfo = DeviceInfoPlugin();
     switch(DevicePlatform.found()) {
@@ -32,7 +30,6 @@ class Device {
         return iosInfo.identifierForVendor!;
     }
   }
-
 }
 
 

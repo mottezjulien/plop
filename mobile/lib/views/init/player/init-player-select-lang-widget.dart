@@ -14,7 +14,7 @@ class InitPlayerSelectLanguageWidget extends StatelessWidget {
             Text('init.select_language'.tr(),
                 style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 16),
-            _SelectLanguageDropdownMenu(init: context.locale),
+            _SelectLanguageDropdownMenu(),
         ]
     );
   }
@@ -23,27 +23,15 @@ class InitPlayerSelectLanguageWidget extends StatelessWidget {
 
 class _SelectLanguageDropdownMenu extends StatelessWidget {
 
-  late final ValueNotifier<Locale> valueNotifier;
-
-  _SelectLanguageDropdownMenu({required Locale init}){
-    valueNotifier = ValueNotifier(init);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Locale>(
-      valueListenable: valueNotifier,
-      builder: (BuildContext context, Locale? value, Widget? child) {
-        return DropdownMenu<Locale>(
-            initialSelection: value,
-            onSelected: (Locale? value) {
-              if (value == null) return;
-              context.setLocale(value);
-              valueNotifier.value = value;
-            },
-            dropdownMenuEntries: _menuEntries(context.supportedLocales));
-      },
-    );
+    return DropdownMenu<Locale>(
+        initialSelection: context.locale,
+        onSelected: (Locale? value) {
+          if (value == null) return;
+          context.setLocale(value);
+        },
+        dropdownMenuEntries: _menuEntries(context.supportedLocales));
   }
 
   List<DropdownMenuEntry<Locale>> _menuEntries(List<Locale> locales) {

@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../generic/form/text-field-with-label.dart';
+import '../init-appbar-widget.dart';
+import '../init-floating-action-button.dart';
 import 'init-player-select-lang-widget.dart';
 import 'init-player-view-model.dart';
 
@@ -20,11 +22,8 @@ class _InitPlayerViewState extends State<InitPlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: colorScheme.inversePrimary,
-            title: Text('init.title'.tr())),
+        appBar: InitAppBar(context),
         body: Center(
           child:
           Column(
@@ -39,16 +38,13 @@ class _InitPlayerViewState extends State<InitPlayerView> {
                   ),
               ]
           ),
-          //
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: colorScheme.inversePrimary,
-          onPressed: () async {
-            await _viewModel.next(context);
-            setState(() {});
-          },
-          child: const Icon(Icons.done),
-        )
+      floatingActionButton: InitFloatingActionButton(
+        onPressed: () async {
+          await _viewModel.next(context);
+          setState(() {});
+        },
+      )
     );
   }
 }

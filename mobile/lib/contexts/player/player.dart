@@ -1,21 +1,20 @@
 
-import 'dart:ui';
-
-
 class Player {
 
   final String _id;
   final String _name;
-  final Locale _locale;
+  final String _language;
 
   Player({
     required String id,
     required String name,
-    required Locale locale
-  }) : _id = id, _name = name, _locale = locale;
+    required String language
+  }) : _id = id, _name = name, _language = language;
 
   String get id => _id;
 
-  Locale get locale => _locale;
+  String get name => _name;
+
+  String get language => _language;
 
 }

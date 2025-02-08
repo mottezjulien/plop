@@ -40,7 +40,7 @@ class PlayerRepository {
         body: jsonEncode({
               'name': name,
               'deviceId': deviceId,
-              'locale': locale.languageCode
+              'language': locale.languageCode
             })
     );
     if(response.statusCode >= 400) {
@@ -53,7 +53,7 @@ class PlayerRepository {
     return Player(
       id: json['id'],
       name: json['name'],
-      locale: Locale(json['locale']),
+      language: json['language']
     );
   }
 

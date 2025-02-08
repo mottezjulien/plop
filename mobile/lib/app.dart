@@ -1,12 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'package:go_router/go_router.dart';
-import 'package:plop/views/game/game-view.dart';
-import 'package:plop/views/init/game/init-player-view.dart';
-import 'package:plop/views/init/player/init-player-view.dart';
-
-import 'config/settings.dart';
+import 'config/router.dart' as router;
 
 class App extends StatelessWidget {
 
@@ -25,7 +20,7 @@ class App extends StatelessWidget {
       theme: _themeData(Brightness.light),
       darkTheme: _themeData(Brightness.dark),
 
-      routerConfig: _router()
+      routerConfig: router.MyRouter.create()
     );
   }
 
@@ -37,43 +32,4 @@ class App extends StatelessWidget {
     );
   }
 
-  static const initGameViewName = "initGame";
-
-  GoRouter _router() {
-    return GoRouter(
-      redirect: (context, state) {
-        final currentPage = state.matchedLocation;
-        if(currentPage.startsWith("/init")) {
-          return null;
-        }
-        if(!Settings.hasPlayer()) {
-          return "/init/player";
-        }
-        if(!Settings.hasGame()) {
-          return "/init/game";
-        }
-        return null;
-      },
-      routes: [
-        GoRoute(
-          path: '/init',
-          routes: [
-            GoRoute(
-                path: '/player',
-                builder: (context, state) => const InitPlayerView(),
-            ),
-            GoRoute(
-              name: initGameViewName,
-              path: '/game',
-              builder: (context, state) => const InitGameView(),
-            ),
-          ]
-        ),
-        GoRoute(
-          path: '/game',
-          builder: (context, state) => GameView(),
-        ),
-      ],
-    );
-  }
 }

@@ -3,47 +3,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class InitFloatingActionButton extends StatefulWidget {
+class InitFloatingActionButton extends StatelessWidget {
 
   final Function() onPressed;
-
-  bool _loading = false;
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
 
   InitFloatingActionButton({
     super.key,
     required this.onPressed});
 
   @override
-  State<StatefulWidget> createState() => _InitFloatingActionButtonState();
-
-}
-
-class _InitFloatingActionButtonState extends State<InitFloatingActionButton> {
-
-  @override
   Widget build(BuildContext context) {
-    to valuNotifer
 
+    return ValueListenableBuilder<bool>(
+        valueListenable: isLoading,
+        builder: (context, isLoading, child) {
+          return _toDisplay(context, isLoading, child);
+        });
+  }
+
+  Widget _toDisplay(BuildContext context, bool isLoadingValue, Widget? child) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return FloatingActionButton(
       backgroundColor: colorScheme.inversePrimary,
       onPressed: () async {
-        if(!widget._loading) {
-          setState(() => widget._loading = true);
+        if(!isLoadingValue) {
+          isLoading.value = true;
           try {
-            await widget.onPressed();
-            setState(() => widget._loading = false);
+            await onPressed();
+            isLoading.value = false;
           } catch (e) {
-            setState(() => widget._loading = false);
+            isLoading.value = false;
           }
         }
-        //await _viewModel.next(context);
       },
-      child:
-      widget._loading ?
-        const CircularProgressIndicator() :
-        const Icon(Icons.done),
+      child: isLoadingValue ? const CircularProgressIndicator() :
+      const Icon(Icons.done),
     );
   }
+
 
 }

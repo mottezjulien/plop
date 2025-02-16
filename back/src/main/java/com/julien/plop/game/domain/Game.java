@@ -1,8 +1,5 @@
 package com.julien.plop.game.domain;
 
-//TODO Un jeu -> un plateau, un scénario, des joueurs, des états de jeux par joueur, bref, il faut découper
-//TODO "Game", GameScenario, GameBoard, GamePlaying
-
 
 import com.julien.plop.board.model.Board;
 import com.julien.plop.player.domain.model.Player;
@@ -37,17 +34,27 @@ public class Game {
 
     }
 
+    public enum State {
+        INIT, STARTED, OVER, PAUSED
+    }
+
     private final Atom atom;
     private final String templateVersion;
     private final Scenario scenario;
     private final Board board;
     private final List<Player> players = new ArrayList<>();
+    private final State state;
 
-    public Game(Id id, Template.Id templateId, String label, String templateVersion, Scenario scenario, Board board) {
+    public Game(Id id, Template.Id templateId, String label, String templateVersion, Scenario scenario, Board board, State state) {
         this.atom = new Atom(id, templateId, label);
         this.templateVersion = templateVersion;
         this.scenario = scenario;
         this.board = board;
+        this.state = state;
+    }
+
+    public Game(Id id, Template.Id templateId, String label, String templateVersion, Scenario scenario, Board board) {
+        this(id, templateId, label, templateVersion, scenario, board, State.INIT);
     }
 
     public Id id() {

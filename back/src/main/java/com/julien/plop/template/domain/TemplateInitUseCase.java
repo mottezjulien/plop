@@ -58,7 +58,7 @@ public class TemplateInitUseCase {
                 Map.of(Language.FR, "Et n'oublie pas ton bonnet en français", Language.EN, "Et n'oublie pas ton bonnet en anglais"));
         Scenario.Target target2 = new Scenario.Target(Optional.of(goPiscine), Optional.of(goPiscineDesc), true);
 
-        PossibilityTrigger trigger1 = new PossibilityTrigger.GoOutSpace(new PossibilityTrigger.Id(), board.spaces().getFirst().id());
+        PossibilityTrigger trigger1 = new PossibilityTrigger.GoOutSpace(new PossibilityTrigger.Id(), board.spaces().toList().getFirst().id());
         List<PossibilityCondition> conditions1 = List.of();
 
         PossibilityConsequence consequence1 = new PossibilityConsequence.EndedStep(new PossibilityConsequence.Id(), stepId);

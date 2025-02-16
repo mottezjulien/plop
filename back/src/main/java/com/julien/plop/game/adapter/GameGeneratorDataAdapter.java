@@ -58,7 +58,7 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
     @Override
     public void insert(Game game, Player player) throws GameException {
         GameEntity entity = repository.findByIdFetchAll(game.id().value())
-                .orElseThrow(() -> new GameException(GameException.Type.NOT_FOUND));
+                .orElseThrow(() -> new GameException(GameException.Type.GAME_NOT_FOUND));
 
         PlayerEntity playerEntity = new PlayerEntity();
         playerEntity.setId(player.id().value());

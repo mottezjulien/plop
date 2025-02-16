@@ -20,7 +20,6 @@ import java.util.Set;
 public class GameEntity {
 
     @Id
-    //@UuidGenerator
     private String id;
 
     @Column(name = "template_id")

@@ -3,7 +3,7 @@ package com.julien.plop.game.domain;
 public class GameException extends Exception {
 
     public enum Type {
-        NOT_FOUND
+        PLAYER_NOT_IN, GAME_NOT_STARTED, TEAMPLATE_NOT_FOUND, GAME_NOT_FOUND
     }
 
     private final Type type;

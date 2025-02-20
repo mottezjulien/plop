@@ -1,18 +1,15 @@
-package com.julien.plop;
+package com.julien.plop.i18n.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.julien.plop.tools.StringTools;
 
 import java.util.Map;
 
 public record I18n(String description, Map<Language, String> values) {
 
     public String json() {
-        try {
-            return new ObjectMapper().writeValueAsString(values);
-        } catch (JsonProcessingException e) {
-            return "{}";
-        }
+        return StringTools.toJson(this);
     }
 
 }

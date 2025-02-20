@@ -1,6 +1,6 @@
 package com.julien.plop.scenario;
 
-import com.julien.plop.StringTools;
+import com.julien.plop.tools.StringTools;
 import com.julien.plop.generic.AndOrOr;
 
 import java.util.List;

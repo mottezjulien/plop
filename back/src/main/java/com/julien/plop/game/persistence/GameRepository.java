@@ -15,11 +15,12 @@ public interface GameRepository extends JpaRepository<GameEntity, String> {
             " WHERE game.id = :gameId")
     Optional<GameEntity> findByIdFetchAll(@Param("gameId") String gameId);
 
+    /*
     @Query("SELECT count(game) > 0" +
             " FROM GameEntity game" +
             " LEFT JOIN game.players player" +
             " WHERE game.id = :gameId AND player.id = :playerId")
-    boolean isIn(@Param("gameId") String gameId, String playerId);
+    boolean isIn(@Param("gameId") String gameId, String playerId);*/
 
     @Query("SELECT count(game) > 0" +
             " FROM GameEntity game" +

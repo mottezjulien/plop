@@ -2,7 +2,7 @@ package com.julien.plop.game;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.julien.plop.StringTools;
+import com.julien.plop.tools.StringTools;
 import com.julien.plop.auth.persistence.AuthEntity;
 import com.julien.plop.auth.persistence.AuthRepository;
 import com.julien.plop.game.persistence.GameEntity;

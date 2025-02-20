@@ -8,5 +8,4 @@ public record GameMoveRequestDTO(float lat, float lng) {
         return new BoardSpace.Point(lat, lng);
     }
 
-
 }

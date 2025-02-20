@@ -1,6 +1,6 @@
 package com.julien.plop.game.domain;
 
-import com.julien.plop.ListTools;
+import com.julien.plop.tools.ListTools;
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.model.BoardSpace;
 import com.julien.plop.event.domain.Event;
@@ -16,38 +16,36 @@ public class GameMoveUseCase {
 
         Optional<Board> findBoard(Game.Id gameId);
 
-        void save(Game.Id gameId, Board board);
+        void savePosition(GamePlayer gamePlayer) throws GameException;
 
     }
 
-    private final DataOutput dataOutput;
 
+    private final DataOutput dataOutput;
+    private final GamePlayerUseCase gamePlayerUseCase;
     private final EventOutput eventOutput;
 
-    private final GameVerifyUseCase verifyUseCase;
 
-    public GameMoveUseCase(GameVerifyUseCase verifyUseCase, DataOutput dataOutput, EventOutput eventOutput) {
+    public GameMoveUseCase(DataOutput dataOutput, GamePlayerUseCase gamePlayerUseCase, EventOutput eventOutput) {
         this.dataOutput = dataOutput;
         this.eventOutput = eventOutput;
-        this.verifyUseCase = verifyUseCase;
+        this.gamePlayerUseCase = gamePlayerUseCase;
     }
 
     public void apply(Game.Id gameId, Player.Id playerId, BoardSpace.Point point) throws GameException {
-        verifyUseCase.apply(gameId, playerId);
+
+        GamePlayer inGamePlayer = gamePlayerUseCase.apply(gameId, playerId);
+
+        if(inGamePlayer.position().map(p -> p.equals(point)).orElse(false)) {
+            return;
+        }
 
         //TODO NEEDS ??  dataOutput.trace(player, coordinate);
-        Board board = dataOutput.findBoard(gameId).orElseThrow(() -> new GameException(GameException.Type.GAME_NOT_FOUND)); //TODO NEEDS ??
-        List<BoardSpace> previousSpaces = board.is(playerId);
-        board.move(playerId, point);
-        List<BoardSpace> currentSpaces = board.is(playerId);
+        Board board = dataOutput.findBoard(gameId).orElseThrow(() -> new GameException(GameException.Type.GAME_NOT_FOUND));
 
-        List<BoardSpace> goInSpaces = ListTools.diffOthersInMore(previousSpaces, currentSpaces);
-        goInSpaces.forEach(space -> {
-            Event.Meta meta  = new Event.Meta();
-            meta.put(Event.Meta.Key.PLAYER_ID, playerId);
-            meta.put(Event.Meta.Key.SPACE_ID, space.id());
-            eventOutput.fire(new Event(Event.Type.GO_IN_SPACE, meta));
-        });
+        List<BoardSpace> previousSpaces = board.spaces(inGamePlayer);
+        inGamePlayer.move(point);
+        List<BoardSpace> currentSpaces = board.spaces(inGamePlayer);
 
         List<BoardSpace> goOutSpaces = ListTools.diffOthersInMore(currentSpaces, previousSpaces);
         goOutSpaces.forEach(space -> {
@@ -57,8 +55,15 @@ public class GameMoveUseCase {
             eventOutput.fire(new Event(Event.Type.GO_OUT_SPACE, meta));
         });
 
-        dataOutput.save(gameId, board);
+        List<BoardSpace> goInSpaces = ListTools.diffOthersInMore(previousSpaces, currentSpaces);
+        goInSpaces.forEach(space -> {
+            Event.Meta meta  = new Event.Meta();
+            meta.put(Event.Meta.Key.PLAYER_ID, playerId);
+            meta.put(Event.Meta.Key.SPACE_ID, space.id());
+            eventOutput.fire(new Event(Event.Type.GO_IN_SPACE, meta));
+        });
 
+        dataOutput.savePosition(inGamePlayer);
     }
 
 }

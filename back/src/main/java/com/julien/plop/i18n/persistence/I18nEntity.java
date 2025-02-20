@@ -2,8 +2,8 @@ package com.julien.plop.i18n.persistence;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.julien.plop.I18n;
-import com.julien.plop.Language;
+import com.julien.plop.i18n.domain.I18n;
+import com.julien.plop.i18n.domain.Language;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,6 +1,10 @@
 package com.julien.plop.game.adapter;
 
-import com.julien.plop.StringTools;
+import com.julien.plop.game.persistence.GamePlayerActionEntity;
+import com.julien.plop.game.persistence.GamePlayerActionRepository;
+import com.julien.plop.game.persistence.GamePlayerEntity;
+import com.julien.plop.game.persistence.GamePlayerRepository;
+import com.julien.plop.tools.StringTools;
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GameException;
@@ -8,24 +12,29 @@ import com.julien.plop.game.domain.GameGeneratorUseCase;
 import com.julien.plop.game.persistence.GameEntity;
 import com.julien.plop.game.persistence.GameRepository;
 import com.julien.plop.player.domain.model.Player;
-import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
 import com.julien.plop.template.domain.Template;
 import com.julien.plop.template.persistence.TemplateEntity;
 import com.julien.plop.template.persistence.TemplateRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Component
 public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput {
 
-    private final GameRepository repository;
-    private final TemplateRepository templateRepository;
+    private final GameRepository gameRepository;
 
-    public GameGeneratorDataAdapter(GameRepository repository, TemplateRepository templateRepository) {
-        this.repository = repository;
+    private final GamePlayerRepository gamePlayerRepository;
+    private final TemplateRepository templateRepository;
+    private final GamePlayerActionRepository gamePlayerActionRepository;
+
+    public GameGeneratorDataAdapter(GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, TemplateRepository templateRepository, GamePlayerActionRepository gamePlayerActionRepository) {
+        this.gameRepository = gameRepository;
+        this.gamePlayerRepository = gamePlayerRepository;
         this.templateRepository = templateRepository;
+        this.gamePlayerActionRepository = gamePlayerActionRepository;
     }
 
     @Override
@@ -37,6 +46,7 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
     public Game createFromTemplate(Template template) {
 
         GameEntity entity = new GameEntity();
+        entity.setState(Game.State.INIT);
         entity.setId(StringTools.generate());
         entity.setTemplateId(template.id().value());
         entity.setTemplateVersion(template.version());
@@ -50,21 +60,26 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
         boardEntity.setId(template.board().id().value());
         entity.setBoard(boardEntity);
 
-        entity = repository.save(entity);
+        entity = gameRepository.save(entity);
 
         return new Game(new Game.Id(entity.getId()), template.id(), template.label(), template.version(), template.scenario(), template.board());
     }
 
     @Override
     public void insert(Game game, Player player) throws GameException {
-        GameEntity entity = repository.findByIdFetchAll(game.id().value())
+        GameEntity entity = gameRepository.findById(game.id().value())
                 .orElseThrow(() -> new GameException(GameException.Type.GAME_NOT_FOUND));
 
-        PlayerEntity playerEntity = new PlayerEntity();
-        playerEntity.setId(player.id().value());
-        entity.getPlayers().add(playerEntity);
+        GamePlayerEntity gamePlayerEntity = new GamePlayerEntity();
+        gamePlayerEntity.setId(new GamePlayerEntity.GamePlayerId(game.id().value(), player.id().value()));
+        gamePlayerRepository.save(gamePlayerEntity);
 
-        repository.save(entity);
+        GamePlayerActionEntity gamePlayerActionEntity = new GamePlayerActionEntity();
+        gamePlayerActionEntity.setId(StringTools.generate());
+        gamePlayerActionEntity.setType(GamePlayerActionEntity.Type.INIT);
+        gamePlayerActionEntity.setDate(Instant.now());
+        gamePlayerActionRepository.save(gamePlayerActionEntity);
+
     }
 
 }

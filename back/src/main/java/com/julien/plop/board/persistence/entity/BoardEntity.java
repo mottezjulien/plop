@@ -1,6 +1,7 @@
 package com.julien.plop.board.persistence.entity;
 
 import com.julien.plop.board.model.Board;
+import com.julien.plop.game.persistence.GameEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -14,12 +15,13 @@ import java.util.Set;
 public class BoardEntity {
 
     @Id
-    //@UuidGenerator
     private String id;
 
     @OneToMany(mappedBy = "board")
     private Set<BoardSpaceEntity> spaces = new HashSet<>();
 
+    @OneToMany(mappedBy = "board")
+    private Set<GameEntity> games = new HashSet<>();
 
     public String getId() {
         return id;
@@ -35,6 +37,14 @@ public class BoardEntity {
 
     public void setSpaces(Set<BoardSpaceEntity> spaces) {
         this.spaces = spaces;
+    }
+
+    public Set<GameEntity> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<GameEntity> games) {
+        this.games = games;
     }
 
     public Board toModel() {

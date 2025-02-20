@@ -1,6 +1,6 @@
 package com.julien.plop.player.persistence;
 
-import com.julien.plop.Language;
+import com.julien.plop.i18n.domain.Language;
 import com.julien.plop.player.domain.model.Player;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,6 @@ import static jakarta.persistence.EnumType.STRING;
 public class PlayerEntity {
 
     @Id
-    //@UuidGenerator
     private String id;
 
     private String name;

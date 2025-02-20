@@ -1,6 +1,4 @@
-package com.julien.plop;
-
-import java.util.Locale;
+package com.julien.plop.i18n.domain;
 
 public enum Language {
     FR, EN;

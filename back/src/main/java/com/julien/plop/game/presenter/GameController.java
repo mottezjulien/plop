@@ -6,7 +6,6 @@ import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GameException;
 import com.julien.plop.game.domain.GameGeneratorUseCase;
 import com.julien.plop.game.domain.GameMoveUseCase;
-import com.julien.plop.game.domain.GameVerifyUseCase;
 import com.julien.plop.player.domain.model.Player;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/games")
@@ -49,7 +46,7 @@ public class GameController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getType().name(), e);
         } catch (GameException e) {
             switch (e.type()) {
-                case TEAMPLATE_NOT_FOUND:
+                case TEMPLATE_NOT_FOUND:
                 case GAME_NOT_FOUND:
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
                 default:
@@ -59,17 +56,15 @@ public class GameController {
     }
 
 
-    @PostMapping({"/{gameId}/move", "/{gameId}/move"}) //TODO name ??
-    public GameMoveResponseDTO updateModePosition(
+    @PostMapping({"/{gameId}/move", "/{gameId}/move/"}) //TODO name ??
+    public GameMoveResponseDTO move(
             @RequestHeader("Authorization") String rawToken,
             @PathVariable("gameId") String gameIdStr,
             GameMoveRequestDTO request
     ) {
         try {
             Player player = auth.find(rawToken);
-            Game.Id gameId = new Game.Id(gameIdStr);
-            moveUseCase.apply(gameId, player.id(), request.toModel());
-
+            moveUseCase.apply(new Game.Id(gameIdStr), player.id(), request.toModel());
             return new GameMoveResponseDTO();
         } catch (AuthException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getType().name(), e);
@@ -77,15 +72,12 @@ public class GameController {
             switch (e.type()) {
                 case GAME_NOT_FOUND:
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The game is not found", e);
-                case PLAYER_NOT_IN:
+                case PLAYER_NOT_IN_GAME:
                     throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The player is not in the game", e);
                 default:
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
-
     }
-
-
 
 }

@@ -1,10 +1,13 @@
 package com.julien.plop.game.persistence;
 
 import com.julien.plop.board.persistence.entity.BoardEntity;
+import com.julien.plop.game.domain.Game;
 import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -38,12 +41,14 @@ public class GameEntity {
     @JoinColumn(name = "board_id")
     private BoardEntity board;
 
-    @ManyToMany
+    @Enumerated(EnumType.STRING)
+    private Game.State state;
+
+    /*@ManyToMany
     @JoinTable(name = "TEST1_GAME_PLAYER",
             joinColumns = @JoinColumn(name = "template_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id"))
-    private Set<PlayerEntity> players = new HashSet<>();
-
+    private Set<PlayerEntity> players = new HashSet<>();*/
 
     public String getId() {
         return id;
@@ -93,12 +98,11 @@ public class GameEntity {
         this.board = board;
     }
 
-    public Set<PlayerEntity> getPlayers() {
-        return players;
+    public Game.State getState() {
+        return state;
     }
 
-    public void setPlayers(Set<PlayerEntity> players) {
-        this.players = players;
+    public void setState(Game.State state) {
+        this.state = state;
     }
-
 }

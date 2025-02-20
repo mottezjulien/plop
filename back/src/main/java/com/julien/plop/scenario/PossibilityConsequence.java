@@ -1,7 +1,7 @@
 package com.julien.plop.scenario;
 
 
-import com.julien.plop.StringTools;
+import com.julien.plop.tools.StringTools;
 
 public sealed interface PossibilityConsequence permits
         PossibilityConsequence.StartedStep,

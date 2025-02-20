@@ -8,8 +8,18 @@ import java.util.Map;
 
 public record Event(Type type, Meta meta) {
 
+
+
     public enum Type {
         GO_IN_SPACE, GO_OUT_SPACE
+    }
+
+    public Player.Id playerId() {
+        return meta.playerId();
+    }
+
+    public BoardSpace.Id spaceId() {
+        return meta.spaceId();
     }
 
     public static class Meta {

@@ -1,7 +1,7 @@
 package com.julien.plop.template.adapter;
 
-import com.julien.plop.I18n;
-import com.julien.plop.StringTools;
+import com.julien.plop.i18n.domain.I18n;
+import com.julien.plop.tools.StringTools;
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.board.persistence.entity.BoardRectEntity;

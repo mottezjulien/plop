@@ -1,12 +1,11 @@
 package com.julien.plop.auth.presenter;
 
 
-import com.julien.plop.StringTools;
+import com.julien.plop.tools.StringTools;
 import com.julien.plop.auth.persistence.AuthEntity;
 import com.julien.plop.auth.persistence.AuthRepository;
 import com.julien.plop.player.persistence.PlayerEntity;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PersistenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.UUID;
 

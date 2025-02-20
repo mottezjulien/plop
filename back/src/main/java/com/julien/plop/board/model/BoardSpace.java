@@ -1,6 +1,6 @@
 package com.julien.plop.board.model;
 
-import com.julien.plop.StringTools;
+import com.julien.plop.tools.StringTools;
 
 import java.util.List;
 

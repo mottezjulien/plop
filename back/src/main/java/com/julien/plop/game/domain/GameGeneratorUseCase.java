@@ -24,7 +24,7 @@ public class GameGeneratorUseCase {
 
     public Game apply(Player player, String code) throws GameException {
         Template template = dataOutput.findByCode(code)
-                .orElseThrow(() -> new GameException(GameException.Type.TEAMPLATE_NOT_FOUND));
+                .orElseThrow(() -> new GameException(GameException.Type.TEMPLATE_NOT_FOUND));
         Game game = dataOutput.createFromTemplate(template);
         dataOutput.insert(game, player);
         game.addPlayer(player);

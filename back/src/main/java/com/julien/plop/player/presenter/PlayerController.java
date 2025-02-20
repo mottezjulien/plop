@@ -1,8 +1,8 @@
 package com.julien.plop.player.presenter;
 
 
-import com.julien.plop.Language;
-import com.julien.plop.StringTools;
+import com.julien.plop.i18n.domain.Language;
+import com.julien.plop.tools.StringTools;
 import com.julien.plop.auth.domain.AuthException;
 import com.julien.plop.auth.domain.AuthUseCase;
 import com.julien.plop.player.persistence.PlayerEntity;

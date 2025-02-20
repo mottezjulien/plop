@@ -1,7 +1,7 @@
 package com.julien.plop.scenario;
 
-import com.julien.plop.I18n;
-import com.julien.plop.StringTools;
+import com.julien.plop.i18n.domain.I18n;
+import com.julien.plop.tools.StringTools;
 
 import java.util.List;
 import java.util.Optional;

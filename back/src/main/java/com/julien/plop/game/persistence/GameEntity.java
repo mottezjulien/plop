@@ -2,7 +2,6 @@ package com.julien.plop.game.persistence;
 
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.game.domain.Game;
-import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,13 +9,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "TEST1_GAME")

@@ -24,6 +24,7 @@ public class AuthUseCase {
         }
         return auth;
     }
+
     public Player find(String rawToken) throws AuthException {
         return verify(rawToken).player();
     }

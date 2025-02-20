@@ -22,10 +22,10 @@ public class GamePlayerUseCase {
     }
 
     public GamePlayer apply(Game.Id gameId, Player.Id playerId) throws GameException {
-        if(!dataOutput.isExist(gameId)) {
-                throw new GameException(GameException.Type.GAME_NOT_FOUND);
+        if (!dataOutput.isExist(gameId)) {
+            throw new GameException(GameException.Type.GAME_NOT_FOUND);
         }
-        if(!dataOutput.isStarted(gameId)) {
+        if (!dataOutput.isStarted(gameId)) {
             throw new GameException(GameException.Type.GAME_NOT_STARTED);
         }
         return dataOutput.findById(gameId, playerId)

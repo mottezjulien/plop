@@ -9,7 +9,6 @@ import java.util.Map;
 public record Event(Type type, Meta meta) {
 
 
-
     public enum Type {
         GO_IN_SPACE, GO_OUT_SPACE
     }
@@ -38,7 +37,7 @@ public record Event(Type type, Meta meta) {
                     }
                     break;
                 case SPACE_ID:
-                    if(!(value instanceof BoardSpace.Id)) {
+                    if (!(value instanceof BoardSpace.Id)) {
                         throw new IllegalArgumentException("The value must be a Board Id");
                     }
                     break;

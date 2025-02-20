@@ -1,13 +1,11 @@
 package com.julien.plop.game.persistence;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.julien.plop.board.model.BoardSpace;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GamePlayer;
 import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.player.persistence.PlayerEntity;
-import com.julien.plop.tools.StringTools;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -25,7 +23,6 @@ import java.util.Set;
 @Entity
 @Table(name = "TEST1_GAME_PLAYER")
 public class GamePlayerEntity {
-
 
 
     @Embeddable
@@ -86,7 +83,7 @@ public class GamePlayerEntity {
         Game.Id gameId = new Game.Id(id.gameId());
         Player playerModel = player.toModel();
         Optional<GamePlayerActionEntity> opt = lastMove();
-        Optional<BoardSpace.Point> optPosition = opt.map(action -> (BoardSpace.Point)action.value().orElse(null));
+        Optional<BoardSpace.Point> optPosition = opt.map(action -> (BoardSpace.Point) action.value().orElse(null));
         return new GamePlayer(gameId, playerModel, optPosition);
     }
 

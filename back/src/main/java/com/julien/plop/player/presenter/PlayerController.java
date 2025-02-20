@@ -1,12 +1,12 @@
 package com.julien.plop.player.presenter;
 
 
-import com.julien.plop.i18n.domain.Language;
-import com.julien.plop.tools.StringTools;
 import com.julien.plop.auth.domain.AuthException;
 import com.julien.plop.auth.domain.AuthUseCase;
+import com.julien.plop.i18n.domain.Language;
 import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.player.persistence.PlayerRepository;
+import com.julien.plop.tools.StringTools;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

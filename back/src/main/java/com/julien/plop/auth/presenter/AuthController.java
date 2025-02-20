@@ -1,10 +1,10 @@
 package com.julien.plop.auth.presenter;
 
 
-import com.julien.plop.tools.StringTools;
 import com.julien.plop.auth.persistence.AuthEntity;
 import com.julien.plop.auth.persistence.AuthRepository;
 import com.julien.plop.player.persistence.PlayerEntity;
+import com.julien.plop.tools.StringTools;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +42,7 @@ public class AuthController {
             repository.save(entity);
             return new AuthResponseDTO(entity.getToken());
         } catch (Exception e) {
-            if(e instanceof EntityNotFoundException || e.getCause() instanceof EntityNotFoundException) {
+            if (e instanceof EntityNotFoundException || e.getCause() instanceof EntityNotFoundException) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player not found", e);
             }
             throw e;

@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 public class Board {
 
 
-
     public record Id(String value) {
         public Id() {
             this(StringTools.generate());
@@ -34,7 +33,9 @@ public class Board {
         return id;
     }
 
-    public Stream<BoardSpace> spaces() { return spaces.stream(); }
+    public Stream<BoardSpace> spaces() {
+        return spaces.stream();
+    }
 
     public List<BoardSpace> spaces(GamePlayer inGamePlayer) {
         Optional<BoardSpace.Point> optPoint = inGamePlayer.position();

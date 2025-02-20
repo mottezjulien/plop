@@ -90,7 +90,7 @@ public class GamePlayerActionEntity {
     }
 
     public Optional<Object> value() {
-        if(StringTools.isFilled(jsonValues)) {
+        if (StringTools.isFilled(jsonValues)) {
             Optional<Class> clazz = type.valueClass();
             if (clazz.isPresent()) {
                 try {

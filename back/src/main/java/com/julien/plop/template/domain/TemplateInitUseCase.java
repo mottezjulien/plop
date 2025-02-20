@@ -1,10 +1,10 @@
 package com.julien.plop.template.domain;
 
-import com.julien.plop.i18n.domain.I18n;
-import com.julien.plop.i18n.domain.Language;
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.model.BoardSpace;
 import com.julien.plop.generic.AndOrOr;
+import com.julien.plop.i18n.domain.I18n;
+import com.julien.plop.i18n.domain.Language;
 import com.julien.plop.scenario.Possibility;
 import com.julien.plop.scenario.PossibilityCondition;
 import com.julien.plop.scenario.PossibilityConsequence;

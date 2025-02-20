@@ -1,7 +1,7 @@
 package com.julien.plop.scenario;
 
-import com.julien.plop.tools.StringTools;
 import com.julien.plop.board.model.BoardSpace;
+import com.julien.plop.tools.StringTools;
 
 import java.time.Duration;
 

@@ -1,21 +1,21 @@
 package com.julien.plop.game.adapter;
 
-import com.julien.plop.game.persistence.GamePlayerActionEntity;
-import com.julien.plop.game.persistence.GamePlayerActionRepository;
-import com.julien.plop.game.persistence.GamePlayerEntity;
-import com.julien.plop.game.persistence.GamePlayerRepository;
-import com.julien.plop.tools.StringTools;
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GameException;
 import com.julien.plop.game.domain.GameGeneratorUseCase;
 import com.julien.plop.game.persistence.GameEntity;
+import com.julien.plop.game.persistence.GamePlayerActionEntity;
+import com.julien.plop.game.persistence.GamePlayerActionRepository;
+import com.julien.plop.game.persistence.GamePlayerEntity;
+import com.julien.plop.game.persistence.GamePlayerRepository;
 import com.julien.plop.game.persistence.GameRepository;
 import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
 import com.julien.plop.template.domain.Template;
 import com.julien.plop.template.persistence.TemplateEntity;
 import com.julien.plop.template.persistence.TemplateRepository;
+import com.julien.plop.tools.StringTools;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -66,10 +66,7 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
     }
 
     @Override
-    public void insert(Game game, Player player) throws GameException {
-        GameEntity entity = gameRepository.findById(game.id().value())
-                .orElseThrow(() -> new GameException(GameException.Type.GAME_NOT_FOUND));
-
+    public void insert(Game game, Player player) {
         GamePlayerEntity gamePlayerEntity = new GamePlayerEntity();
         gamePlayerEntity.setId(new GamePlayerEntity.GamePlayerId(game.id().value(), player.id().value()));
         gamePlayerRepository.save(gamePlayerEntity);

@@ -1,7 +1,5 @@
 package com.julien.plop.template.adapter;
 
-import com.julien.plop.i18n.domain.I18n;
-import com.julien.plop.tools.StringTools;
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.board.persistence.entity.BoardRectEntity;
@@ -9,6 +7,7 @@ import com.julien.plop.board.persistence.entity.BoardSpaceEntity;
 import com.julien.plop.board.persistence.repository.BoardRectRepository;
 import com.julien.plop.board.persistence.repository.BoardRepository;
 import com.julien.plop.board.persistence.repository.BoardSpaceRepository;
+import com.julien.plop.i18n.domain.I18n;
 import com.julien.plop.i18n.persistence.I18nEntity;
 import com.julien.plop.i18n.persistence.I18nRepository;
 import com.julien.plop.scenario.Possibility;
@@ -31,6 +30,7 @@ import com.julien.plop.template.domain.Template;
 import com.julien.plop.template.domain.TemplateInitUseCase;
 import com.julien.plop.template.persistence.TemplateEntity;
 import com.julien.plop.template.persistence.TemplateRepository;
+import com.julien.plop.tools.StringTools;
 import org.springframework.stereotype.Component;
 
 @Component

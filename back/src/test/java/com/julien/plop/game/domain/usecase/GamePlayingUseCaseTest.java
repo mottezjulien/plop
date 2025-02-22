@@ -20,7 +20,6 @@ public class GamePlayingUseCaseTest {
 
     private final Game.Id gameId = new Game.Id("gameId");
     private final Player.Id playerId = new Player.Id("playerId");
-
     private final DataInMemory data = new DataInMemory();
     private final CacheKeyList<Game, GamePlayer> cache = new CacheKeyList<>();
     private final GamePlayingUseCase useCase = new GamePlayingUseCase(data, cache);
@@ -29,8 +28,6 @@ public class GamePlayingUseCaseTest {
     void setUp() {
         data.clear();
         cache.clear();
-        //when(cacheRepository.findByGameId(gameId)).thenReturn(Optional.empty());
-
     }
 
     @Test
@@ -42,57 +39,71 @@ public class GamePlayingUseCaseTest {
 
     @Test
     public void throwExceptionWhenPlayerNotInGame() {
-
         createDataGame(Game.State.PLAYING);
 
         assertThatThrownBy(() -> useCase.apply(gameId, playerId))
                 .isInstanceOf(GameException.class)
                 .hasFieldOrPropertyWithValue("type", GameException.Type.PLAYER_NOT_IN_GAME);
-
     }
 
-
-
     @Test
-    public void returnPlayerInGameFound_putInCache_callCache() throws GameException {
-
+    public void happyPath_returnPlayerInGameFound_putInCache() throws GameException {
         createDataGame(Game.State.PLAYING);
 
-        createDataGamePlayer();
+        createDataGamePlayer(new Player.Id("otherPlayer"));
+        createDataGamePlayer(playerId);
 
         GamePlayer gamingPlayer = useCase.apply(gameId, playerId);
         assertThat(gamingPlayer.gameId()).isEqualTo(gameId);
         assertThat(gamingPlayer.playerId()).isEqualTo(playerId);
 
-        //verify(cacheRepository).addPlayer(gameId, gamingPlayer);
+        assertThat(data.findById(gameId)).isPresent();
 
-
-        /*
-
-
-
-
-        //Game game = new Game(gameId, new Template.Id("anyTemplateId"));
-        //cacheRepository.addGame(game);
-
-        Player player = new Player("Bob");
-        GamePlayer playingPlayer =  new GamePlayer(gameId, player);
-        cacheRepository.addPlayer(gameId, playingPlayer);
-
-        GamePlayer gamingPlayer = useCase.apply(gameId, playerId);
-
-
-*/
+        Optional<Game> optGame = cache.findFirstIf(game -> game.is(gameId));
+        assertThat(optGame).isPresent();
+        Game game = optGame.orElseThrow();
+        assertThat(cache.get(game)).hasSize(2)
+                        .contains(gamingPlayer);
     }
 
-    plop
+    @Test
+    public void returnCachedIfAlreadyInCache() throws GameException {
+        List<GamePlayer> players = List.of(new GamePlayer(gameId, new Player.Id("otherPlayer")), new GamePlayer(gameId, playerId));
+        cache.put(new Game(gameId, new Template.Id("anyTemplateId"), Game.State.PLAYING), players);
 
+        assertThat(data.findById(gameId)).isEmpty();
+
+        GamePlayer gamingPlayer = useCase.apply(gameId, playerId);
+        assertThat(gamingPlayer.gameId()).isEqualTo(gameId);
+        assertThat(gamingPlayer.playerId()).isEqualTo(playerId);
+
+        assertThat(data.findById(gameId)).isEmpty();
+
+        Optional<Game> optGame = cache.findFirstIf(game -> game.is(gameId));
+        assertThat(optGame).isPresent();
+        Game game = optGame.orElseThrow();
+        assertThat(cache.get(game)).hasSize(2)
+                .contains(gamingPlayer);
+    }
+
+
+    @Test
+    public void throwExceptionWhenGamingNotInPlayingState() {
+        createDataGame(Game.State.INIT);
+
+        createDataGamePlayer(new Player.Id("otherPlayer"));
+        createDataGamePlayer(playerId);
+
+        assertThatThrownBy(() -> useCase.apply(gameId, playerId))
+                .isInstanceOf(GameException.class)
+                .hasFieldOrPropertyWithValue("type", GameException.Type.GAME_NOT_PLAYING);
+    }
 
     private void createDataGame(Game.State state) {
         data.createGame(new Game(gameId, new Template.Id("anyTemplateId"), state));
     }
 
-    private void createDataGamePlayer() {
+    private void createDataGamePlayer(Player.Id playerId) {
         data.createGamePlayer(new GamePlayer(gameId, playerId));
     }
 

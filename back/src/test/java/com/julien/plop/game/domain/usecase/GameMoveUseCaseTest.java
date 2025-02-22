@@ -1,9 +1,12 @@
-package com.julien.plop.game.domain;
+package com.julien.plop.game.domain.usecase;
 
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.model.BoardSpace;
 import com.julien.plop.event.domain.Event;
 import com.julien.plop.event.domain.EventOutput;
+import com.julien.plop.game.domain.Game;
+import com.julien.plop.game.domain.GameException;
+import com.julien.plop.game.domain.GamePlayer;
 import com.julien.plop.player.domain.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
@@ -30,7 +32,7 @@ public class GameMoveUseCaseTest {
 
     private final ArgumentCaptor<Event> argumentCaptor = ArgumentCaptor.forClass(Event.class);
     private final InMemoryData dataOutPort = new InMemoryData();
-    private final GamePlayerUseCase gamePlayerUseCase = mock(GamePlayerUseCase.class);
+    private final GamePlayingUseCase gamePlayerUseCase = mock(GamePlayingUseCase.class);
     private final EventOutput eventOutput = mock(EventOutput.class);
     private final GameMoveUseCase useCase = new GameMoveUseCase(dataOutPort, gamePlayerUseCase, eventOutput);
 
@@ -68,7 +70,7 @@ public class GameMoveUseCaseTest {
     @Test
     void saveBoard() throws GameException {
         when(gamePlayerUseCase.apply(gameId, playerId))
-                .thenReturn(new GamePlayer(gameId, new Player(playerId, "Bob"), Optional.empty()));
+                .thenReturn(new GamePlayer(gameId, playerId, Optional.empty()));
 
         useCase.apply(gameId, playerId, inSpaceA());
         assertThat(dataOutPort.findPlayerById(playerId))
@@ -78,7 +80,7 @@ public class GameMoveUseCaseTest {
     @Test
     void fireGoInAndGoOutEvents() throws GameException {
         when(gamePlayerUseCase.apply(gameId, playerId))
-                .thenReturn(new GamePlayer(gameId, new Player(playerId, "Bob"), Optional.empty()));
+                .thenReturn(new GamePlayer(gameId, playerId, Optional.empty()));
 
         useCase.apply(gameId, playerId, inSpaceA());
         verify(eventOutput).fire(argumentCaptor.capture());

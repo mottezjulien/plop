@@ -7,7 +7,7 @@ import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.board.persistence.repository.BoardRepository;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.game.domain.GameException;
-import com.julien.plop.game.domain.GameMoveUseCase;
+import com.julien.plop.game.domain.usecase.GameMoveUseCase;
 import com.julien.plop.game.domain.GamePlayer;
 import com.julien.plop.game.persistence.GamePlayerActionEntity;
 import com.julien.plop.game.persistence.GamePlayerActionRepository;

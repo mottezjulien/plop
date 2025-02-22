@@ -2,9 +2,9 @@ package com.julien.plop;
 
 import com.julien.plop.auth.domain.AuthUseCase;
 import com.julien.plop.event.domain.EventOutput;
-import com.julien.plop.game.domain.GameGeneratorUseCase;
-import com.julien.plop.game.domain.GameMoveUseCase;
-import com.julien.plop.game.domain.GamePlayerUseCase;
+import com.julien.plop.game.domain.usecase.GameGeneratorUseCase;
+import com.julien.plop.game.domain.usecase.GameMoveUseCase;
+import com.julien.plop.game.domain.usecase.GamePlayingUseCase;
 import com.julien.plop.template.domain.TemplateInitUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -35,8 +35,8 @@ public class Runner {
     }
 
     @Bean
-    public GamePlayerUseCase gameVerifyUseCase(GamePlayerUseCase.DataOutput dataOutput) {
-        return new GamePlayerUseCase(dataOutput);
+    public GamePlayingUseCase gameVerifyUseCase(GamePlayingUseCase.DataOutputPort data) {
+        return new GamePlayingUseCase(data, new CacheKeyList<>());
     }
 
     @Bean
@@ -47,7 +47,7 @@ public class Runner {
     @Bean
     public GameMoveUseCase gameMoveUseCase(
             GameMoveUseCase.DataOutput dataOutput,
-            GamePlayerUseCase gamePlayerUseCase,
+            GamePlayingUseCase gamePlayerUseCase,
             EventOutput eventOutput) {
         return new GameMoveUseCase(dataOutput, gamePlayerUseCase, eventOutput);
     }

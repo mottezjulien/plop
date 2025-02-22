@@ -1,9 +1,12 @@
-package com.julien.plop.game.domain;
+package com.julien.plop.game.domain.usecase;
 
 import com.julien.plop.board.model.Board;
 import com.julien.plop.board.model.BoardSpace;
 import com.julien.plop.event.domain.Event;
 import com.julien.plop.event.domain.EventOutput;
+import com.julien.plop.game.domain.Game;
+import com.julien.plop.game.domain.GameException;
+import com.julien.plop.game.domain.GamePlayer;
 import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.tools.ListTools;
 
@@ -22,11 +25,11 @@ public class GameMoveUseCase {
 
 
     private final DataOutput dataOutput;
-    private final GamePlayerUseCase gamePlayerUseCase;
+    private final GamePlayingUseCase gamePlayerUseCase;
     private final EventOutput eventOutput;
 
 
-    public GameMoveUseCase(DataOutput dataOutput, GamePlayerUseCase gamePlayerUseCase, EventOutput eventOutput) {
+    public GameMoveUseCase(DataOutput dataOutput, GamePlayingUseCase gamePlayerUseCase, EventOutput eventOutput) {
         this.dataOutput = dataOutput;
         this.eventOutput = eventOutput;
         this.gamePlayerUseCase = gamePlayerUseCase;

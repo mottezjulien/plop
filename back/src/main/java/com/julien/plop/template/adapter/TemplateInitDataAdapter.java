@@ -172,7 +172,7 @@ public class TemplateInitDataAdapter implements TemplateInitUseCase.OutPort {
         I18nEntity entity = new I18nEntity();
         entity.setId(StringTools.generate());
         entity.setDescription(i18n.description());
-        entity.setJsonValues(i18n.json());
+        entity.setJsonValues(i18n.jsonValues());
         return i18nRepository.save(entity);
     }
 

@@ -2,8 +2,7 @@ package com.julien.plop.game.adapter;
 
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.game.domain.Game;
-import com.julien.plop.game.domain.GameException;
-import com.julien.plop.game.domain.GameGeneratorUseCase;
+import com.julien.plop.game.domain.usecase.GameGeneratorUseCase;
 import com.julien.plop.game.persistence.GameEntity;
 import com.julien.plop.game.persistence.GamePlayerActionEntity;
 import com.julien.plop.game.persistence.GamePlayerActionRepository;
@@ -11,6 +10,7 @@ import com.julien.plop.game.persistence.GamePlayerEntity;
 import com.julien.plop.game.persistence.GamePlayerRepository;
 import com.julien.plop.game.persistence.GameRepository;
 import com.julien.plop.player.domain.model.Player;
+import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
 import com.julien.plop.template.domain.Template;
 import com.julien.plop.template.persistence.TemplateEntity;
@@ -25,7 +25,6 @@ import java.util.Optional;
 public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput {
 
     private final GameRepository gameRepository;
-
     private final GamePlayerRepository gamePlayerRepository;
     private final TemplateRepository templateRepository;
     private final GamePlayerActionRepository gamePlayerActionRepository;
@@ -62,13 +61,19 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
 
         entity = gameRepository.save(entity);
 
-        return new Game(new Game.Id(entity.getId()), template.id(), template.label(), template.version(), template.scenario(), template.board());
+        return new Game(new Game.Id(entity.getId()), template.label(), template.id(), template.version(), template.scenario(), template.board());
     }
 
     @Override
     public void insert(Game game, Player player) {
         GamePlayerEntity gamePlayerEntity = new GamePlayerEntity();
         gamePlayerEntity.setId(new GamePlayerEntity.GamePlayerId(game.id().value(), player.id().value()));
+        GameEntity gameEntity = new GameEntity();
+        gameEntity.setId(game.id().value());
+        gamePlayerEntity.setGame(gameEntity);
+        PlayerEntity playerEntity = new PlayerEntity();
+        playerEntity.setId(player.id().value());
+        gamePlayerEntity.setPlayer(playerEntity);
         gamePlayerRepository.save(gamePlayerEntity);
 
         GamePlayerActionEntity gamePlayerActionEntity = new GamePlayerActionEntity();

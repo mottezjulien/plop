@@ -8,14 +8,20 @@ import java.util.Optional;
 public class GamePlayer {
 
     private final Game.Id gameId;
-    private final Player player;
+    private final Player.Id playerId;
 
     //TODO TO IMMUTABLE
     private Optional<BoardSpace.Point> optPosition;
 
-    public GamePlayer(Game.Id gameId, Player player, Optional<BoardSpace.Point> optPosition) {
+    public GamePlayer(Game.Id gameId, Player.Id playerId) {
         this.gameId = gameId;
-        this.player = player;
+        this.playerId = playerId;
+        this.optPosition = Optional.empty();
+    }
+
+    public GamePlayer(Game.Id gameId, Player.Id playerId, Optional<BoardSpace.Point> optPosition) {
+        this.gameId = gameId;
+        this.playerId = playerId;
         this.optPosition = optPosition;
     }
 
@@ -24,9 +30,8 @@ public class GamePlayer {
     }
 
     public Player.Id playerId() {
-        return player.id();
+        return playerId;
     }
-
 
     //TODO TO IMMUTABLE
     public void move(BoardSpace.Point point) {
@@ -35,6 +40,10 @@ public class GamePlayer {
 
     public Optional<BoardSpace.Point> position() {
         return optPosition;
+    }
+
+    public boolean is(Player.Id playerId) {
+        return this.playerId.equals(playerId);
     }
 
     /*

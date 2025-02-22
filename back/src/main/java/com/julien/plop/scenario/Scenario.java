@@ -30,6 +30,10 @@ public record Scenario(Id id, String label, List<Step> steps) {
 
     }
 
+    public Scenario() {
+        this("any scenario label", List.of());
+    }
+
     public Scenario(String label, List<Step> steps) {
         this(new Id(), label, steps);
     }

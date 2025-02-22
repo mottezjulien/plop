@@ -6,8 +6,8 @@ import java.util.Map;
 
 public record I18n(String description, Map<Language, String> values) {
 
-    public String json() {
-        return StringTools.toJson(this);
+    public String jsonValues() {
+        return StringTools.toJson(values);
     }
 
 }

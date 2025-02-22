@@ -3,6 +3,7 @@ package com.julien.plop.game.persistence;
 import com.julien.plop.board.persistence.entity.BoardEntity;
 import com.julien.plop.game.domain.Game;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
+import com.julien.plop.template.domain.Template;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,12 +38,6 @@ public class GameEntity {
 
     @Enumerated(EnumType.STRING)
     private Game.State state;
-
-    /*@ManyToMany
-    @JoinTable(name = "TEST1_GAME_PLAYER",
-            joinColumns = @JoinColumn(name = "template_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id"))
-    private Set<PlayerEntity> players = new HashSet<>();*/
 
     public String getId() {
         return id;
@@ -99,4 +94,11 @@ public class GameEntity {
     public void setState(Game.State state) {
         this.state = state;
     }
+
+    public Game toModel() {
+        return new Game(new Game.Id(id), label,
+                new Template.Id(templateId),  templateVersion,
+                scenario.toModel(), board.toModel(), state);
+    }
+
 }

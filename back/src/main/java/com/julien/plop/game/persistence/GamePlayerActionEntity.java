@@ -9,6 +9,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -41,7 +42,10 @@ public class GamePlayerActionEntity {
     private Type type;
 
     @ManyToOne
-    @JoinColumn(name = "game_player_id")
+    @JoinColumns({
+            @JoinColumn(name = "game_id"),
+            @JoinColumn(name = "player_id")
+    })
     private GamePlayerEntity gamePlayer;
 
     @Column(name = "json_values", columnDefinition = "TEXT")

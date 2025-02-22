@@ -81,10 +81,10 @@ public class GamePlayerEntity {
 
     public GamePlayer toModel() {
         Game.Id gameId = new Game.Id(id.gameId());
-        Player playerModel = player.toModel();
+        Player.Id playerId = new Player.Id(id.playerId());
         Optional<GamePlayerActionEntity> opt = lastMove();
         Optional<BoardSpace.Point> optPosition = opt.map(action -> (BoardSpace.Point) action.value().orElse(null));
-        return new GamePlayer(gameId, playerModel, optPosition);
+        return new GamePlayer(gameId, playerId, optPosition);
     }
 
     private Optional<GamePlayerActionEntity> lastMove() {

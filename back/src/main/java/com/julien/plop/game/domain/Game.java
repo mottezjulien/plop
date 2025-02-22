@@ -2,16 +2,15 @@ package com.julien.plop.game.domain;
 
 
 import com.julien.plop.board.model.Board;
-import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.scenario.Scenario;
 import com.julien.plop.template.domain.Template;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Game {
+
+
 
     public record Id(String value) {
         public static Id generate() {
@@ -35,17 +34,28 @@ public class Game {
     }
 
     public enum State {
-        INIT, STARTED, OVER, PAUSED
+        INIT, PLAYING, OVER, PAUSED
     }
 
     private final Atom atom;
     private final String templateVersion;
     private final Scenario scenario;
     private final Board board;
-    private final List<Player> players = new ArrayList<>();
     private final State state;
 
-    public Game(Id id, Template.Id templateId, String label, String templateVersion, Scenario scenario, Board board, State state) {
+    public Game(Id id, Template.Id templateId) {
+        this(id, templateId, State.INIT);
+    }
+
+    public Game(Id id, Template.Id templateId, State state) {
+        this(id, "any game label", templateId, "0.0.0", new Scenario(), new Board(), state);
+    }
+
+    public Game(Id id, String label, Template.Id templateId, String templateVersion, Scenario scenario, Board board) {
+        this(id, label, templateId, templateVersion, scenario, board, State.INIT);
+    }
+
+    public Game(Id id, String label, Template.Id templateId, String templateVersion, Scenario scenario, Board board, State state) {
         this.atom = new Atom(id, templateId, label);
         this.templateVersion = templateVersion;
         this.scenario = scenario;
@@ -53,9 +63,7 @@ public class Game {
         this.state = state;
     }
 
-    public Game(Id id, Template.Id templateId, String label, String templateVersion, Scenario scenario, Board board) {
-        this(id, templateId, label, templateVersion, scenario, board, State.INIT);
-    }
+
 
     public Id id() {
         return atom.id();
@@ -80,9 +88,13 @@ public class Game {
     public Board board() {
         return board;
     }
+    
+    public boolean isPlaying() {
+        return state == State.PLAYING;
+    }
 
-    public void addPlayer(Player player) {
-        players.add(player);
+    public boolean is(Id id) {
+        return Objects.equals(id, this.atom.id());
     }
 
     @Override

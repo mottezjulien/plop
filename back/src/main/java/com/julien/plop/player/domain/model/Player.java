@@ -1,11 +1,19 @@
 package com.julien.plop.player.domain.model;
 
+import com.julien.plop.tools.StringTools;
+
 import java.util.Objects;
 
 public record Player(Id id, String name) {
 
     public record Id(String value) {
+        public Id() {
+            this(StringTools.generate());
+        }
+    }
 
+    public Player(String name) {
+        this(new Id(), name);
     }
 
     @Override

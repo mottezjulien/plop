@@ -1,5 +1,7 @@
-package com.julien.plop.game.domain;
+package com.julien.plop.game.domain.usecase;
 
+import com.julien.plop.game.domain.Game;
+import com.julien.plop.game.domain.GameException;
 import com.julien.plop.player.domain.model.Player;
 import com.julien.plop.template.domain.Template;
 
@@ -27,7 +29,6 @@ public class GameGeneratorUseCase {
                 .orElseThrow(() -> new GameException(GameException.Type.TEMPLATE_NOT_FOUND));
         Game game = dataOutput.createFromTemplate(template);
         dataOutput.insert(game, player);
-        game.addPlayer(player);
         return game;
     }
 

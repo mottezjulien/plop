@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 public class Board {
 
 
+
+
     public record Id(String value) {
         public Id() {
             this(StringTools.generate());
@@ -20,14 +22,21 @@ public class Board {
     private final List<BoardSpace> spaces;
     //private final Map<Player.Id, List<BoardSpace.Point>> positionsByPlayer = new HashMap<>();
 
-    public Board(Id id, List<BoardSpace> spaces) {
-        this.id = id;
-        this.spaces = spaces;
+
+    public Board() {
+        this(List.of());
     }
 
     public Board(List<BoardSpace> spaces) {
         this(new Id(), spaces);
     }
+
+
+    public Board(Id id, List<BoardSpace> spaces) {
+        this.id = id;
+        this.spaces = spaces;
+    }
+
 
     public Id id() {
         return id;

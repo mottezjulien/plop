@@ -63,7 +63,7 @@ public class GamePlayingUseCaseTest {
         assertThat(optGame).isPresent();
         Game game = optGame.orElseThrow();
         assertThat(cache.get(game)).hasSize(2)
-                        .contains(gamingPlayer);
+                .contains(gamingPlayer);
     }
 
     @Test

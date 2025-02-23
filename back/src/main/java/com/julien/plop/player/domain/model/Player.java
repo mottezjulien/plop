@@ -1,10 +1,11 @@
 package com.julien.plop.player.domain.model;
 
+import com.julien.plop.i18n.domain.Language;
 import com.julien.plop.tools.StringTools;
 
 import java.util.Objects;
 
-public record Player(Id id, String name) {
+public record Player(Id id, String name, Language language) {
 
     public record Id(String value) {
         public Id() {
@@ -13,7 +14,7 @@ public record Player(Id id, String name) {
     }
 
     public Player(String name) {
-        this(new Id(), name);
+        this(new Id(), name, Language.first());
     }
 
     @Override

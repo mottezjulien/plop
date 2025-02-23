@@ -33,6 +33,7 @@ public class AuthEntity {
     @JoinColumn(name = "player_id")
     private PlayerEntity player;
 
+
     public String getId() {
         return id;
     }
@@ -74,7 +75,17 @@ public class AuthEntity {
     }
 
     public Auth toModel() {
-        return new Auth(dateTime,
+        return new Auth(new Auth.Id(id), dateTime, deviceId,
                 Optional.ofNullable(player).map(PlayerEntity::toModel));
     }
+
+    public static AuthEntity fromModel(Auth auth) {
+        AuthEntity entity = new AuthEntity();
+        entity.setId(auth.id().value());
+        entity.setDateTime(auth.dateTime());
+        entity.setDeviceId(auth.deviceId());
+        auth.optPlayer().ifPresent(player -> entity.setPlayer(PlayerEntity.fromModel(player)));
+        return entity;
+    }
+
 }

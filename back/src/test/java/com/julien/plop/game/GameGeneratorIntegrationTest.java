@@ -2,7 +2,6 @@ package com.julien.plop.game;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.julien.plop.tools.StringTools;
 import com.julien.plop.auth.persistence.AuthEntity;
 import com.julien.plop.auth.persistence.AuthRepository;
 import com.julien.plop.game.persistence.GameEntity;
@@ -12,6 +11,7 @@ import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.player.persistence.PlayerRepository;
 import com.julien.plop.template.persistence.TemplateEntity;
 import com.julien.plop.template.persistence.TemplateRepository;
+import com.julien.plop.tools.StringTools;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,7 +11,6 @@ import java.util.UUID;
 public class Game {
 
 
-
     public record Id(String value) {
         public static Id generate() {
             return new Id(UUID.randomUUID().toString());
@@ -64,7 +63,6 @@ public class Game {
     }
 
 
-
     public Id id() {
         return atom.id();
     }
@@ -88,7 +86,7 @@ public class Game {
     public Board board() {
         return board;
     }
-    
+
     public boolean isPlaying() {
         return state == State.PLAYING;
     }

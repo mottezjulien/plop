@@ -41,7 +41,7 @@ class MyRouter {
         GoRoute(
           name: gameViewName,
           path: '/game',
-          builder: (context, state) => const GameView(),
+          builder: (context, state) => GameView(),
         ),
       ],
     );

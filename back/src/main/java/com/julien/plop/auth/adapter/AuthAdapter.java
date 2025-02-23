@@ -21,4 +21,6 @@ public class AuthAdapter implements AuthUseCase.OutPort {
     public Optional<Auth> findByToken(String rawToken) {
         return repository.findByTokenFetchPlayer(rawToken).map(AuthEntity::toModel);
     }
+
+
 }

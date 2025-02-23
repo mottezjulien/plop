@@ -10,8 +10,6 @@ import java.util.stream.Stream;
 public class Board {
 
 
-
-
     public record Id(String value) {
         public Id() {
             this(StringTools.generate());

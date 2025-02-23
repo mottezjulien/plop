@@ -6,8 +6,10 @@ import java.util.Optional;
 
 public class AuthUseCase {
 
+
     public interface OutPort {
         Optional<Auth> findByToken(String rawToken);
+
     }
 
     private final OutPort port;
@@ -28,4 +30,6 @@ public class AuthUseCase {
     public Player find(String rawToken) throws AuthException {
         return verify(rawToken).player();
     }
+
+
 }

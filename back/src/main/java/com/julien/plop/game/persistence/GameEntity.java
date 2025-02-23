@@ -97,7 +97,7 @@ public class GameEntity {
 
     public Game toModel() {
         return new Game(new Game.Id(id), label,
-                new Template.Id(templateId),  templateVersion,
+                new Template.Id(templateId), templateVersion,
                 scenario.toModel(), board.toModel(), state);
     }
 

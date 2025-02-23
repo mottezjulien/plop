@@ -12,7 +12,7 @@ import '../contexts/repository-exception.dart';
 class Settings {
 
   static String urlServer() {
-    return 'https://6dc9-82-127-78-24.ngrok-free.app';
+    return 'https://0aa8-2a01-e0a-db5-bd20-31d5-cf22-5cd2-13f3.ngrok-free.app';
   }
 
   static const String keyLocalStorePlayerId = '7bbb6370-147b-4944-b33d-7d9859756e91';

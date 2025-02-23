@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.doThrow;
@@ -110,9 +109,11 @@ public class GameMoveUseCaseTest {
     private static BoardSpace.Point inSpaceA() {
         return new BoardSpace.Point(1.0789f, 4.6530f);
     }
+
     private static BoardSpace.Point inSpaceB() {
         return new BoardSpace.Point(4.2f, 7.4f);
     }
+
     private static BoardSpace.Point outSpace() {
         return new BoardSpace.Point(24.0f, -10f);
     }

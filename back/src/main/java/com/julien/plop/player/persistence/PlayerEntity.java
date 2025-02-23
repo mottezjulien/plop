@@ -2,7 +2,6 @@ package com.julien.plop.player.persistence;
 
 import com.julien.plop.i18n.domain.Language;
 import com.julien.plop.player.domain.model.Player;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
@@ -18,9 +17,6 @@ public class PlayerEntity {
     private String id;
 
     private String name;
-
-    @Column(name = "device_id")
-    private String deviceId;
 
     @Enumerated(STRING)
     private Language language;
@@ -41,14 +37,6 @@ public class PlayerEntity {
         this.name = name;
     }
 
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
     public Language getLanguage() {
         return language;
     }
@@ -58,6 +46,15 @@ public class PlayerEntity {
     }
 
     public Player toModel() {
-        return new Player(new Player.Id(id), name);
+        return new Player(new Player.Id(id), name, language);
     }
+
+    public static PlayerEntity fromModel(Player model) {
+        PlayerEntity entity = new PlayerEntity();
+        entity.setId(model.id().value());
+        entity.setName(model.name());
+        entity.setLanguage(model.language());
+        return entity;
+    }
+
 }

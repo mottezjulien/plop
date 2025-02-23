@@ -29,7 +29,7 @@ public class GamePlayingUseCase {
 
     public GamePlayer apply(Game.Id gameId, Player.Id playerId) throws GameException {
         Optional<Game> optGame = cache.findFirstIf(game -> game.is(gameId));
-        if(optGame.isPresent()) {
+        if (optGame.isPresent()) {
             Game game = optGame.get();
             List<GamePlayer> players = cache.get(game);
             return players.stream()
@@ -38,9 +38,9 @@ public class GamePlayingUseCase {
                     .orElseThrow(() -> new GameException(GameException.Type.PLAYER_NOT_IN_GAME));
         }
         optGame = data.findById(gameId);
-        if(optGame.isPresent()) {
+        if (optGame.isPresent()) {
             Game game = optGame.orElseThrow();
-            if(!game.isPlaying()) {
+            if (!game.isPlaying()) {
                 throw new GameException(GameException.Type.GAME_NOT_PLAYING);
             }
             List<GamePlayer> players = data.findPlayers(game);

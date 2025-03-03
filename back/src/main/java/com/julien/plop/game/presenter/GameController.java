@@ -55,12 +55,18 @@ public class GameController {
         }
     }
 
+//https://e297-2a01-e0a-db5-bd20-8d7-19a-4d68-b369.ngrok-free.app/games/585d5604-d0be-4bf1-b073-f54507167a07/move
 
+    /*
+    0 = {map entry} "Content-Type" -> "application/json; charset=UTF-8"
+1 = {map entry} "Accept" -> "application/json"
+2 = {map entry} "Authorization" -> "cc6bad61-19aa-4f20-b162-286213057639"
+     */
     @PostMapping({"/{gameId}/move", "/{gameId}/move/"}) //TODO name ??
     public GameMoveResponseDTO move(
             @RequestHeader("Authorization") String rawToken,
             @PathVariable("gameId") String gameIdStr,
-            GameMoveRequestDTO request
+            @RequestBody GameMoveRequestDTO request
     ) {
         try {
             Player player = auth.find(rawToken);

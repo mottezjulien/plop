@@ -33,16 +33,6 @@ public class GamePlayerEntity {
     @Id
     private GamePlayerId id;
 
-    @MapsId("gameId")
-    @ManyToOne
-    @JoinColumn(name = "game_id")
-    public GameEntity game;
-
-    @MapsId("playerId")
-    @ManyToOne
-    @JoinColumn(name = "player_id")
-    public PlayerEntity player;
-
     @OneToMany(mappedBy = "gamePlayer")
     private Set<GamePlayerActionEntity> actions = new HashSet<>();
 
@@ -52,22 +42,6 @@ public class GamePlayerEntity {
 
     public void setId(GamePlayerId id) {
         this.id = id;
-    }
-
-    public GameEntity getGame() {
-        return game;
-    }
-
-    public void setGame(GameEntity game) {
-        this.game = game;
-    }
-
-    public PlayerEntity getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(PlayerEntity player) {
-        this.player = player;
     }
 
     public Set<GamePlayerActionEntity> getActions() {

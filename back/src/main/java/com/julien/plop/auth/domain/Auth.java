@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
 
-public record Auth(Id id, Instant dateTime, String deviceId, Optional<Player> optPlayer) {
+public record Auth(Id id, String rawToken, Instant dateTime, String deviceId, Optional<Player> optPlayer) {
 
     public record Id(String value) {
 
@@ -21,7 +21,7 @@ public record Auth(Id id, Instant dateTime, String deviceId, Optional<Player> op
     }
 
     public Auth withPlayer(Player player) {
-        return new Auth(id, dateTime, deviceId, Optional.of(player));
+        return new Auth(id, rawToken, dateTime, deviceId, Optional.of(player));
     }
 
 }

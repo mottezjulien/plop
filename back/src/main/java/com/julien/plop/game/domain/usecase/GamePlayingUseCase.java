@@ -41,7 +41,7 @@ public class GamePlayingUseCase {
         if (optGame.isPresent()) {
             Game game = optGame.orElseThrow();
             if (!game.isPlaying()) {
-                throw new GameException(GameException.Type.GAME_NOT_PLAYING);
+                throw new GameException(GameException.Type.GAME_NOT_PLAYING); pouet
             }
             List<GamePlayer> players = data.findPlayers(game);
             cache.put(game, players);

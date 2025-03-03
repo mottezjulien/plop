@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../contexts/auth/auth.dart';
 import '../contexts/game/game.dart';
+import '../contexts/health/health_check_repository.dart';
 import '../contexts/player/player-repository.dart';
 import '../contexts/player/player.dart';
 import '../contexts/repository-exception.dart';
@@ -12,7 +13,7 @@ import '../contexts/repository-exception.dart';
 class Settings {
 
   static String urlServer() {
-    return 'https://0aa8-2a01-e0a-db5-bd20-31d5-cf22-5cd2-13f3.ngrok-free.app';
+    return 'https://e297-2a01-e0a-db5-bd20-8d7-19a-4d68-b369.ngrok-free.app';
   }
 
   static const String keyLocalStorePlayerId = '7bbb6370-147b-4944-b33d-7d9859756e91';
@@ -20,11 +21,16 @@ class Settings {
 
   static Future<void> init() async {
 
+    final HealthCheckRepository healthCheckRepository = HealthCheckRepository();
     final AuthRepository authRepository = AuthRepository();
     final PlayerRepository playerRepository = PlayerRepository();
     final GameRepository gameRepository = GameRepository();
 
+    healthCheckRepository.check();
+
     final prefs = await SharedPreferences.getInstance();
+
+
 
     print("need to create token everty time ?? When reload app ??"); //TODO
 
@@ -77,10 +83,12 @@ class Settings {
 
   static Player get player => _self._player!;
 
-  static Future<void> game(Game game) async {
+  static Future<void> setGame(Game game) async {
     _self._game = game;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(keyLocalStoreGameId, game.id);
   }
+
+  static Game get game => _self._game!;
 
 }

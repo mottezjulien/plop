@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../config/router.dart';
 import '../../../config/settings.dart';
 import '../../../contexts/game/game-repository.dart';
 import '../../../contexts/game/game.dart';
@@ -31,7 +33,7 @@ class _InitGameViewState extends State<InitGameView> {
               children: [
                 TextFieldGenericWidget(
                     label: 'init.enter_game_code'.tr(),
-                    onChanged: (value) => _viewModel.setGame(value)
+                    onChanged: (value) => _viewModel.setGameCode(value)
                 )
               ]
           ),
@@ -51,14 +53,19 @@ class InitGameViewModel {
   String _gameCode = "";
 
   Future<void> next(BuildContext context) async {
+
     Game game = await repository.generate(_gameCode);
-    Settings.game(game);
+    Settings.setGame(game);
     print(game.label);
     //TODO Go Next View ...
+    context.pushNamed(MyRouter.gameViewName);
+
+    //TODO When Error -> DialogService.showTopErrorDialog(context, "pouet pouet");
+
   }
 
-  void setGame(String value) {
-    _gameCode = value;
+  void setGameCode(String code) {
+    _gameCode = code;
   }
 
 

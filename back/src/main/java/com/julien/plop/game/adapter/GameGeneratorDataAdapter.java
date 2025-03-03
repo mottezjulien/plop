@@ -68,12 +68,6 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
     public void insert(Game game, Player player) {
         GamePlayerEntity gamePlayerEntity = new GamePlayerEntity();
         gamePlayerEntity.setId(new GamePlayerEntity.GamePlayerId(game.id().value(), player.id().value()));
-        GameEntity gameEntity = new GameEntity();
-        gameEntity.setId(game.id().value());
-        gamePlayerEntity.setGame(gameEntity);
-        PlayerEntity playerEntity = new PlayerEntity();
-        playerEntity.setId(player.id().value());
-        gamePlayerEntity.setPlayer(playerEntity);
         gamePlayerRepository.save(gamePlayerEntity);
 
         GamePlayerActionEntity gamePlayerActionEntity = new GamePlayerActionEntity();

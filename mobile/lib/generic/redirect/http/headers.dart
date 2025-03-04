@@ -1,20 +1,22 @@
 
+import '../settings.dart';
+
 class Headers {
 
   static Map<String, String> noAuth() {
     return {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Language': Settings.language().toString()
     };
   }
 
   static Map<String, String> withAuth() {
-    //String token = Settings.auth.token;
-    String token = "";
     return {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
-      'Authorization': token
+      'Language': Settings.language().toString(),
+      'Authorization': Settings.rawToken()
     };
   }
 

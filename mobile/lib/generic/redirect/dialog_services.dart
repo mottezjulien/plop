@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../app-colors.dart';
+import '../presenter/app-colors.dart';
 
 class StatusColors {
   static const Color success = Color(0xFF00C851);

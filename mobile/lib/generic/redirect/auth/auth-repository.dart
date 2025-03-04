@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../../generic/redirect/device.dart';
+import '../../config/device.dart';
 import '../../../generic/redirect/settings.dart';
 import '../http/headers.dart';
 import '../repository-exception.dart';
@@ -15,17 +15,9 @@ class AuthRepository {
 
   Future<Auth> create({String? playerId}) async {
     String url = "${Settings.urlServer()}$path";
-    Uri uri = Uri.parse(url);
-    Map<String, String> body = {
-      'deviceId': await Device.id()
-    };
-    if(playerId != null) {
-      body['playerId'] = playerId;
-    }
-
-    final http.Response response = await http.post(uri,
+    final http.Response response = await http.post(Uri.parse(url),
         headers: Headers.noAuth(),
-        body: jsonEncode(body)
+        body: await requestBody(playerId)
     );
     if(response.statusCode >= 400) {
       throw RepositoryException(response.statusCode, response.body);
@@ -33,8 +25,36 @@ class AuthRepository {
     return toModel(jsonDecode(response.body));
   }
 
+  Future<Auth> refresh({required Auth auth, String? playerId}) async {
+    String url = "${Settings.urlServer()}$path/refresh";
+    final http.Response response = await http.post(Uri.parse(url),
+        headers: Headers.withAuth(),
+        body: await requestBody(playerId)
+    );
+    if(response.statusCode >= 400) {
+      throw RepositoryException(response.statusCode, response.body);
+    }
+    return toModel(jsonDecode(response.body));
+  }
 
-  Future<Auth> updateWithSettingsPlayer(String playerId) async {
+  Future<String> requestBody(String? playerId) async {
+    Map<String, String> body = {
+      'deviceId': await Device.id()
+    };
+    if(playerId != null) {
+      body['playerId'] = playerId;
+    }
+    return jsonEncode(body);
+  }
+
+  Auth toModel(Map<String, dynamic> json) {
+    return Auth(token: json['token']);
+  }
+
+}
+
+
+/*Future<Auth> updateWithSettingsPlayer(String playerId) async {
     String url = "${Settings.urlServer()}$path";
     Uri uri = Uri.parse(url);
     Map<String, String> body = {
@@ -48,10 +68,4 @@ class AuthRepository {
       throw RepositoryException(response.statusCode, response.body);
     }
     return toModel(jsonDecode(response.body));
-  }
-
-  Auth toModel(Map<String, dynamic> json) {
-    return Auth(token: json['token']);
-  }
-
-}
+  }*/

@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../data/game-repository.dart';
-import '../domain/game.dart';
 
 class GameView extends StatelessWidget {
 
   final GameRepository repository = GameRepository();
   StreamSubscription<Position>? streamPosition;
-  Game? game;
+  //Game? game;
   final ValueNotifier<Position?> positionValueNotifier = ValueNotifier(null);
 
   GameView({super.key});
@@ -39,13 +38,13 @@ class GameView extends StatelessWidget {
               ValueListenableBuilder<Position?>(
                 valueListenable: positionValueNotifier,
                 builder: (context, Position? current, child) {
-                  if(game == null) {
+                  /*if(game == null) {
                     return Text("Pas de game",
                         style: Theme
                             .of(context)
                             .textTheme
                             .headlineMedium);
-                  }
+                  }*/
 
                   if (current == null) {
                     return Text("Pas de position",

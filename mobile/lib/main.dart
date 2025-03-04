@@ -5,6 +5,7 @@ import 'package:plop/generic/redirect/auth/auth-repository.dart';
 
 import 'app.dart';
 import 'generic/config/language.dart';
+import 'generic/redirect/auth/auth.dart';
 import 'generic/redirect/health/health_check_repository.dart';
 import 'generic/redirect/settings.dart';
 
@@ -22,9 +23,14 @@ void main() async {
 
   AuthRepository authRepository = AuthRepository();
   if(Settings.hasAuth()) {
-
+    Auth auth = await authRepository.refresh(
+        auth: Settings.auth,
+        playerId: Settings.nullablePlayerId()
+    );
+    Settings.auth = auth;
   } else {
-    authRepository.create();
+    Auth auth = await authRepository.create(playerId: Settings.nullablePlayerId());
+    Settings.auth = auth;
   }
 
   runApp(

@@ -16,7 +16,7 @@ class Headers {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
       'Language': Settings.language().toString(),
-      'Authorization': Settings.rawToken()
+      'Authorization': Settings.token()
     };
   }
 

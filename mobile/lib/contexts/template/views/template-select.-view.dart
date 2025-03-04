@@ -2,12 +2,16 @@
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../generic/config/device.dart';
+import '../../../generic/config/router.dart';
 import '../../../generic/redirect/dialog_services.dart';
 import '../../../generic/redirect/generic/form/text-field-with-label.dart';
 
 import '../../../generic/redirect/settings.dart';
-import '../../../old/init-rename/views/init-floating-action-button.dart';
+import '../../player/data/player-repository.dart';
+import '../../player/player.dart';
 import '../data/template-repository.dart';
 import '../domain/template.dart';
 import 'language-select-widget.dart';
@@ -27,9 +31,10 @@ class _SelectTemplateViewState extends State<SelectTemplateView> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: colorScheme.inversePrimary,
           title: Text('template.select.title'.tr())
         ),
         body: Center(
@@ -56,25 +61,41 @@ class _SelectTemplateViewState extends State<SelectTemplateView> {
               ]
           ),
         ),
-        floatingActionButton: InitFloatingActionButton(
-          onPressed: () async {
-            await _viewModel.submit(context);
-            setState(() { });
-          },
-        )
+        floatingActionButton: ValueListenableBuilder<bool>(
+            valueListenable: _viewModel.isLoadingSubmit,
+            builder: (context, isLoadingValue, child) {
+              return FloatingActionButton(
+                backgroundColor: colorScheme.inversePrimary,
+                onPressed: () async {
+                  if(!isLoadingValue) {
+                    _viewModel.isLoadingSubmit.value = true;
+                    try {
+                      await _viewModel.submit(context);
+                      _viewModel.isLoadingSubmit.value = false;
+                    } catch (e) {
+                      _viewModel.isLoadingSubmit.value = false;
+                    }
+                  }
+                },
+                child: isLoadingValue ? const CircularProgressIndicator() :
+                const Icon(Icons.done),
+              );
+            })
     );
   }
 }
 
 class _ViewModel {
 
-  TemplateRepository templateRepository = TemplateRepository();
+  final TemplateRepository templateRepository = TemplateRepository();
+  final PlayerRepository playerRepository = PlayerRepository();
 
   bool _selectedLanguage = false;
   String _playerName = "";
   String _templateCode = "";
+  final ValueNotifier<bool> isLoadingSubmit = ValueNotifier(false);
 
-  submit(BuildContext context) {
+  Future<void> submit(BuildContext context) async {
     if(!_selectedLanguage) {
       _selectedLanguage = true;
     } else {
@@ -83,13 +104,23 @@ class _ViewModel {
       } else if(_templateCode.isEmpty) {
         DialogService.showTopErrorDialog(context, "pouettt 2 :)");
       } else {
-        Template? template = templateRepository.findByCode(code: _templateCode);
+        Template? template = await templateRepository.findByCode(code: _templateCode);
         if(template == null) {
           DialogService.showTopErrorDialog(context, "pouettt 3 :)");
         } else {
-          //Player
-          Settings.setTemplate(template);
-          Settings.setTemplate(template);
+          try {
+            //Player
+            Player player = await playerRepository.create(
+                name: _playerName,
+                deviceId: await Device.id(),
+                locale: context.locale
+            );
+            Settings.template = template;
+            Settings.player = player;
+            context.pushNamed(AppRouter.nameGameMenu);
+          } catch (e) {
+            DialogService.showTopErrorDialog(context, "pouettt 4 :)");
+          }
         }
       }
     }

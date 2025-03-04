@@ -1,20 +1,22 @@
 
+import 'package:plop/generic/config/language.dart';
+
 class Player {
 
   final String _id;
   final String _name;
-  final String _language;
+  final Language _language;
 
   Player({
     required String id,
     required String name,
-    required String language
+    required Language language
   }) : _id = id, _name = name, _language = language;
 
   String get id => _id;
 
   String get name => _name;
 
-  String get language => _language;
+  Language get language => _language;
 
 }

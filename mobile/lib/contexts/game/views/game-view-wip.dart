@@ -4,8 +4,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../contexts/game/coord.dart';
-import '../../contexts/game/game-repository.dart';
+import '../data/game-repository.dart';
+import '../domain/game.dart';
 
 class GameView extends StatelessWidget {
 
@@ -18,10 +18,6 @@ class GameView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    if(game == null) {
-      game = repository.find();
-    }
 
     if (streamPosition == null) {
       initStreamPosition(context);
@@ -50,10 +46,7 @@ class GameView extends StatelessWidget {
                             .textTheme
                             .headlineMedium);
                   }
-                  if(!game!.isInit()) {
-                    return BtnStartGame(onPressed: () => game!.start());
-                  }
-                  
+
                   if (current == null) {
                     return Text("Pas de position",
                         style: Theme
@@ -95,9 +88,9 @@ class GameView extends StatelessWidget {
         print(position.longitude);
         positionValueNotifier.value = position;
 
-        if(game.isPlaying()) {
+        /*if(game.isPlaying()) {
           repository.move(Coord(lat: position.latitude, lng: position.longitude));
-        }
+        }*/
       });
     });
   }

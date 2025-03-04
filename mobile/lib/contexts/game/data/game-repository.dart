@@ -2,12 +2,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:plop/contexts/game/coord.dart';
 
-import '../../config/settings.dart';
-import '../../http/headers.dart';
-import '../repository-exception.dart';
-import 'game.dart';
+import '../../../generic/redirect/http/headers.dart';
+import '../../../generic/redirect/settings.dart';
+import '../../../generic/redirect/repository-exception.dart';
+import '../domain/coord.dart';
+import '../domain/game.dart';
 
 class GameRepository {
 
@@ -49,6 +49,7 @@ class GameRepository {
 
   Future<void> move(Coord coord) async {
 
+    /*
     Game game = Settings.game;
 
     String url = "${Settings.urlServer()}$path/${game.id}/move";
@@ -59,7 +60,7 @@ class GameRepository {
       'lng': coord.lng.toString()
     };
 
-    game is not playing bouton start
+    //game is not playing bouton start
 
     final http.Response response = await http.post(uri,
         headers: Headers.withAuth(),
@@ -67,7 +68,7 @@ class GameRepository {
     );
     if(response.statusCode >= 400) {
       throw RepositoryException(response.statusCode, response.body);
-    }
+    }*/
 
   }
 

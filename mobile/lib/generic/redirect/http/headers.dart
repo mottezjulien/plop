@@ -1,6 +1,4 @@
 
-import '../config/settings.dart';
-
 class Headers {
 
   static Map<String, String> noAuth() {
@@ -11,7 +9,8 @@ class Headers {
   }
 
   static Map<String, String> withAuth() {
-    String token = Settings.auth.token;
+    //String token = Settings.auth.token;
+    String token = "";
     return {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',

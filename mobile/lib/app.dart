@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'config/router.dart' as router;
+import 'generic/config/router.dart' as router;
 
 class App extends StatelessWidget {
 
@@ -20,7 +20,7 @@ class App extends StatelessWidget {
       theme: _themeData(Brightness.light),
       darkTheme: _themeData(Brightness.dark),
 
-      routerConfig: router.MyRouter.create()
+      routerConfig: router.AppRouter.create()
     );
   }
 

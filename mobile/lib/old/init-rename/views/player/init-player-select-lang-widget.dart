@@ -1,7 +1,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:plop/utils/locale-extension.dart';
+import 'package:plop/generic/redirect/locale-extension.dart';
 
 class InitPlayerSelectLanguageWidget extends StatelessWidget {
 
@@ -11,7 +11,7 @@ class InitPlayerSelectLanguageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: <Widget>[
-            Text('init.select_language'.tr(),
+            Text('language.select.label'.tr(),
                 style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 16),
             _SelectLanguageDropdownMenu(),

@@ -1,19 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  static const Color white = Color(0xFFFEFEFE);
-  static const Color black = Color(0xFF121212);
-  static final Color blackFade26 = black.withValues(alpha: .26);
-}
-
-class AppTextStyles {
-  static const TextStyle titleSmall = TextStyle(
-    color: AppColors.black,
-    fontSize: 14.0,
-    fontFamily: 'Quicksand',
-    fontWeight: FontWeight.w700,
-  );
-}
+import '../app-colors.dart';
 
 class StatusColors {
   static const Color success = Color(0xFF00C851);
@@ -22,16 +9,18 @@ class StatusColors {
   static const Color info = Color(0xFFFEFEFE);
 }
 
-enum InfoDialogType {
+enum DialogType {
   ERROR, SUCCESS, INFO, WARNING
 }
 
 class TopInfoDialog extends StatefulWidget {
-  final InfoDialogType dialogType;
+
+  final DialogType dialogType;
   final String message;
 
   const TopInfoDialog({
-    this.dialogType = InfoDialogType.INFO,
+    super.key,
+    this.dialogType = DialogType.INFO,
     required this.message
   });
 
@@ -97,7 +86,8 @@ class _TopInfoDialog extends State<TopInfoDialog> with SingleTickerProviderState
                 const SizedBox(width: 12.0),
                 Expanded(
                   child: Text(widget.message,
-                    style: AppTextStyles.titleSmall.copyWith(color: AppColors.white),
+                    style:  Theme.of(context).textTheme.titleSmall!
+                        .copyWith(color: AppColors.white),
                   ),
                 ),
               ],
@@ -110,17 +100,17 @@ class _TopInfoDialog extends State<TopInfoDialog> with SingleTickerProviderState
 
   Icon _buildIcon() {
     final IconData iconData = {
-      InfoDialogType.SUCCESS: Icons.check_circle_outline_rounded,
-      InfoDialogType.ERROR: Icons.error_outline_rounded,
-      InfoDialogType.WARNING: Icons.warning_amber_outlined,
-      InfoDialogType.INFO: Icons.info_outline_rounded,
+      DialogType.SUCCESS: Icons.check_circle_outline_rounded,
+      DialogType.ERROR: Icons.error_outline_rounded,
+      DialogType.WARNING: Icons.warning_amber_outlined,
+      DialogType.INFO: Icons.info_outline_rounded,
     }[widget.dialogType]!;
 
     final Color iconColor = {
-      InfoDialogType.SUCCESS: StatusColors.success,
-      InfoDialogType.WARNING: StatusColors.warning,
-      InfoDialogType.ERROR: StatusColors.error,
-      InfoDialogType.INFO: StatusColors.info,
+      DialogType.SUCCESS: StatusColors.success,
+      DialogType.WARNING: StatusColors.warning,
+      DialogType.ERROR: StatusColors.error,
+      DialogType.INFO: StatusColors.info,
     }[widget.dialogType]!;
 
     return Icon(iconData, color: iconColor, size: 30.0);
@@ -144,13 +134,13 @@ class DialogService {
   }*/
 
   static void showTopErrorDialog(BuildContext context, String message) {
-    showTopDialog(context, message, dialogType: InfoDialogType.ERROR);
+    showTopDialog(context, message, dialogType: DialogType.ERROR);
   }
 
   static void showTopDialog(
     BuildContext context,
     String message, {
-    InfoDialogType dialogType = InfoDialogType.INFO,
+    DialogType dialogType = DialogType.INFO,
   }) {
     _showOverlay(
       context,

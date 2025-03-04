@@ -1,14 +1,7 @@
-import 'package:plop/contexts/auth/auth-repository.dart';
-import 'package:plop/contexts/game/game-repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../contexts/auth/auth.dart';
-import '../contexts/game/game.dart';
-import '../contexts/health/health_check_repository.dart';
-import '../contexts/player/player-repository.dart';
-import '../contexts/player/player.dart';
-import '../contexts/repository-exception.dart';
+import 'package:get_storage/get_storage.dart';
 
+import '../../contexts/player/player.dart';
 
 class Settings {
 
@@ -16,23 +9,29 @@ class Settings {
     return 'https://e297-2a01-e0a-db5-bd20-8d7-19a-4d68-b369.ngrok-free.app';
   }
 
-  static const String keyLocalStorePlayerId = '7bbb6370-147b-4944-b33d-7d9859756e91';
-  static const String keyLocalStoreGameId = '23425bd7-2ae6-4ba8-a98c-fe87fc39c168';
+  static const String keyLocalStorePlayer = '7bbb6370-147b-4944-b33d-7d9859756e91';
+  static const String keyLocalStoreGame = '23425bd7-2ae6-4ba8-a98c-fe87fc39c168';
 
   static Future<void> init() async {
 
-    final HealthCheckRepository healthCheckRepository = HealthCheckRepository();
+    final box = GetStorage();
+
+    Player? storedPlayer = box.read(keyLocalStorePlayer);
+    if(storedPlayer != null) {
+      _self._player = storedPlayer;
+    }
+
+    /*
     final AuthRepository authRepository = AuthRepository();
     final PlayerRepository playerRepository = PlayerRepository();
     final GameRepository gameRepository = GameRepository();
 
-    healthCheckRepository.check();
+    */
 
-    final prefs = await SharedPreferences.getInstance();
+    /*
+    final pref = await SharedPreferences.getInstance();
 
-
-
-    print("need to create token everty time ?? When reload app ??"); //TODO
+    //TODO print("need to create token everty time ?? When reload app ??");
 
     String? currentPlayerId = prefs.getString(keyLocalStorePlayerId);
     if(currentPlayerId != null) {
@@ -53,19 +52,26 @@ class Settings {
     String? currentGameId = prefs.getString(keyLocalStoreGameId);
     if(currentGameId != null) {
       _self._game = await gameRepository.findById(currentPlayerId!);
-    }
+    }*/
 
   }
 
   static final Settings _self = Settings();
 
   Player? _player;
-  Auth? _auth;
-  Game? _game;
 
   static bool hasPlayer() {
     return _self._player != null;
   }
+
+  static Player get player => _self._player!;
+
+  /*
+
+  Auth? _auth;
+  Game? _game;
+
+
 
   static bool hasGame() {
     return _self._game != null;
@@ -81,7 +87,7 @@ class Settings {
     await prefs.setString(keyLocalStorePlayerId, player.id);
   }
 
-  static Player get player => _self._player!;
+
 
   static Future<void> setGame(Game game) async {
     _self._game = game;
@@ -89,6 +95,6 @@ class Settings {
     await prefs.setString(keyLocalStoreGameId, game.id);
   }
 
-  static Game get game => _self._game!;
+  static Game get game => _self._game!;*/
 
 }

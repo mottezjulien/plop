@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../config/device.dart';
-import '../../config/settings.dart';
-import '../../http/headers.dart';
+import '../../../generic/redirect/device.dart';
+import '../../../generic/redirect/settings.dart';
+import '../http/headers.dart';
 import '../repository-exception.dart';
 import 'auth.dart';
 
@@ -33,11 +33,12 @@ class AuthRepository {
     return toModel(jsonDecode(response.body));
   }
 
-  Future<Auth> updateWithSettingsPlayer() async {
+
+  Future<Auth> updateWithSettingsPlayer(String playerId) async {
     String url = "${Settings.urlServer()}$path";
     Uri uri = Uri.parse(url);
     Map<String, String> body = {
-      'playerId': Settings.player.id
+      'playerId': playerId
     };
     final http.Response response = await http.post(uri,
         headers: Headers.withAuth(),

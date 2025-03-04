@@ -20,13 +20,12 @@ enum DevicePlatform {
 
 class Device {
   static Future<String> id() async {
-    var deviceInfo = DeviceInfoPlugin();
     switch(DevicePlatform.found()) {
       case DevicePlatform.android:
-        var androidInfo = await deviceInfo.androidInfo;
+        var androidInfo = await DeviceInfoPlugin().androidInfo;
         return androidInfo.fingerprint;
       case DevicePlatform.ios:
-        var iosInfo = await deviceInfo.iosInfo;
+        var iosInfo = await DeviceInfoPlugin().iosInfo;
         return iosInfo.identifierForVendor!;
     }
   }

@@ -6,9 +6,10 @@ import 'package:http/http.dart' as http;
 
 import 'package:plop/contexts/player/player.dart';
 
-import '../../config/settings.dart';
-import '../../http/headers.dart';
-import '../repository-exception.dart';
+import '../../../generic/redirect/http/headers.dart';
+import '../../../generic/redirect/settings.dart';
+
+import '../../../generic/redirect/repository-exception.dart';
 
 class PlayerRepository {
 

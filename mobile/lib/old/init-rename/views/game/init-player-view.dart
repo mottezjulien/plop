@@ -1,12 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../config/router.dart';
-import '../../../config/settings.dart';
-import '../../../contexts/game/game-repository.dart';
-import '../../../contexts/game/game.dart';
-import '../../generic/form/text-field-with-label.dart';
+import '../../../../generic/redirect/generic/form/text-field-with-label.dart';
+import '../../../../contexts/game/data/game-repository.dart';
+import '../../../../contexts/game/domain/game.dart';
 import '../init-appbar-widget.dart';
 import '../init-floating-action-button.dart';
 
@@ -55,10 +51,10 @@ class InitGameViewModel {
   Future<void> next(BuildContext context) async {
 
     Game game = await repository.generate(_gameCode);
-    Settings.setGame(game);
+    //Settings.setGame(game);
     print(game.label);
     //TODO Go Next View ...
-    context.pushNamed(MyRouter.gameViewName);
+    //context.pushNamed(MyRouter.gameViewName);
 
     //TODO When Error -> DialogService.showTopErrorDialog(context, "pouet pouet");
 

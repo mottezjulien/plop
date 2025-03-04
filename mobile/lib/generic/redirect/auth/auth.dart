@@ -1,5 +1,6 @@
 
-import '../player/player.dart';
+
+import '../../../contexts/player/player.dart';
 
 class Auth {
 

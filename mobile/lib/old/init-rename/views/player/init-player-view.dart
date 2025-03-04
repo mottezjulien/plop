@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../generic/form/text-field-with-label.dart';
+import '../../../../generic/redirect/generic/form/text-field-with-label.dart';
 import '../init-appbar-widget.dart';
 import '../init-floating-action-button.dart';
 import 'init-player-select-lang-widget.dart';

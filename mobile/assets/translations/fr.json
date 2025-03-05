@@ -1,13 +1,26 @@
 {
-
   "init": {
-    "title": "Préparation",
-    "select_language": "Choisissez votre langue",
     "welcome_popup" : {
       "title": "Bienvenue",
       "content": "Bienvenue sur mon appplication. Celle-ci est en cours de construction"
-    },
-    "enter_game_code": "Saisissez un code de jeu",
-    "enter_player_name": "Saisissez votre nom de joueur"
+    }
+  },
+  "language": {
+    "select": "Choisissez votre langue"
+  },
+  "template": {
+    "select": {
+      "title": "Configuration",
+      "enter_player_name": "Saisissez votre nom de joueur",
+      "enter_game_code": "Saisissez un code de jeu"
+    }
+  },
+  "game": {
+    "menu": {
+      "title": "Menu du jeu",
+      "play": "Jouer",
+      "settings": "Paramètres",
+      "exit": "Quitter"
+    }
   }
 }

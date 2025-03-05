@@ -1,12 +1,26 @@
 {
   "init": {
-    "title": "Setup",
-    "select_language": "Select your language",
     "welcome_popup" : {
       "title": "Welcome",
       "content": "Welcome plop"
-    },
-    "enter_game_code": "Enter a game code",
-    "enter_player_name": "Enter your player's name"
+    }
+  },
+  "language": {
+    "select": "Select your language"
+  },
+  "template": {
+    "select": {
+      "title": "Setup",
+      "enter_player_name": "Enter your player's name",
+      "enter_game_code": "Enter a game code"
+    }
+  },
+  "game": {
+    "menu": {
+      "title": "Game menu",
+      "play": "Play",
+      "settings": "Settings",
+      "exit": "Exit"
+    }
   }
 }

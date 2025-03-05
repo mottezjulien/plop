@@ -2,7 +2,8 @@
 import 'package:go_router/go_router.dart';
 
 import '../../contexts/game/views/game-menu-view.dart';
-import '../../contexts/template/views/template-select.-view.dart';
+import '../../contexts/template/views/template-select-view.dart';
+import '../redirect/settings.dart';
 
 class AppRouter {
 
@@ -16,7 +17,13 @@ class AppRouter {
     return GoRouter(
       redirect: (context, state) {
         //final currentPage = state.matchedLocation;
+
+
+
         if(state.name == null) {
+          if(Settings.hasTemplate()) {
+            return pathGameMenu;
+          }
           return pathSelectTemplate;
         }
 

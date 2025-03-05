@@ -112,6 +112,7 @@ class Settings {
     }
     return null;
   }
+  // Player
 
   static Language language() {
     if(hasPlayer()) {
@@ -120,16 +121,25 @@ class Settings {
     return Language.byDefault();
   }
 
+
+  //Template
+  static bool hasTemplate() {
+    return _self._template != null;
+  }
+
   static Template get template => _self._template!;
 
   static set template(Template template) {
     _self._template = template;
     GetStorage().write(keyLocalStoreTemplate, template);
   }
+  //Template
 
   Auth? _auth;
   Player? _player;
   Template? _template;
+
+
 
 
 

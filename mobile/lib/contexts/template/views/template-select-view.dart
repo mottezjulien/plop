@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../generic/config/device.dart';
 import '../../../generic/config/router.dart';
+import '../../../generic/redirect/dialog.dart';
 import '../../../generic/redirect/dialog_services.dart';
 import '../../../generic/redirect/generic/form/text-field-with-label.dart';
 
@@ -28,6 +29,18 @@ class SelectTemplateView extends StatefulWidget {
 class _SelectTemplateViewState extends State<SelectTemplateView> {
 
   final _ViewModel _viewModel = _ViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    if(!Settings.hasAuth()) {
+      showDialogOnlyDone(
+          context: context,
+          title: 'init.welcome_popup.title'.tr(),
+          content: 'init.welcome_popup.content'.tr()
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

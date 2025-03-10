@@ -10,7 +10,6 @@ import com.julien.plop.game.persistence.GamePlayerEntity;
 import com.julien.plop.game.persistence.GamePlayerRepository;
 import com.julien.plop.game.persistence.GameRepository;
 import com.julien.plop.player.domain.model.Player;
-import com.julien.plop.player.persistence.PlayerEntity;
 import com.julien.plop.scenario.persistence.ScenarioEntity;
 import com.julien.plop.template.domain.Template;
 import com.julien.plop.template.persistence.TemplateEntity;
@@ -37,8 +36,9 @@ public class GameGeneratorDataAdapter implements GameGeneratorUseCase.DataOutput
     }
 
     @Override
-    public Optional<Template> findByCode(String code) {
-        return templateRepository.findByCode(code).map(TemplateEntity::toModel);
+    public Optional<Template> findById(Template.Id templateId) {
+        return templateRepository.findByIdFetchAll(templateId.value())
+                .map(TemplateEntity::toModel);
     }
 
     @Override

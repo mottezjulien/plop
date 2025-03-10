@@ -5,6 +5,15 @@ enum Language {
   en,
   fr;
 
+  static Language? valueOf(String value) {
+    for(Language element in Language.values) {
+      if(element.toString() == value) {
+        return element;
+      }
+    }
+    return null;
+  }
+
  static Language byDefault() {
     return Language.fr;
   }

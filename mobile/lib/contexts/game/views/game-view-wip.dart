@@ -6,14 +6,14 @@ import 'package:geolocator/geolocator.dart';
 
 import '../data/game-repository.dart';
 
-class GameView extends StatelessWidget {
+class GameViewWip extends StatelessWidget {
 
   final GameRepository repository = GameRepository();
   StreamSubscription<Position>? streamPosition;
   //Game? game;
   final ValueNotifier<Position?> positionValueNotifier = ValueNotifier(null);
 
-  GameView({super.key});
+  GameViewWip({super.key});
 
   @override
   Widget build(BuildContext context) {

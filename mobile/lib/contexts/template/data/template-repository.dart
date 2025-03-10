@@ -14,9 +14,9 @@ class TemplateRepository {
   static const String path = '/templates';
 
   Future<Template?> findByCode({required String code}) async {
-    String url = "${Settings.urlServer()}$path/code/$code";
+    String url = "${Settings.urlServer()}$path?code=$code";
     Uri uri = Uri.parse(url);
-    final http.Response response = await http.get(uri, headers: Headers.withAuth());
+    final http.Response response = await http.get(uri,headers: Headers.withAuth());
     if(response.statusCode >= 404) {
       return null;
     }

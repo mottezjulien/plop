@@ -1,15 +1,12 @@
 
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../generic/config/device.dart';
 import '../../../generic/config/router.dart';
-import '../../../generic/redirect/dialog.dart';
 import '../../../generic/redirect/dialog_services.dart';
 import '../../../generic/redirect/generic/form/text-field-with-label.dart';
-
 import '../../../generic/redirect/settings.dart';
 import '../../player/data/player-repository.dart';
 import '../../player/player.dart';
@@ -17,20 +14,15 @@ import '../data/template-repository.dart';
 import '../domain/template.dart';
 import 'language-select-widget.dart';
 
-class SelectTemplateView extends StatefulWidget {
-
-  const SelectTemplateView({super.key});
-
-  @override
-  State<SelectTemplateView> createState() => _SelectTemplateViewState();
-
-}
-
-class _SelectTemplateViewState extends State<SelectTemplateView> {
+class SelectTemplateView extends StatelessWidget {
 
   final _ViewModel _viewModel = _ViewModel();
 
-  @override
+  SelectTemplateView({super.key});
+
+
+  //TODO manage init
+  /*@override
   void initState() {
     super.initState();
     if(!Settings.hasAuth()) {
@@ -40,7 +32,7 @@ class _SelectTemplateViewState extends State<SelectTemplateView> {
           content: 'init.welcome_popup.content'.tr()
       );
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -56,21 +48,27 @@ class _SelectTemplateViewState extends State<SelectTemplateView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const LanguageSelectWidget(),
-                if(_viewModel.isSelectedLanguage())
-                  Column(
-                    children: [
-                      const SizedBox(height: 8),
-                      TextFieldGenericWidget(
-                          label: 'template.select.enter_player_name'.tr(),
-                          onChanged: (name) => _viewModel.setPlayerName(name)
-                      ),
-                      const SizedBox(height: 8),
-                      TextFieldGenericWidget(
-                          label: 'template.select.enter_game_code'.tr(),
-                          onChanged: (value) => _viewModel.setTemplateCode(value)
-                      )
-                    ],
-                  )
+                ValueListenableBuilder(
+                    valueListenable: _viewModel.isSelectedLanguage,
+                    builder: (context, value, child) {
+                      if(value) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 8),
+                            TextFieldGenericWidget(
+                                label: 'template.select.enter_player_name'.tr(),
+                                onChanged: (name) => _viewModel.setPlayerName(name)
+                            ),
+                            const SizedBox(height: 8),
+                            TextFieldGenericWidget(
+                                label: 'template.select.enter_game_code'.tr(),
+                                onChanged: (value) => _viewModel.setTemplateCode(value)
+                            )
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                })
               ]
           ),
         ),
@@ -103,14 +101,15 @@ class _ViewModel {
   final TemplateRepository templateRepository = TemplateRepository();
   final PlayerRepository playerRepository = PlayerRepository();
 
-  bool _selectedLanguage = false;
   String _playerName = "";
   String _templateCode = "";
+
+  final ValueNotifier<bool> isSelectedLanguage = ValueNotifier(false);
   final ValueNotifier<bool> isLoadingSubmit = ValueNotifier(false);
 
   Future<void> submit(BuildContext context) async {
-    if(!_selectedLanguage) {
-      _selectedLanguage = true;
+    if(!isSelectedLanguage.value) {
+      isSelectedLanguage.value = true;
     } else {
       if(_playerName.isEmpty) {
         DialogService.showTopErrorDialog(context, "pouettt :)");
@@ -130,6 +129,7 @@ class _ViewModel {
             );
             Settings.template = template;
             Settings.player = player;
+
             context.pushNamed(AppRouter.nameGameMenu);
           } catch (e) {
             DialogService.showTopErrorDialog(context, "pouettt 4 :)");
@@ -137,10 +137,6 @@ class _ViewModel {
         }
       }
     }
-  }
-
-  bool isSelectedLanguage() {
-    return _selectedLanguage;
   }
 
   void setPlayerName(String playerName) {

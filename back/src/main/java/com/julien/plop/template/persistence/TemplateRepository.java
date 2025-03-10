@@ -4,7 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.nio.channels.FileChannel;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface TemplateRepository extends JpaRepository<TemplateEntity, String> {
 
@@ -24,7 +27,9 @@ public interface TemplateRepository extends JpaRepository<TemplateEntity, String
             " LEFT JOIN FETCH board.spaces space" +
             " LEFT JOIN FETCH space.rects rect" +
 
-            " WHERE template.code = :code")
-    Optional<TemplateEntity> findByCode(@Param("code") String code);
+            " WHERE template.id = :id")
+    Optional<TemplateEntity> findByIdFetchAll(@Param("id") String id);
+
+    List<TemplateEntity> findByCode(String code);
 
 }

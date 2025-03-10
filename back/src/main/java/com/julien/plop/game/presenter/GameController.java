@@ -7,6 +7,7 @@ import com.julien.plop.game.domain.GameException;
 import com.julien.plop.game.domain.usecase.GameGeneratorUseCase;
 import com.julien.plop.game.domain.usecase.GameMoveUseCase;
 import com.julien.plop.player.domain.model.Player;
+import com.julien.plop.template.domain.Template;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ public class GameController {
         this.gameGeneratorUseCase = gameGeneratorUseCase;
     }
 
+    /*
     @PostMapping({"/generate", "/generate/"})
     public GameResponseDTO generate(
             @RequestHeader("Authorization") String rawToken,
@@ -40,7 +42,7 @@ public class GameController {
     ) {
         try {
             Player player = auth.find(rawToken);
-            Game game = gameGeneratorUseCase.apply(player, request.code());
+            Game game = gameGeneratorUseCase.apply(player, new Template.Id(request.templateId()));
             return GameResponseDTO.fromModel(game);
         } catch (AuthException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getType().name(), e);
@@ -53,15 +55,8 @@ public class GameController {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
-    }
+    }*/
 
-//https://e297-2a01-e0a-db5-bd20-8d7-19a-4d68-b369.ngrok-free.app/games/585d5604-d0be-4bf1-b073-f54507167a07/move
-
-    /*
-    0 = {map entry} "Content-Type" -> "application/json; charset=UTF-8"
-1 = {map entry} "Accept" -> "application/json"
-2 = {map entry} "Authorization" -> "cc6bad61-19aa-4f20-b162-286213057639"
-     */
     @PostMapping({"/{gameId}/move", "/{gameId}/move/"}) //TODO name ??
     public GameMoveResponseDTO move(
             @RequestHeader("Authorization") String rawToken,

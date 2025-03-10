@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../config/device.dart';
 import '../../../generic/redirect/settings.dart';
-import '../http/headers.dart';
-import '../repository-exception.dart';
+
+import '../config/device.dart';
+import '../redirect/http/headers.dart';
+import '../redirect/repository-exception.dart';
 import 'auth.dart';
 
 class AuthRepository {
@@ -17,18 +18,6 @@ class AuthRepository {
     String url = "${Settings.urlServer()}$path";
     final http.Response response = await http.post(Uri.parse(url),
         headers: Headers.noAuth(),
-        body: await requestBody(playerId)
-    );
-    if(response.statusCode >= 400) {
-      throw RepositoryException(response.statusCode, response.body);
-    }
-    return toModel(jsonDecode(response.body));
-  }
-
-  Future<Auth> refresh({required Auth auth, String? playerId}) async {
-    String url = "${Settings.urlServer()}$path/refresh";
-    final http.Response response = await http.post(Uri.parse(url),
-        headers: Headers.withAuth(),
         body: await requestBody(playerId)
     );
     if(response.statusCode >= 400) {

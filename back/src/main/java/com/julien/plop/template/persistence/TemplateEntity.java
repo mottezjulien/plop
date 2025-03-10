@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 public class TemplateEntity {
 
     @Id
-    //@UuidGenerator
     private String id;
 
     private String code;

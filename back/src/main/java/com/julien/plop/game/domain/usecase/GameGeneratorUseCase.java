@@ -11,7 +11,7 @@ public class GameGeneratorUseCase {
 
     public interface DataOutput {
 
-        Optional<Template> findByCode(String code);
+        Optional<Template> findById(Template.Id templateId);
 
         Game createFromTemplate(Template template);
 
@@ -24,8 +24,8 @@ public class GameGeneratorUseCase {
         this.dataOutput = dataOutput;
     }
 
-    public Game apply(Player player, String code) throws GameException {
-        Template template = dataOutput.findByCode(code)
+    public Game apply(Player player, Template.Id templateId) throws GameException {
+        Template template = dataOutput.findById(templateId)
                 .orElseThrow(() -> new GameException(GameException.Type.TEMPLATE_NOT_FOUND));
         Game game = dataOutput.createFromTemplate(template);
         dataOutput.insert(game, player);

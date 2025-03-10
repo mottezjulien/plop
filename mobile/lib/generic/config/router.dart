@@ -2,6 +2,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../../contexts/game/views/game-menu-view.dart';
+import '../../contexts/game/views/game-view-wip.dart';
 import '../../contexts/template/views/template-select-view.dart';
 import '../redirect/settings.dart';
 
@@ -12,6 +13,9 @@ class AppRouter {
 
   static const nameGameMenu = "game-menu";
   static const pathGameMenu = "/game/menu";
+
+  static const nameGameView = "game-view";
+  static const pathGameView = "/game";
 
   static GoRouter create() {
     return GoRouter(
@@ -46,28 +50,19 @@ class AppRouter {
         GoRoute(
           name: nameSelectTemplate,
           path: pathSelectTemplate,
-          builder: (context, state) => const SelectTemplateView(),
+          builder: (context, state) => SelectTemplateView(),
         ),
         GoRoute(
           name: nameGameMenu,
           path: pathGameMenu,
-          builder: (context, state) => const GameMenuView(),
+          builder: (context, state) => GameMenuView(),
+        ),
+        GoRoute(
+          name: nameGameView,
+          path: pathGameView,
+          builder: (context, state) => GameViewWip(),
         )
-        /*GoRoute(
-          name: initPlayerViewName,
-          path: '/init/player',
-          builder: (context, state) => const InitPlayerView(),
-        ),
-        GoRoute(
-          name: initGameViewName,
-          path: '/init/game',
-          builder: (context, state) => const InitGameView(),
-        ),
-        GoRoute(
-          name: gameViewName,
-          path: '/game',
-          builder: (context, state) => GameView(),
-        ),*/
+
       ],
     );
   }

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../../../generic/redirect/http/headers.dart';
 import '../../../generic/redirect/settings.dart';
 import '../../../generic/redirect/repository-exception.dart';
+import '../../template/domain/template.dart';
 import '../domain/coord.dart';
 import '../domain/game.dart';
 
@@ -26,13 +27,13 @@ class GameRepository {
     return toModel(jsonDecode(response.body));
   }
 
-  Future<Game> generate(String gameCode) async {
+  Future<Game> generate(Template template) async {
     String url = "${Settings.urlServer()}$path/generate";
     Uri uri = Uri.parse(url);
 
     final http.Response response = await http.post(uri,
       headers: Headers.withAuth(),
-      body: jsonEncode({'code': gameCode})
+      body: jsonEncode({'templateId': template.id})
     );
     if(response.statusCode >= 400) {
       throw RepositoryException(response.statusCode, response.body);

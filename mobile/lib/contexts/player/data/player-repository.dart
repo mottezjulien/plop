@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:plop/contexts/player/player.dart';
 
+import '../../../generic/config/language.dart';
 import '../../../generic/redirect/http/headers.dart';
 import '../../../generic/redirect/settings.dart';
 
@@ -54,7 +55,7 @@ class PlayerRepository {
     return Player(
       id: json['id'],
       name: json['name'],
-      language: json['language']
+      language: Language.valueOf(json['language']) ?? Language.byDefault()
     );
   }
 

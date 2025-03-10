@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:plop/generic/redirect/auth/auth-repository.dart';
 
 import 'app.dart';
+import 'generic/auth/auth-repository.dart';
+import 'generic/auth/auth.dart';
 import 'generic/config/language.dart';
-import 'generic/redirect/auth/auth.dart';
 import 'generic/redirect/health/health_check_repository.dart';
 import 'generic/redirect/settings.dart';
 
@@ -21,13 +21,14 @@ void main() async {
 
   await Settings.init();
 
-  AuthRepository authRepository = AuthRepository();
+  final AuthRepository authRepository = AuthRepository();
+
   if(Settings.hasAuth()) {
-    Auth auth = await authRepository.refresh(
-        auth: Settings.auth,
-        playerId: Settings.nullablePlayerId()
-    );
-    Settings.auth = auth;
+    /*Auth auth = Settings.auth;
+    if(auth.isExpired()) {
+      auth = await authRepository.refresh(auth: auth);
+      Settings.auth = auth;
+    }*/
   } else {
     Auth auth = await authRepository.create(playerId: Settings.nullablePlayerId());
     Settings.auth = auth;

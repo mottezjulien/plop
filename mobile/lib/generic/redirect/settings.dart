@@ -1,22 +1,23 @@
 
 import 'package:get_storage/get_storage.dart';
 
+import '../../contexts/game/domain/game.dart';
 import '../../contexts/player/player.dart';
 import '../../contexts/template/domain/template.dart';
+import '../auth/auth.dart';
 import '../config/language.dart';
-import 'auth/auth.dart';
 
 class Settings {
 
   static String urlServer() {
-    return 'https://e297-2a01-e0a-db5-bd20-8d7-19a-4d68-b369.ngrok-free.app';
+    return 'https://6854-2a01-e0a-db5-bd20-c5ee-f70-6339-c39.ngrok-free.app';
   }
 
   static const String keyLocalStoreAuth = '40ad5247-7c9a-4ff8-997e-2dec1651a879';
   static const String keyLocalStorePlayer = '7bbb6370-147b-4944-b33d-7d9859756e91';
   static const String keyLocalStoreTemplate = '9e692c85-3d2b-42c9-98fa-91ea928121bd';
+  static const String keyLocalStoreGame = '23425bd7-2ae6-4ba8-a98c-fe87fc39c168';
 
-  //static const String keyLocalStoreGame = '23425bd7-2ae6-4ba8-a98c-fe87fc39c168';
 
   static Future<void> init() async {
 
@@ -33,47 +34,16 @@ class Settings {
         Template? storedTemplate = box.read(keyLocalStorePlayer);
         if(storedTemplate != null) {
           _self._template = storedTemplate;
+
+          Game? storedGame = box.read(keyLocalStoreGame);
+          if(storedGame != null) {
+            _self._game = storedGame;
+          }
+
         }
 
       }
-
     }
-
-
-
-    /*
-    final AuthRepository authRepository = AuthRepository();
-    final PlayerRepository playerRepository = PlayerRepository();
-    final GameRepository gameRepository = GameRepository();
-
-    */
-
-    /*
-    final pref = await SharedPreferences.getInstance();
-
-    //TODO print("need to create token everty time ?? When reload app ??");
-
-    String? currentPlayerId = prefs.getString(keyLocalStorePlayerId);
-    if(currentPlayerId != null) {
-      try {
-        Auth auth = await authRepository.create(playerId: currentPlayerId);
-        _self._auth = auth;
-        _self._player = await playerRepository.findById(currentPlayerId);
-      } on RepositoryException catch (e) {
-        if(e.statusCode == 400) {
-          prefs.remove(keyLocalStorePlayerId);
-          _self._auth = await authRepository.create();
-        }
-      }
-    } else {
-      _self._auth = await authRepository.create();
-    }
-
-    String? currentGameId = prefs.getString(keyLocalStoreGameId);
-    if(currentGameId != null) {
-      _self._game = await gameRepository.findById(currentPlayerId!);
-    }*/
-
   }
 
   static final Settings _self = Settings();
@@ -93,6 +63,7 @@ class Settings {
     _self._auth = auth;
     GetStorage().write(keyLocalStoreAuth, auth);
   }
+  //Auth
 
   // Player
   static bool hasPlayer() {
@@ -135,45 +106,22 @@ class Settings {
   }
   //Template
 
-  Auth? _auth;
-  Player? _player;
-  Template? _template;
-
-
-
-
-
-
-
-/*
-
-  Auth? _auth;
-  Game? _game;
-
-
-
+  //Game
   static bool hasGame() {
     return _self._game != null;
   }
 
-  static set auth(Auth auth) => _self._auth = auth;
+  static Game get game => _self._game!;
 
-  static Auth get auth => _self._auth!;
-
-  static Future<void> setPlayer(Player player) async {
-    _self._player = player;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(keyLocalStorePlayerId, player.id);
-  }
-
-
-
-  static Future<void> setGame(Game game) async {
+  static set game(Game game) {
     _self._game = game;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(keyLocalStoreGameId, game.id);
+    GetStorage().write(keyLocalStoreGame, game);
   }
+  //Game
 
-  static Game get game => _self._game!;*/
+  Auth? _auth;
+  Player? _player;
+  Template? _template;
+  Game? _game;
 
 }
